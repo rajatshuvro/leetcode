@@ -29,19 +29,30 @@ namespace PredictWinner
             return result;
         }
 
-        static int[,] _maxMatrix;
-        private static int[] _scores;
+        static int[,] _firstPlayerLead;
 
         public bool PredictTheWinner(int[] nums)
         {
-            _maxMatrix = InitializeMaxMatrix(nums);
-            _scores = new[] {int.MinValue, int.MinValue};
-            CanCurrentPlayerWin(nums, 0, nums.Length-1, 0);
+            _firstPlayerLead = InitializeMatrix(nums);
 
-            return _scores[0] >= _scores[1];
+            return ComputeFirstPlayerLeads(nums, 0, nums.Length - 1) >= 0;
         }
 
-        private static int[,] InitializeMaxMatrix(int[] nums)
+        private int ComputeFirstPlayerLeads(int[] nums, int i, int j)
+        {
+            if (i > j) return 0;
+
+            if (i == j) return nums[i];
+            if (i + 1 == j) return Math.Abs(nums[i] - nums[j]);
+
+            if (_firstPlayerLead[i,j] == int.MinValue)
+                _firstPlayerLead[i,j] = Math.Max(nums[i] - ComputeFirstPlayerLeads(nums, i + 1, j),
+                    nums[j] - ComputeFirstPlayerLeads(nums, i, j - 1));
+
+            return _firstPlayerLead[i, j];
+        }
+
+        private static int[,] InitializeMatrix(int[] nums)
         {
             var matrix = new int[nums.Length, nums.Length];
             for(var i=0; i < nums.Length ; i++)
@@ -50,50 +61,6 @@ namespace PredictWinner
 
             return matrix;
         }
-
-        public static bool CanCurrentPlayerWin(int[] nums, int start, int end, int playerNo)
-        {
-            if (start == end)
-            {
-                UpdatePlayerScore(nums[start], playerNo);
-                return true;
-            }
-            if (start > end) return false;
-            //sub array length 2
-            if (end - start == 1) {
-                UpdatePlayerScore(Math.Max(nums[start], nums[end]), playerNo);
-                return true; 
-                }
-
-            if (_maxMatrix[start, end] == int.MinValue)
-                _maxMatrix[start, end] = GetMax(nums, start, end);
-
-            var max = _maxMatrix[start, end];
-            if (nums[start] == max || nums[end] == max)
-            {
-                UpdatePlayerScore(max, playerNo);
-                return true;
-            }
-
-            return !(CanCurrentPlayerWin(nums, start + 1, end, 1- playerNo) && CanCurrentPlayerWin(nums, start, end - 1, 1 - playerNo));
-        }
-
-        private static void UpdatePlayerScore(int score, int playerNo)
-        {
-            _scores[playerNo] = score > _scores[playerNo] ? score : _scores[playerNo];
-        }
-
-        private static int GetMax(int[] nums, int start, int end)
-        {
-            var max = int.MinValue;
-            if (start < 0 || end >= nums.Length) return max;
-
-            for (var i = start; i <= end; i++)
-            {
-                if (max < nums[i]) max = nums[i];
-            }
-
-            return max;
-        }
+        
     }
 }

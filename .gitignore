@@ -3,3 +3,5 @@
 ################################################################################
 
 /PredictWinner/.vs/PredictWinner/v15
+/PredictWinner/PredictWinner/obj
+/PredictWinner/PredictWinner/bin/Debug/netcoreapp2.0
