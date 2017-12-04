@@ -49,25 +49,27 @@ namespace DetectNearbyNearDuplicates
                 return;
             }
 
-            if (! ContainsNearbyAlmostDuplicate(new[] { 4, 6, 9 }, 1, 1))
-            {
-                Console.Write("PASSED");
-                Console.WriteLine(" k=1, t=1 test case");
-            }
-            else
-            {
-                Console.Write("FAILED");
-                Console.WriteLine(" k=1, t=1 test case");
-                Console.ReadKey();
-                return;
-            }
+            
 
             Console.ReadKey();
         }
 
-        private static void Test(int[] nums, int k, int t, bool expectedResult)
+        private static bool Test(int[] nums, int k, int t, bool expectedResult)
         {
+            if (ContainsNearbyAlmostDuplicate(nums, k, t) == expectedResult)
+            {
+                Console.Write("PASSED");
+                Console.WriteLine($" [{string.Join(',',nums)}] k={k}, t={t} test case");
+            }
+            else
+            {
+                Console.Write("FAILED");
+                Console.WriteLine($" [{string.Join(',', nums)}] k={k}, t={t} test case");
+                Console.ReadKey();
+                return false;
+            }
 
+            return true;
         }
 
         public static bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
