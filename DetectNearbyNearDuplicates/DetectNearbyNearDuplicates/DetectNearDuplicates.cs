@@ -12,8 +12,20 @@ namespace DetectNearbyNearDuplicates
             var result = Test(new int[] {}, 0, 0, false);
 
             result &= Test(new[] { 4, 5 }, 0, 0, true);
-            
+
+            result &= Test(new[] { 2, 1 }, 1, 1, true);
+
             result &= Test(new[] {4, 4, 5}, 1, 1, true);
+
+            result &= Test(new[] { -1, -1 }, 1, 0, true);
+
+            result &= Test(new[] { -1, -1 }, 1, -1, false);
+
+            result &= Test(new[] { -3, 3 }, 2, 4, false);
+
+            result &= Test(new[] { 0 }, 0, 0, false);
+
+            result &= Test(new[] { 7,1,3 }, 2, 3, true);
 
             if (result)
                 Console.WriteLine("Passed all!!");
@@ -41,7 +53,8 @@ namespace DetectNearbyNearDuplicates
 
         public static bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
         {
-            if (nums == null || nums.Length == 0) return false;
+            if (nums == null || nums.Length <= 1) return false;
+            if (t < 0) return false;
             if (k == 0 && t == 0) return true;
 
             if (k < 1) return false;
@@ -57,7 +70,7 @@ namespace DetectNearbyNearDuplicates
                 }
 
                 var newBucketNo = GetBucketNo(nums[j], t);
-                if (buckets.Contains(newBucketNo)) return true;
+                if (buckets.Contains(newBucketNo) || buckets.Contains(newBucketNo-1) || buckets.Contains(newBucketNo+1)) return true;
                 buckets.Add(newBucketNo);
             }
 
@@ -66,6 +79,7 @@ namespace DetectNearbyNearDuplicates
 
         private static int GetBucketNo(int x, int bucketSize)
         {
+            if (bucketSize <= 1) return x;
             return 2 * x / bucketSize;
         }
     }
