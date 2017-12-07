@@ -82,5 +82,32 @@ namespace DetectNearbyNearDuplicates
             if (bucketSize <= 1) return x;
             return 2 * x / bucketSize;
         }
+
+        private static int GetHalfBucketId(int x, int bucketSize)
+        {
+            if (bucketSize % 2 == 0)
+            {
+                //buckets are even sized. Boundaries are 0, t, 2t, ...
+                var m = bucketSize / 2;
+                return x / m;
+            }
+            else
+            {
+                //uneven bucket sizes
+                // boundaries are 0, m 2m+1, 3m+1, 4m+4, 5m+2 where bucketSize = 2m+1
+                var m = (bucketSize - 1 )/ 2;
+                var bucketId = x / m + 2;//upper bound on bucketId
+                while (!IsValueInBucket(x, m, bucketId))
+                {
+                    bucketId--;
+                }
+                return bucketId;
+            }
+        }
+
+        private static bool IsValueInBucket(int x, int m, int i)
+        {
+            return (i - 1) * m + (i - 1.0 / 2) <= x && x < i * m + i*1.0/2;
+        }
     }
 }
