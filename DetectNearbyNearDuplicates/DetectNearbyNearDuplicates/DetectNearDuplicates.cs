@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DetectNearbyNearDuplicates
 {
@@ -27,6 +28,8 @@ namespace DetectNearbyNearDuplicates
 
             result &= Test(new[] { 7,1,3 }, 2, 3, true);
 
+            result &= Test(new[] { -2147483648, -2147483647}, 3, 3, true);
+
             if (result)
                 Console.WriteLine("Passed all!!");
 
@@ -51,6 +54,25 @@ namespace DetectNearbyNearDuplicates
             return true;
         }
 
+        public class Interval
+        {
+            private readonly long _start;
+            private readonly long _end;
+            public readonly long Center;
+
+            public Interval(long center, long radius)
+            {
+                Center = center;
+                _start = center - radius;
+                _end = center + radius;
+            }
+
+            public bool Contains(int x)
+            {
+                return _start <= x && x <= _end;
+            }
+        }
+
         public static bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
         {
             if (nums == null || nums.Length <= 1) return false;
@@ -59,55 +81,26 @@ namespace DetectNearbyNearDuplicates
 
             if (k < 1) return false;
 
-            var buckets = new HashSet<int>();
+            var intervals = new Dictionary<int, Interval>();
 
             for (int i= -k-1, j=0; j < nums.Length; i++, j++)
             {
                 if (i >= 0)
                 {
-                    var bucketNo = GetBucketNo(nums[i], t);
-                    buckets.Remove(bucketNo);
+                    intervals.Remove(nums[i]);
                 }
 
-                var newBucketNo = GetBucketNo(nums[j], t);
-                if (buckets.Contains(newBucketNo) || buckets.Contains(newBucketNo-1) || buckets.Contains(newBucketNo+1)) return true;
-                buckets.Add(newBucketNo);
+                if (intervals.Values.Any(interval => interval.Contains(nums[j])))
+                {
+                    return true;
+                }
+                intervals.Add(nums[j], new Interval(nums[j], t));
+                    
             }
 
             return false;
         }
 
-        private static int GetBucketNo(int x, int bucketSize)
-        {
-            if (bucketSize <= 1) return x;
-            return 2 * x / bucketSize;
-        }
-
-        private static int GetHalfBucketId(int x, int bucketSize)
-        {
-            if (bucketSize % 2 == 0)
-            {
-                //buckets are even sized. Boundaries are 0, t, 2t, ...
-                var m = bucketSize / 2;
-                return x / m;
-            }
-            else
-            {
-                //uneven bucket sizes
-                // boundaries are 0, m 2m+1, 3m+1, 4m+4, 5m+2 where bucketSize = 2m+1
-                var m = (bucketSize - 1 )/ 2;
-                var bucketId = x / m + 2;//upper bound on bucketId
-                while (!IsValueInBucket(x, m, bucketId))
-                {
-                    bucketId--;
-                }
-                return bucketId;
-            }
-        }
-
-        private static bool IsValueInBucket(int x, int m, int i)
-        {
-            return (i - 1) * m + (i - 1.0 / 2) <= x && x < i * m + i*1.0/2;
-        }
+        
     }
 }
