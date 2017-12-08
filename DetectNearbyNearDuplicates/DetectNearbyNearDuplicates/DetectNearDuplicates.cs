@@ -54,13 +54,13 @@ namespace DetectNearbyNearDuplicates
             return true;
         }
 
-        public class Interval
+        public class CenteredInterval:IComparable<int>
         {
             private readonly long _start;
             private readonly long _end;
             public readonly long Center;
 
-            public Interval(long center, long radius)
+            public CenteredInterval(long center, long radius)
             {
                 Center = center;
                 _start = center - radius;
@@ -70,6 +70,11 @@ namespace DetectNearbyNearDuplicates
             public bool Contains(int x)
             {
                 return _start <= x && x <= _end;
+            }
+
+            public int CompareTo(int other)
+            {
+                return Center.CompareTo(other);
             }
         }
 
@@ -81,7 +86,7 @@ namespace DetectNearbyNearDuplicates
 
             if (k < 1) return false;
 
-            var intervals = new Dictionary<int, Interval>();
+            var intervals = new Dictionary<int, CenteredInterval>();
 
             for (int i= -k-1, j=0; j < nums.Length; i++, j++)
             {
@@ -94,7 +99,7 @@ namespace DetectNearbyNearDuplicates
                 {
                     return true;
                 }
-                intervals.Add(nums[j], new Interval(nums[j], t));
+                intervals.Add(nums[j], new CenteredInterval(nums[j], t));
                     
             }
 
