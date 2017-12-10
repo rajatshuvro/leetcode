@@ -54,29 +54,42 @@ namespace DetectNearbyNearDuplicates
             return true;
         }
 
-        public class CenteredInterval:IComparable<int>
+        public class Interval:IComparable<long>, IComparable<Interval> 
         {
             private readonly long _start;
             private readonly long _end;
             public readonly long Center;
 
-            public CenteredInterval(long center, long radius)
+            public Interval(long center, long radius)
             {
                 Center = center;
                 _start = center - radius;
                 _end = center + radius;
             }
 
-            public bool Contains(int x)
+            public bool Contains(long x)
             {
                 return _start <= x && x <= _end;
             }
 
-            public int CompareTo(int other)
+            public int CompareTo(long other)
             {
-                return Center.CompareTo(other);
+                if (Contains(other)) return 0;
+
+                return Center < other? -1: 1;
+            }
+
+            public int CompareTo(Interval other)
+            {
+                if (Overlaps(other)) return 0;
+            }
+
+            private bool Overlaps(Interval other)
+            {
+                throw new NotImplementedException();
             }
         }
+        
 
         public static bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
         {
@@ -86,7 +99,7 @@ namespace DetectNearbyNearDuplicates
 
             if (k < 1) return false;
 
-            var intervals = new Dictionary<int, CenteredInterval>();
+            var intervals = new Dictionary<int, Interval>();
 
             for (int i= -k-1, j=0; j < nums.Length; i++, j++)
             {
@@ -99,7 +112,7 @@ namespace DetectNearbyNearDuplicates
                 {
                     return true;
                 }
-                intervals.Add(nums[j], new CenteredInterval(nums[j], t));
+                intervals.Add(nums[j], new Interval(nums[j], t));
                     
             }
 
