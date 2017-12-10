@@ -30,10 +30,61 @@ namespace DetectNearbyNearDuplicates
 
             result &= Test(new[] { -2147483648, -2147483647}, 3, 3, true);
 
+            result &= Test(new[] {-1, 2147483647}, 1, 2147483647, false);
+
             if (result)
                 Console.WriteLine("Passed all!!");
 
             Console.ReadKey();
+        }
+
+        
+        public static bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
+        {
+            if (nums == null || nums.Length <= 1) return false;
+            if (t < 0) return false;
+            if (k == 0 && t == 0) return true;
+
+            if (k < 1) return false;
+
+            var sortedList = new List<int>();
+
+            for (int i= -k-1, j=0; j < nums.Length; i++, j++)
+            {
+                if (i >= 0)
+                {
+                    sortedList.Remove(nums[i]);
+                }
+
+                //find if any of the neighbors are within distance of t
+                var index = sortedList.BinarySearch(nums[j]);
+                if (index >= 0) return true;
+                else
+                {
+                    //The zero-based index of item in the sorted List<T>, if item is found; otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or, if there is no larger element, the bitwise complement of Count.
+                    var largerIndex = ~index;
+
+                    if (largerIndex > 0)
+                    {
+                        //left neighbor exists
+                        var leftNeighbor = sortedList[largerIndex - 1];
+
+                        if (Math.Abs((long)nums[j] - (long)leftNeighbor) <= (long)t) return true;
+                    }
+
+                    if (largerIndex < sortedList.Count)
+                    {
+                        //right neighbor exist
+                        var rightNeighbor = sortedList[largerIndex];
+                        if (Math.Abs((long)nums[j] - (long)rightNeighbor) <= (long)t) return true;
+                    }
+
+                    sortedList.Insert(largerIndex, nums[j]);
+                }
+
+            }
+
+            return false;
         }
 
         private static bool Test(int[] nums, int k, int t, bool expectedResult)
@@ -41,7 +92,7 @@ namespace DetectNearbyNearDuplicates
             if (ContainsNearbyAlmostDuplicate(nums, k, t) == expectedResult)
             {
                 Console.Write("PASSED");
-                Console.WriteLine($" [{string.Join(',',nums)}] k={k}, t={t} test case");
+                Console.WriteLine($" [{string.Join(',', nums)}] k={k}, t={t} test case");
             }
             else
             {
@@ -54,71 +105,7 @@ namespace DetectNearbyNearDuplicates
             return true;
         }
 
-        public class Interval:IComparable<long>, IComparable<Interval> 
-        {
-            private readonly long _start;
-            private readonly long _end;
-            public readonly long Center;
 
-            public Interval(long center, long radius)
-            {
-                Center = center;
-                _start = center - radius;
-                _end = center + radius;
-            }
 
-            public bool Contains(long x)
-            {
-                return _start <= x && x <= _end;
-            }
-
-            public int CompareTo(long other)
-            {
-                if (Contains(other)) return 0;
-
-                return Center < other? -1: 1;
-            }
-
-            public int CompareTo(Interval other)
-            {
-                if (Overlaps(other)) return 0;
-            }
-
-            private bool Overlaps(Interval other)
-            {
-                throw new NotImplementedException();
-            }
-        }
-        
-
-        public static bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
-        {
-            if (nums == null || nums.Length <= 1) return false;
-            if (t < 0) return false;
-            if (k == 0 && t == 0) return true;
-
-            if (k < 1) return false;
-
-            var intervals = new Dictionary<int, Interval>();
-
-            for (int i= -k-1, j=0; j < nums.Length; i++, j++)
-            {
-                if (i >= 0)
-                {
-                    intervals.Remove(nums[i]);
-                }
-
-                if (intervals.Values.Any(interval => interval.Contains(nums[j])))
-                {
-                    return true;
-                }
-                intervals.Add(nums[j], new Interval(nums[j], t));
-                    
-            }
-
-            return false;
-        }
-
-        
     }
 }
