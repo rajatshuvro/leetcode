@@ -9,6 +9,9 @@ namespace LongestPalindromicSubsequence
             Console.WriteLine("Finding length of longest palindromic subsequence!");
 
             var result = UnitTest("bbbab", 4);
+            result &= UnitTest("babbab", 6);
+            result &= UnitTest("babab", 5);
+            result &= UnitTest("ba", 1);
 
             if (result)
                 Console.WriteLine("Passed all tests");
