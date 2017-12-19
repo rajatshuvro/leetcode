@@ -9,9 +9,11 @@ namespace LongestPalindromicSubsequence
             Console.WriteLine("Finding length of longest palindromic subsequence!");
         }
 
+        private int[,] _dp;
+
         public int LongestPalindromeSubseq(string s)
         {
-            var dp = InitializeDpArray(s.Length);
+            _dp = new int[2, s.Length];
 
             return MaxPalinSubLen(s, 0, s.Length - 1);
         }
@@ -20,23 +22,15 @@ namespace LongestPalindromicSubsequence
         {
             if (i == j) return 1;
 
+            if (_dp[i, j] != 0) return _dp[i, j];
+
             if (s[i] == s[j])
-                return MaxPalinSubLen(s, i + 1, j - 1) + 2;
+                _dp[i, j] = MaxPalinSubLen(s, i + 1, j - 1) + 2;
+            else
+                _dp[i, j] = Math.Max(MaxPalinSubLen(s, i + 1, j), MaxPalinSubLen(s, i, j - 1));
 
-            return Math.Max(MaxPalinSubLen(s, i + 1, j), MaxPalinSubLen(s, i, j - 1));
+            return _dp[i, j];
         }
-
-        private int[,] InitializeDpArray(int n)
-        {
-            var dp = new int[2, n];
-
-            for (var i = 0; i < n; i++)
-            {
-                dp[0, i] = 1;// palindrome for s[i,i] is always 1 char long by default
-                dp[1, i] = 1;
-            }
-
-            return dp;
-        }
+        
     }
 }
