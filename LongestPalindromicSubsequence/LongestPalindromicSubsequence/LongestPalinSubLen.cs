@@ -69,27 +69,35 @@ namespace LongestPalindromicSubsequence
                     var j = i + k;
                     if (s[i] == s[j])
                     {
-                        dpArray[dpIndex, i] = GetDpValue(dpArray, dpIndex -2, i + 1, j) + 2; // dp[i][j]= dp[i+1][j-1]+2
+                        var index = dpIndex - 2;
+                        if (index < 0) index += 3;
+                        dpArray[dpIndex, i] = dpArray[index, i+1] + 2; // dp[i][j]= dp[i+1][j-1]+2
                     }
 
                     else
                     {
                         // dp[i,j]= max (dp[i+1, j], dp[i, j-1]
-                        dpArray[dpIndex, i] = Math.Max(GetDpValue(dpArray, dpIndex -1, i+1, j), GetDpValue(dpArray, dpIndex -1, i , j));
+                        var index = dpIndex - 1;
+                        if (index < 0) index += 3;
+
+                        dpArray[dpIndex, i] = Math.Max(dpArray[index, i + 1], dpArray[index, i]);
                         
                     }
                 }
                 
 
             }
-            return GetDpValue(dpArray, dpIndex-1, 0, n-1);
+            dpIndex--;
+            if (dpIndex < 0) dpIndex += 3;
+            return dpArray[dpIndex,0];
         }
 
-        private int GetDpValue(int[,] dpArray, int dpIndex, int i, int j)
-        {
-            if (dpIndex < 0) dpIndex += 3;
-            return i > j ? 0 : dpArray[dpIndex, i];
-        }
+        //private int GetDpValue(int[,] dpArray, int dpIndex, int i, int j)
+        //{
+        //    if (dpIndex < 0) dpIndex += 3;
+        //    //return i > j ? 0 : dpArray[dpIndex, i];
+        //    return dpArray[dpIndex, i];
+        //}
 
         private static int[,] InitializeDpMemory(string s)
         {
