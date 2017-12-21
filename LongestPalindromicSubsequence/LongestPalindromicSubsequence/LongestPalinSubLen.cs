@@ -33,7 +33,7 @@ namespace LongestPalindromicSubsequence
             return false;
         }
 
-        private int[,] _dp;
+        //private int[,] _dp;
 
         //public int LongestPalindromeSubseq(string s)
         //{
@@ -57,35 +57,37 @@ namespace LongestPalindromicSubsequence
             }
 
             var dpArray = InitializeDpMemory(s);
-            int k;
-            int dpIndex;
+            int k=2;
+            int dpIndex=k;
 
-            for (k = 2; k < n; k++)
+            for (k = 2; k < n; k++, dpIndex++)
             {
-                dpIndex = k;
+                if (dpIndex == 3) dpIndex = 0;
 
                 for (var i = 0; i < n - k; i++)
                 {
                     var j = i + k;
                     if (s[i] == s[j])
                     {
-                        dpArray[k%3, i] = GetDpValue(dpArray, (k-2) %3, i + 1, j) + 2; // dp[i][j]= dp[i+1][j-1]+2
+                        dpArray[dpIndex, i] = GetDpValue(dpArray, dpIndex -2, i + 1, j) + 2; // dp[i][j]= dp[i+1][j-1]+2
                     }
 
                     else
                     {
                         // dp[i,j]= max (dp[i+1, j], dp[i, j-1]
-                        dpArray[k%3, i] = Math.Max(GetDpValue(dpArray, (k - 1) % 3, i+1, j), GetDpValue(dpArray, (k - 1) % 3, i , j));
+                        dpArray[dpIndex, i] = Math.Max(GetDpValue(dpArray, dpIndex -1, i+1, j), GetDpValue(dpArray, dpIndex -1, i , j));
                         
                     }
                 }
                 
+
             }
-            return dpArray[(k-1)%3, 0];
+            return GetDpValue(dpArray, dpIndex-1, 0, n-1);
         }
 
         private int GetDpValue(int[,] dpArray, int dpIndex, int i, int j)
         {
+            if (dpIndex < 0) dpIndex += 3;
             return i > j ? 0 : dpArray[dpIndex, i];
         }
 
@@ -108,20 +110,20 @@ namespace LongestPalindromicSubsequence
             return dpArrays;
         }
 
-        private int MaxPalinSubLen(string s, int i, int j)
-        {
-            if (i < 0 || j < 0 || i >= s.Length || j >= s.Length || i > j) return 0;
-            if (i == j) return 1;
+        //private int MaxPalinSubLen(string s, int i, int j)
+        //{
+        //    if (i < 0 || j < 0 || i >= s.Length || j >= s.Length || i > j) return 0;
+        //    if (i == j) return 1;
 
-            if (_dp[i, j] != 0) return _dp[i, j];
+        //    if (_dp[i, j] != 0) return _dp[i, j];
 
-            if (s[i] == s[j])
-                _dp[i, j] = MaxPalinSubLen(s, i + 1, j - 1) + 2;
-            else
-                _dp[i, j] = Math.Max(MaxPalinSubLen(s, i + 1, j), MaxPalinSubLen(s, i, j - 1));
+        //    if (s[i] == s[j])
+        //        _dp[i, j] = MaxPalinSubLen(s, i + 1, j - 1) + 2;
+        //    else
+        //        _dp[i, j] = Math.Max(MaxPalinSubLen(s, i + 1, j), MaxPalinSubLen(s, i, j - 1));
 
-            return _dp[i, j];
-        }
+        //    return _dp[i, j];
+        //}
 
     }
 }
