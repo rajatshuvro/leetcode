@@ -47,44 +47,65 @@ namespace LongestPalindromicSubsequence
         public int LongestPalindromeSubseq(string s)
         {
             var n = s.Length;
-            if (n == 0) return 0;
-            var scratches = GetScratches(n);
-            var scratchIndex = 1;
-
-            for (var k = 1; k < n; k++)
+            switch (n)
             {
+                case 0:
+                case 1:
+                    return n;
+                case 2:
+                    return s[0] == s[1] ? 2 : 1;
+            }
+
+            var dpArray = InitializeDpMemory(s);
+            int k;
+            int dpIndex;
+
+            for (k = 2; k < n; k++)
+            {
+                dpIndex = k;
+
                 for (var i = 0; i < n - k; i++)
                 {
                     var j = i + k;
                     if (s[i] == s[j])
                     {
-                        if (i + 1 < j - 1)
-                            scratches[scratchIndex, j] = scratches[scratchIndex, j] + 2; // dp[i][j]= dp[i+1][j-1]+2
-                        else scratches[scratchIndex, j] = 2;
+                        dpArray[k%3, i] = GetDpValue(dpArray, (k-2) %3, i + 1, j) + 2; // dp[i][j]= dp[i+1][j-1]+2
                     }
-                    
+
                     else
                     {
                         // dp[i,j]= max (dp[i+1, j], dp[i, j-1]
-                        if (j + 1 < n)
-                            scratches[scratchIndex, j] =
-                                Math.Max(scratches[1 - scratchIndex, j], scratches[1 - scratchIndex, j + 1]);
-                        else scratches[scratchIndex, j] = scratches[1 - scratchIndex, j];
+                        dpArray[k%3, i] = Math.Max(GetDpValue(dpArray, (k - 1) % 3, i+1, j), GetDpValue(dpArray, (k - 1) % 3, i , j));
+                        
                     }
                 }
-                scratchIndex = 1 - scratchIndex;
-
+                
             }
-            return scratches[scratchIndex, n - 1];
+            return dpArray[(k-1)%3, 0];
         }
 
-        
-        private static int[,] GetScratches(int n)
+        private int GetDpValue(int[,] dpArray, int dpIndex, int i, int j)
         {
-            var scratches = new int[2, n];
+            return i > j ? 0 : dpArray[dpIndex, i];
+        }
+
+        private static int[,] InitializeDpMemory(string s)
+        {
+            var n = s.Length;
+            var dpArrays = new int[3, n];
             for (var i = 0; i < n; i++)
-                scratches[0, i] = 1;// by definition, the diagonal elements are all 1, since palindrome of a subsequence of length 1 is 1.
-            return scratches;
+            {
+                // by definition, the diagonal elements are all 1, since palindrome of a subsequence of length 1 is 1.
+                dpArrays[0, i] = 1;
+            }
+
+            for (var i = 0; i < n - 1; i++)
+            {
+                // by definition, the diagonal elements are all 1, since palindrome of a subsequence of length 1 is 1.
+                dpArrays[1, i] = s[i] == s[i + 1] ? 2 : 1;
+            }
+
+            return dpArrays;
         }
 
         private int MaxPalinSubLen(string s, int i, int j)
