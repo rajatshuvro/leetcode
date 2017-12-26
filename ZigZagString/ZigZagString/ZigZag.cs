@@ -76,7 +76,10 @@ namespace ZigZagString
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            return strBuilders.Aggregate("", (current, builder) => current + builder.ToString());
+
+            for (var i = 1; i < numRows; i++)
+                strBuilders[0].Append(strBuilders[i]);
+            return strBuilders[0].ToString();
         }
 
         
