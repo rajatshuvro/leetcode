@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SAUtils.DataStructures
+namespace DataStructures
 {
     public sealed class MinHeap<T> where T : IComparable<T>
     {
