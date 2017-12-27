@@ -7,6 +7,37 @@ namespace MutableRangeSum
         static void Main(string[] args)
         {
             Console.WriteLine("Reporting range sums of mutable array!");
+
+            var result = Test(new int[]{1,3,5});
+
+            if (result)
+                Console.WriteLine("Passed all tests");
+
+            Console.ReadKey();
+        }
+
+        private static bool Test(int[] ints)
+        {
+            var range = new MutableRangeSum(ints);
+            var sum = range.SumRange(0, 2);
+            var result = true;
+
+            if (sum != 9)
+            {
+                Console.WriteLine($"Failed on query SumRange(0,2). Expected: 9, Observed: {sum}");
+                result = false;
+            }
+
+            range.Update(1,2);
+
+            sum = range.SumRange(0, 2);
+            if (sum != 8)
+            {
+                Console.WriteLine($"Failed on query SumRange(0,2). Expected: 8, Observed: {sum}");
+                result = false;
+            }
+
+            return result;
         }
 
         private readonly BinaryIndexTree _biTree;
@@ -19,13 +50,13 @@ namespace MutableRangeSum
 
         public void Update(int i, int val)
         {
-            _biTree.Update(i, _nums[i] - val);
+            _biTree.Update(i, val - _nums[i]);
             _nums[i] = val;
         }
 
         public int SumRange(int i, int j)
         {
-            return _biTree.GetSum(j) - _biTree.GetSum(i);
+            return _biTree.GetSum(j) - _biTree.GetSum(i-1);
         }
     }
 

@@ -5,19 +5,21 @@
     public class BinaryIndexTree
     {
         private readonly int[] _biTree;
-        public BinaryIndexTree(int[] arr, int n)
+        private readonly int _arrayLen;
+        public BinaryIndexTree(int[] array)
         {
-            _biTree = new int[n+1];
+            _arrayLen = array.Length;
+            _biTree = new int[_arrayLen + 1];
             // Initialize _biTree[] as 0
-            for (var i = 1; i <= n; i++)
+            for (var i = 1; i <= _arrayLen; i++)
                 _biTree[i] = 0;
 
             // Store the actual values in _biTree[]
             // using update()
-            for (var i = 0; i < n; i++)
-                Update(n, i, arr[i]);
+            for (var i = 0; i < _arrayLen; i++)
+                Update(i, array[i]);
         }
-        // Returns sum of arr[0..index]. This function 
+        // Returns sum of array[0..index]. This function 
         // assumes that the array is preprocessed and 
         // partial sums of array elements are stored 
         // in _biTree[].
@@ -26,7 +28,7 @@
             var sum = 0; // Iniialize result
 
             // index in _biTree[] is 1 more than
-            // the index in arr[]
+            // the index in array[]
             index = index + 1;
 
             // Traverse ancestors of _biTree[index]
@@ -47,14 +49,14 @@
         // at given index in _biTree.  The given  
         // 'change' is added to _biTree[i] and all of 
         // its ancestors in tree.
-        public void Update(int n, int index, int change)
+        public void Update(int index, int change)
         {
             // index in _biTree[] is 1 more than 
-            // the index in arr[]
+            // the index in array[]
             index = index + 1;
 
             // Traverse all ancestors and add 'change'
-            while (index <= n)
+            while (index <= _arrayLen)
             {
                 // Add 'change' to current node of BIT Tree
                 _biTree[index] += change;
