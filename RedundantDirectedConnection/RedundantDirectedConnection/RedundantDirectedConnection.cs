@@ -29,7 +29,7 @@ namespace RedundantDirectedConnection
                 Console.WriteLine($"Passed case: {PrintEdges(edges)}");
                 return true;
             }
-            Console.WriteLine($"Failed for: {PrintEdges(edges)}.\nExpected [{expectedEdge[0]},{expectedEdge[1]}], observed [{observedEdge[0]},{observedEdge[1]}]");
+            Console.WriteLine($"Failed for: {PrintEdges(edges)}.\nExpected [{expectedEdge[0]}->{expectedEdge[1]}], observed [{observedEdge[0]}->{observedEdge[1]}]");
             return false;
         }
 
