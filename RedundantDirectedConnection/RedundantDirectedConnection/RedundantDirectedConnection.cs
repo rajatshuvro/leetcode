@@ -36,7 +36,7 @@ namespace RedundantDirectedConnection
 
         public static int[] FindRedundantConnection(int[,] edges)
         {
-            var unionFinder = new UnionFinder<int>();
+            var dirGraph = new DirectedGraphBuilder<int>();
             int a = -1, b = -1;
             for (var i = 0; i < edges.GetLength(0); i++)
             {
@@ -58,55 +58,48 @@ namespace RedundantDirectedConnection
             return sb.ToString();
         }
 
-        class UnionFinder<T> where T : IEquatable<T>, IComparable<T>
+        
+
+    }
+
+    internal class DirectedGraphBuilder<T> where T:IEquatable<T>
+    {
+        private Dictionary<T, GraphNode<T>> _vertices;
+        public DirectedGraphBuilder()
         {
-            private readonly Dictionary<T, T> _founder;
-            private readonly Dictionary<T, List<T>> _clans;
-
-            public UnionFinder()
-            {
-                _founder = new Dictionary<T, T>();
-                _clans = new Dictionary<T, List<T>>();
-            }
-            // returns true if a and b both belong to the same clan
-            public bool Unite(T a, T b)
-            {
-                // both items are present, we need to merge two clans if different
-                if (_founder.ContainsKey(a) && _founder.ContainsKey(b))
-                {
-                    if (_founder[a].Equals(_founder[b]))
-                        return true;
-
-                    var founderB = _founder[b];
-                    foreach (var member in _clans[founderB])
-                    {
-                        _founder[member] = _founder[a];
-                    }
-                    _clans[_founder[a]].AddRange(_clans[founderB]);
-                    _clans.Remove(founderB);
-                    return false;
-                }
-                // at least one item is present
-                if (_founder.ContainsKey(a))
-                {
-                    _founder[b] = _founder[a];
-                    _clans[_founder[a]].Add(b);
-                    return false;
-                }
-                if (_founder.ContainsKey(b))
-                {
-                    _founder[a] = _founder[b];
-                    _clans[_founder[b]].Add(a);
-                    // we are assigning two parents to a node, that is an error
-                    return true;
-                }
-                // no items present
-                _founder[a] = a;
-                _founder[b] = a;
-                _clans.Add(a, new List<T> { a, b });
-                return false;
-            }
+            _vertices = new Dictionary<T, GraphNode<T>>();
         }
 
+        public bool AddEdge(T a, T b)
+        {
+            if (_vertices.ContainsKey(b) && _vertices[b].Parent != null) return false;
+            if (!_vertices.ContainsKey(a)) 
+                _vertices[a]= new GraphNode<T>(b);
+            _vertices[a].AddChild(b);
+            return true;
+        }
+
+        private class GraphNode<T> where T:IEquatable<T>
+        {
+            public readonly T Parent;
+            private List<T> _children;
+
+            public GraphNode(T parent)
+            {
+                Parent = parent;
+            }
+
+            public void AddChild(T child)
+            {
+                if (_children==null) _children= new List<T>();
+
+                _children.Add(child);
+            }
+
+            public bool IsParentOf(T child)
+            {
+                return _children != null && _children.Contains(child);
+            }
+        }
     }
 }
