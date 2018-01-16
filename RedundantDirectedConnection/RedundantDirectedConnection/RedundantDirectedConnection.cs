@@ -36,7 +36,7 @@ namespace RedundantDirectedConnection
 
         public static int[] FindRedundantConnection(int[,] edges)
         {
-            var dirGraph = new DirectedGraphBuilder<int>();
+            var dirGraph = new DirectedGraphBuilder();
             int a = -1, b = -1;
             for (var i = 0; i < edges.GetLength(0); i++)
             {
