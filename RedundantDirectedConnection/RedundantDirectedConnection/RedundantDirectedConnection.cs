@@ -36,15 +36,9 @@ namespace RedundantDirectedConnection
 
         public static int[] FindRedundantConnection(int[,] edges)
         {
-            var dirGraph = new DirectedGraphBuilder();
-            int a = -1, b = -1;
-            for (var i = 0; i < edges.GetLength(0); i++)
-            {
-                if (!unionFinder.Unite(edges[i, 0], edges[i, 1])) continue;
-                a = edges[i, 0];
-                b = edges[i, 1];
-            }
-            return new[] { a, b };
+            var dirGraph = new DirectedGraphBuilder(edges);
+            
+            return dirGraph.FindRedundantEdge();
         }
 
         private static string PrintEdges(int[,] edges)
@@ -64,28 +58,36 @@ namespace RedundantDirectedConnection
 
     internal class DirectedGraphBuilder
     {
-        private readonly Dictionary<int, GraphNode> _vertices;
+        private readonly Dictionary<int, Neighbors> _vertices;
+        private int _root;
         private readonly List<Tuple<int, int>> _candidates;
-        public DirectedGraphBuilder()
+        public DirectedGraphBuilder(int[,] edges)
         {
-            _vertices = new Dictionary<int, GraphNode>();
+            _vertices = new Dictionary<int, Neighbors>();
             _candidates = new List<Tuple<int, int>>();
-        }
 
-        public void AddEdges(int[,] edges)
-        {
             for (var i = 0; i < edges.GetLength(0); i++)
             {
                 AddEdge(edges[i, 0], edges[i, 1]);
             }
+
+            //locate the root (if any)
+            foreach (var keyValuePair in _vertices)
+            {
+                var vertex = keyValuePair.Value;
+                if (vertex.Parent != -1) continue;
+                _root = keyValuePair.Key;
+                break;
+            }
         }
 
+        
         public void AddEdge(int a, int b)
         {
             if (!_vertices.ContainsKey(a)) 
-                _vertices[a]= new GraphNode(a);
+                _vertices[a]= new Neighbors(a);
             if (!_vertices.ContainsKey(b))
-                _vertices[b] = new GraphNode(b);
+                _vertices[b] = new Neighbors(b);
 
             _vertices[a].AddChild(b);
             if (_vertices[b].AddParent(a)) return ;
@@ -94,16 +96,15 @@ namespace RedundantDirectedConnection
             _candidates.Add(Tuple.Create(_vertices[b].Parent, b));
         }
 
-        private class GraphNode
+        private class Neighbors
         {
-            public readonly int Label;
             public int Parent;
             private List<int> _children;
 
 
-            public GraphNode(int label)
+            public Neighbors(int label)
             {
-                Label = label;
+                Parent = -1;
             }
 
             public void AddChild(int child)
@@ -122,6 +123,14 @@ namespace RedundantDirectedConnection
 
             }
             
+        }
+
+        public int[] FindRedundantEdge()
+        {
+            // check for cycles
+            // if found add latest edge to candidate list
+            // remove edges one by one and check if tree is valid
+
         }
     }
 }
