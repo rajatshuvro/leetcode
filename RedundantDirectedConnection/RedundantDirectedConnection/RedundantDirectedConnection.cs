@@ -85,9 +85,9 @@ namespace RedundantDirectedConnection
         public void AddEdge(int a, int b)
         {
             if (!_vertices.ContainsKey(a)) 
-                _vertices[a]= new Neighbors(a);
+                _vertices[a]= new Neighbors();
             if (!_vertices.ContainsKey(b))
-                _vertices[b] = new Neighbors(b);
+                _vertices[b] = new Neighbors();
 
             _vertices[a].AddChild(b);
             if (_vertices[b].AddParent(a)) return ;
@@ -101,8 +101,8 @@ namespace RedundantDirectedConnection
             public int Parent;
             private List<int> _children;
 
-
-            public Neighbors(int label)
+            public List<int> GetChildren() => _children;
+            public Neighbors()
             {
                 Parent = -1;
             }
@@ -117,7 +117,7 @@ namespace RedundantDirectedConnection
             public bool AddParent(int parent)
             {
                 // parent stays unchanged if this node already had a parent
-                if (Parent != 0) return false;
+                if (Parent != -1) return false;
                 Parent = parent;
                 return true;
 
@@ -130,7 +130,40 @@ namespace RedundantDirectedConnection
             // check for cycles
             // if found add latest edge to candidate list
             // remove edges one by one and check if tree is valid
+            var breaker = TryBreakCycle();
+            if (breaker != null)
+            {
+                //if there is a cycle then this is the edge
+                return breaker;
+            }
+            //remove the last candidate 
+            if (_candidates.Count == 0) return null;
+            var lastCandidate = _candidates[_candidates.Count - 1];
+            return new[] {lastCandidate.Item1, lastCandidate.Item2};
+        }
 
+        private int[] TryBreakCycle()
+        {
+            var edgesVisited = new HashSet<int>();
+            var queue = new List<int>(){_root};
+            //doing dfs to find cycle
+            while (queue.Count > 0)
+            {
+                var label = queue[queue.Count - 1];
+                queue.Remove(label);
+                var node = _vertices[label];
+                if (node.GetChildren() == null) continue;
+                foreach (var child in node.GetChildren())
+                {
+                    if (edgesVisited.Contains(child))
+                        return new []{label, child};//found cycle
+                    edgesVisited.Add(child);
+                    queue.Add(child);
+                }
+                
+            }
+            //no cycles found
+            return null;
         }
     }
 }
