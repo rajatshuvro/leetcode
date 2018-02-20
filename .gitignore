@@ -32,3 +32,6 @@
 /RedundantConnection/.vs/RedundantConnection/v15
 /RedundantConnection/RedundantConnection/obj
 /RedundantConnection/RedundantConnection/bin/Debug/netcoreapp2.0
+/.vs/MinDistBstNodes/v15
+/MinDistBstNodes/bin/Debug/netcoreapp2.0
+/MinDistBstNodes/obj
