@@ -35,3 +35,6 @@
 /.vs/MinDistBstNodes/v15
 /MinDistBstNodes/bin/Debug/netcoreapp2.0
 /MinDistBstNodes/obj
+/EliminationGame/.vs/EliminationGame/v15
+/EliminationGame/EliminationGame/bin/Debug/netcoreapp2.0
+/EliminationGame/EliminationGame/obj
