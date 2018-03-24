@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DataStructures
 {
@@ -8,12 +9,24 @@ namespace DataStructures
         public readonly string Label;
         public char Color;
         public int Weight;
+        private readonly Dictionary<Node, int> _weightedNeighbors;
+        public IEnumerable<Node> Neighbors => _weightedNeighbors.Keys;
 
         public Node(string label, char c = 'b', int weight = int.MaxValue)
         {
-            Label = label;
-            Color = c;
-            Weight = weight;
+            Label     = label;
+            Color     = c;
+            Weight    = weight;
+            _weightedNeighbors = new Dictionary<Node, int>();
+        }
+
+        public bool TryAddNeighbor(Node neighbor, int weight)
+        {
+            if (_weightedNeighbors.TryGetValue(neighbor, out var oldWeight))
+                return neighbor.Weight == oldWeight;
+
+            _weightedNeighbors.Add(neighbor,weight);
+            return true;
         }
 
         public bool Equals(Node other)
@@ -60,27 +73,29 @@ namespace DataStructures
 
     public class SparseGraph
     {
-        private HashSet<Node> _nodes;
-        private HashSet<Edge> _edges;
-
+        private readonly HashSet<Node> _nodes;
+        
         public SparseGraph()
         {
             _nodes = new HashSet<Node>();
-            _edges = new HashSet<Edge>();
         }
 
-        public SparseGraph(HashSet<Node> nodes, HashSet<Edge> edges)
+        public SparseGraph(IEnumerable<Edge> edges)
         {
-            _nodes = nodes;
-            _edges = edges;
+            _nodes = new HashSet<Node>();
+            foreach (Edge edge in edges)
+            {
+                if (!TryAdd(edge))
+                    throw new InvalidDataException($"Edge could not be added to graph. {edge.Source}--{edge.Weight}-->{edge.Destination}");
+            }
         }
 
         public bool TryAdd(Edge edge)
         {
-            if (_edges.TryGetValue(edge, out Edge graphEdge))
-                return edge.Weight == graphEdge.Weight;
+            if (!TryAdd(edge.Source) || !TryAdd(edge.Destination)) return false;
 
-            return TryAdd(edge.Source) && TryAdd(edge.Destination);
+            return edge.Source.TryAddNeighbor(edge.Destination, edge.Weight);
+
         }
 
         public bool TryAdd(Node node)
@@ -89,6 +104,11 @@ namespace DataStructures
                 return node.Weight == graphNode.Weight && node.Color == graphNode.Color;
             _nodes.Add(node);
             return true;
+        }
+
+        public IDictionary<string, int> GetShortestPathTree(string source)
+        {
+
         }
     }
 }
