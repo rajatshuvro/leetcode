@@ -4,28 +4,27 @@ using System.IO;
 
 namespace DataStructures
 {
-    public class Node:IEquatable<Node>
+    public class Node:IEquatable<Node>, IComparable<Node>
     {
         public readonly string Label;
         public char Color;
         public int Weight;
-        private readonly Dictionary<Node, int> _weightedNeighbors;
-        public IEnumerable<Node> Neighbors => _weightedNeighbors.Keys;
+        public readonly HashSet<Edge> OutEdges;
 
         public Node(string label, char c = 'b', int weight = int.MaxValue)
         {
             Label     = label;
             Color     = c;
             Weight    = weight;
-            _weightedNeighbors = new Dictionary<Node, int>();
+            OutEdges  = new HashSet<Edge>();
         }
 
-        public bool TryAddNeighbor(Node neighbor, int weight)
+        public bool TryAddOutEdge(Edge edge)
         {
-            if (_weightedNeighbors.TryGetValue(neighbor, out var oldWeight))
-                return neighbor.Weight == oldWeight;
+            if (OutEdges.TryGetValue(edge, out var oldEdge))
+                return edge.Weight == oldEdge.Weight;
 
-            _weightedNeighbors.Add(neighbor,weight);
+            OutEdges.Add(edge);
             return true;
         }
 
@@ -36,9 +35,19 @@ namespace DataStructures
             return string.Equals(Label, other.Label);
         }
 
+        public int CompareTo(Node other)
+        {
+            return Weight.CompareTo(other.Weight);
+        }
+
         public override int GetHashCode()
         {
             return (Label != null ? Label.GetHashCode() : 0);
+        }
+
+        public Edge GetEdgeTo(Node dest)
+        {
+            return OutEdges.TryGetValue(new Edge(this, dest), out Edge edge) ? edge : null;
         }
     }
 
@@ -94,7 +103,7 @@ namespace DataStructures
         {
             if (!TryAdd(edge.Source) || !TryAdd(edge.Destination)) return false;
 
-            return edge.Source.TryAddNeighbor(edge.Destination, edge.Weight);
+            return edge.Source.TryAddOutEdge(edge);
 
         }
 
@@ -106,9 +115,50 @@ namespace DataStructures
             return true;
         }
 
+        private Node GetNode(string label)
+        {
+            return _nodes.TryGetValue(new Node(label), out Node node) ? node : null;
+        }
+
+        private Edge GetEdge(string source, string dest)
+        {
+            Node sourceNode = GetNode(source);
+            Node destNode = GetNode(dest);
+
+            return sourceNode.GetEdgeTo(destNode);
+        }
+
         public IDictionary<string, int> GetShortestPathTree(string source)
         {
+            Node srcNode = GetNode(source);
+            if (srcNode == null) return null;
 
+            srcNode.Weight = 0;
+            var nodeHeap= new MinHeap<Node>();
+
+            nodeHeap.Add(srcNode);
+
+            while (nodeHeap.Count != 0)
+            {
+                Node node = nodeHeap.GetMin();
+                foreach (Edge outEdge in node.OutEdges)
+                {
+                    if (outEdge.Destination.Weight <= node.Weight + outEdge.Weight) continue;
+
+                    outEdge.Destination.Weight = node.Weight + outEdge.Weight;
+                    if (!nodeHeap.Contains(outEdge.Destination))
+                        nodeHeap.Add(outEdge.Destination);
+                }
+                
+            }
+
+            var distances= new Dictionary<string, int>();
+            foreach (Node node in _nodes)
+            {
+                distances[node.Label] = node.Weight;
+            }
+
+            return distances;
         }
     }
 }

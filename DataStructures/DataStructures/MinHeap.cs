@@ -6,6 +6,8 @@ namespace DataStructures
     public sealed class MinHeap<T> where T : IComparable<T>
     {
         private readonly List<T> _itemArray;
+        public int Count => _itemArray.Count;
+        public bool Contains(T x) => _itemArray.Contains(x);
 
         public MinHeap()
         {
@@ -68,11 +70,6 @@ namespace DataStructures
             if (_itemArray.Count == 0)
                 return default(T);
             return _itemArray[0];
-        }
-
-        public int Count()
-        {
-            return _itemArray.Count;
         }
 
         public override string ToString()
