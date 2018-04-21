@@ -4,7 +4,7 @@ using System.IO;
 
 namespace DataStructures
 {
-    public class Node:IEquatable<Node>, IComparable<Node>
+    public class Node : IEquatable<Node>, IComparable<Node>
     {
         public readonly string Label;
         public char Color;
