@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DataStructures
 {
-    public class Node<T> : IEquatable<Node<T>> where T : IEquatable<T>
+    public class Node<T> : IEquatable<Node<T>>, IComparable<Node<T>> where T : IEquatable<T>
     {
         public readonly T Label;
         public int Weight;
@@ -20,6 +21,16 @@ namespace DataStructures
         {
             return Label.Equals(other.Label);
         }
+
+        public override int GetHashCode()
+        {
+            return Label.GetHashCode();
+        }
+
+        public int CompareTo(Node<T> other)
+        {
+            return Weight.CompareTo(other.Weight);
+        }
     }
 
     public class Edge<T> : IEquatable<Edge<T>> where T : IEquatable<T>
@@ -35,6 +46,12 @@ namespace DataStructures
             Weight = weight;
         }
 
+        public override int GetHashCode()
+        {
+            return Source.GetHashCode() ^ Destination.GetHashCode();
+        }
+
+
         public bool Equals(Edge<T> other)
         {
             return Source.Equals(other.Source) && Destination.Equals(other.Destination);
@@ -44,12 +61,82 @@ namespace DataStructures
     public class Graph<T> where T:IEquatable<T>
     {
         public readonly bool IsDirected;
-        private Dictionary<Node<T>, List<Edge<T>>> _neighbors;
+        private readonly HashSet<Node<T>> _nodes;
+        private readonly HashSet<Edge<T>> _edges;
+        private readonly Dictionary<Node<T>, HashSet<Node<T>>> _neighbors;
+
+        public int NumNodes => _nodes.Count;
+        public int NumEdges => _edges.Count;
 
         public Graph(bool isDirected, IEnumerable<Edge<T>> edges)
         {
             IsDirected = isDirected;
+            _edges     = new HashSet<Edge<T>>();
+            _nodes     = new HashSet<Node<T>>();
+            _neighbors = new Dictionary<Node<T>, HashSet<Node<T>>>();
 
+            foreach (var edge in edges)
+            {
+                _nodes.Add(edge.Source);
+                _nodes.Add(edge.Destination);
+                _edges.Add(edge);
+
+                AddNeighbor(edge.Source, edge.Destination);
+
+                if (isDirected) continue;
+
+                _edges.Add(new Edge<T>(edge.Destination, edge.Source, edge.Weight));
+                AddNeighbor(edge.Destination, edge.Source);
+            }
+            
+        }
+
+        private void AddNeighbor(Node<T> source, Node<T> destination)
+        {
+            if (_neighbors.TryGetValue(source, out var neighbors))
+            {
+                neighbors.Add(destination);
+            }
+            else _neighbors[source] = new HashSet<Node<T>>{ destination };
+
+        }
+
+        public Dictionary<T, int> GetShortestDistancesFrom(Node<T> source)
+        {
+            //using Dijkstra's algorithm
+            var priorityQ = new MinHeap<Node<T>>();
+            foreach (var node in _nodes)
+            {
+                node.Weight = source.Equals(node) ? 0 : int.MaxValue;
+                priorityQ.Add(node);
+            }
+
+            while (priorityQ.Count!=0)
+            {
+                var minNode = priorityQ.GetMin();
+
+                foreach (var neighbor in _neighbors[minNode])
+                {
+                    if (!_edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
+                        throw new InvalidDataException($"failed to find edge to neighbor {minNode.Label}->{neighbor.Label}");
+                    int edgeWeight = edge.Weight;
+
+                    if (neighbor.Weight > minNode.Weight + edgeWeight)
+                    {
+                        neighbor.Weight = minNode.Weight + edgeWeight;
+                    }
+                }
+
+                priorityQ.ExtractMin();
+            }
+
+            var distances = new Dictionary<T, int>(_nodes.Count);
+            foreach (var node in _nodes)
+            {
+                distances[node.Label] = node.Weight;
+            }
+
+            return distances;
         }
 
     }

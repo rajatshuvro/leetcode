@@ -44,3 +44,9 @@
 /PyramidTransitionMatrix/obj
 /PyramidTransitionMatrix/bin/Debug/netcoreapp2.0
 /RedundantDirectedConnection/.vs/RedundantDirectedConnection/v15
+/UnitTests/bin/Debug/netcoreapp2.0
+/UnitTests/obj/Debug/netcoreapp2.0
+/UnitTests/obj
+/CountRangeSum/bin/Debug/netcoreapp2.0
+/CountRangeSum/obj/Debug/netcoreapp2.0
+/CountRangeSum/obj
