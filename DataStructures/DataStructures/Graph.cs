@@ -114,16 +114,21 @@ namespace DataStructures
             while (priorityQ.Count!=0)
             {
                 var minNode = priorityQ.GetMin();
+                minNode.Color = 'w';//indicating that these nodes are done
 
                 foreach (var neighbor in _neighbors[minNode])
                 {
+                    _nodes.TryGetValue(neighbor, out var neighborNode);
+
+                    if (neighborNode.Color == 'w') continue;
+
                     if (!_edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
                         throw new InvalidDataException($"failed to find edge to neighbor {minNode.Label}->{neighbor.Label}");
                     int edgeWeight = edge.Weight;
 
-                    if (neighbor.Weight > minNode.Weight + edgeWeight)
+                    if (neighborNode.Weight > minNode.Weight + edgeWeight)
                     {
-                        neighbor.Weight = minNode.Weight + edgeWeight;
+                        neighborNode.Weight = minNode.Weight + edgeWeight;
                     }
                 }
 
