@@ -11,15 +11,15 @@ namespace UnitTests
         {
             var edges = new List<Edge<int>>()
             {
-                new Edge<int>(new Node<int>(1), new Node<int>(2), 7),
-                new Edge<int>(new Node<int>(1), new Node<int>(3), 9),
-                new Edge<int>(new Node<int>(1), new Node<int>(6), 14),
-                new Edge<int>(new Node<int>(2), new Node<int>(3), 10),
-                new Edge<int>(new Node<int>(2), new Node<int>(4), 15),
-                new Edge<int>(new Node<int>(3), new Node<int>(4), 11),
-                new Edge<int>(new Node<int>(3), new Node<int>(6), 2),
-                new Edge<int>(new Node<int>(4), new Node<int>(5), 6),
-                new Edge<int>(new Node<int>(5), new Node<int>(6), 9)
+                new Edge<int>(new Node<int>(1), new Node<int>(2),false,  7),
+                new Edge<int>(new Node<int>(1), new Node<int>(3),false,  9),
+                new Edge<int>(new Node<int>(1), new Node<int>(6), false, 14),
+                new Edge<int>(new Node<int>(2), new Node<int>(3), false, 10),
+                new Edge<int>(new Node<int>(2), new Node<int>(4), false, 15),
+                new Edge<int>(new Node<int>(3), new Node<int>(4), false, 11),
+                new Edge<int>(new Node<int>(3), new Node<int>(6), false, 2),
+                new Edge<int>(new Node<int>(4), new Node<int>(5), false, 6),
+                new Edge<int>(new Node<int>(5), new Node<int>(6), false, 9)
             };
 
             var graph = new Graph<int>(false, edges);
@@ -32,7 +32,7 @@ namespace UnitTests
             var graph = GetGraph();
 
             Assert.Equal(6,graph.NumNodes);
-            Assert.Equal(9*2, graph.NumEdges);
+            Assert.Equal(9, graph.NumEdges);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace UnitTests
         {
             var graph = GetGraph();
 
-            var distances = graph.GetShortestDistancesFrom(new Node<int>(1));
+            var distances = graph.GetShortestDistancesFrom(1);
 
             Assert.Equal(0, distances[1]);
             Assert.Equal(7, distances[2]);

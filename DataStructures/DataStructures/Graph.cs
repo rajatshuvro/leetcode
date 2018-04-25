@@ -38,12 +38,14 @@ namespace DataStructures
         public readonly Node<T> Source;
         public readonly Node<T> Destination;
         public int Weight;
+        public readonly bool IsDirected;
 
-        public Edge(Node<T> source, Node<T> destination, int weight = 0)
+        public Edge(Node<T> source, Node<T> destination, bool isDirected=false, int weight = 0)
         {
             Source = source;
             Destination = destination;
             Weight = weight;
+            IsDirected = isDirected;
         }
 
         public override int GetHashCode()
@@ -54,7 +56,8 @@ namespace DataStructures
 
         public bool Equals(Edge<T> other)
         {
-            return Source.Equals(other.Source) && Destination.Equals(other.Destination);
+            return IsDirected? Source.Equals(other.Source) && Destination.Equals(other.Destination) :
+                Source.Equals(other.Source) && Destination.Equals(other.Destination)|| Source.Equals(other.Destination) && Destination.Equals(other.Source);
         }
     }
 
@@ -83,10 +86,7 @@ namespace DataStructures
 
                 AddNeighbor(edge.Source, edge.Destination);
 
-                if (isDirected) continue;
-
-                _edges.Add(new Edge<T>(edge.Destination, edge.Source, edge.Weight));
-                AddNeighbor(edge.Destination, edge.Source);
+                if (! isDirected) AddNeighbor(edge.Destination, edge.Source);
             }
             
         }
@@ -101,17 +101,33 @@ namespace DataStructures
 
         }
 
-        public Dictionary<T, int> GetShortestDistancesFrom(Node<T> source)
+        public Dictionary<T, int> GetShortestDistancesFrom(T sourceLabel)
         {
+            RunDijkstraFrom(sourceLabel);
+
+            var distances = new Dictionary<T, int>(_nodes.Count);
+            foreach (var node in _nodes)
+            {
+                distances[node.Label] = node.Weight;
+            }
+
+            return distances;
+        }
+
+        public IReadOnlyDictionary<Node<T>, Node<T>> RunDijkstraFrom(T src)
+        {
+            if (!_nodes.TryGetValue(new Node<T>(src), out var source)) return null;
+
+            var predecessors = new Dictionary<Node<T>, Node<T>>();//keeps track of the shortest path predecessor
             //using Dijkstra's algorithm
             var priorityQ = new MinHeap<Node<T>>();
             foreach (var node in _nodes)
             {
                 node.Weight = source.Equals(node) ? 0 : int.MaxValue;
                 priorityQ.Add(node);
+                predecessors[source] = null;
             }
-
-            while (priorityQ.Count!=0)
+            while (priorityQ.Count != 0)
             {
                 var minNode = priorityQ.GetMin();
                 minNode.Color = 'w';//indicating that these nodes are done
@@ -129,19 +145,13 @@ namespace DataStructures
                     if (neighborNode.Weight > minNode.Weight + edgeWeight)
                     {
                         neighborNode.Weight = minNode.Weight + edgeWeight;
+                        predecessors[neighborNode] = minNode;
                     }
                 }
 
                 priorityQ.ExtractMin();
             }
-
-            var distances = new Dictionary<T, int>(_nodes.Count);
-            foreach (var node in _nodes)
-            {
-                distances[node.Label] = node.Weight;
-            }
-
-            return distances;
+            return predecessors;
         }
 
     }
