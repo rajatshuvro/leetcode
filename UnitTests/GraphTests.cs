@@ -49,5 +49,15 @@ namespace UnitTests
             Assert.Equal(20, distances[5]);
             Assert.Equal(11, distances[6]);
         }
+
+        [Fact]
+        public void GetShortestPath()
+        {
+            var graph = GetGraph();
+
+            var shortestPath = graph.GetShortestPath(1,6);
+
+            Assert.Equal(new [] {1,3,6}, shortestPath);
+        }
     }
 }

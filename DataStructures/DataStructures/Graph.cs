@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace DataStructures
 {
@@ -103,7 +104,7 @@ namespace DataStructures
 
         public Dictionary<T, int> GetShortestDistancesFrom(T sourceLabel)
         {
-            RunDijkstraFrom(sourceLabel);
+            if (RunDijkstraFrom(sourceLabel)==null) return null;
 
             var distances = new Dictionary<T, int>(_nodes.Count);
             foreach (var node in _nodes)
@@ -112,6 +113,36 @@ namespace DataStructures
             }
 
             return distances;
+        }
+
+        public  IReadOnlyList<T> GetShortestPath(T sourceLabel, T destLabel)
+        {
+            if (sourceLabel.Equals(destLabel)) return new List<T>(){sourceLabel};
+
+            var predecessors = RunDijkstraFrom(sourceLabel);
+            if ( predecessors == null) return null;
+
+            var path = new List<T>(){destLabel};
+            if (!_nodes.TryGetValue(new Node<T>(destLabel), out var currentNode)) return null;
+
+            while (!currentNode.Label.Equals(sourceLabel))
+            {
+                currentNode = predecessors[currentNode];
+                path.Add(currentNode.Label);
+            }
+            path.Reverse();
+
+            return path;
+        }
+
+        public Graph<T> GetShortestPathTree(T sourceLabel)
+        {
+            var predecessors = RunDijkstraFrom(sourceLabel);
+            if (predecessors == null) return null;
+
+            var treeEdges = predecessors.Select(kvp => new Edge<T>(kvp.Key, kvp.Value)).ToList();
+
+            return new Graph<T>(false, treeEdges);
         }
 
         public IReadOnlyDictionary<Node<T>, Node<T>> RunDijkstraFrom(T src)
