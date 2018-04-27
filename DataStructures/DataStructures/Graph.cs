@@ -94,11 +94,12 @@ namespace DataStructures
 
         private void AddNeighbor(Node<T> source, Node<T> destination)
         {
+            _nodes.TryGetValue(destination, out var destNode);
             if (_neighbors.TryGetValue(source, out var neighbors))
             {
-                neighbors.Add(destination);
+                neighbors.Add(destNode);
             }
-            else _neighbors[source] = new HashSet<Node<T>>{ destination };
+            else _neighbors[source] = new HashSet<Node<T>>{ destNode };
 
         }
 
@@ -187,7 +188,31 @@ namespace DataStructures
 
         public bool IsBipartite()
         {
-            throw new NotImplementedException();
+            // we will color the nodes red and green
+            var nodeQ = new List<Node<T>>(){ _nodes.First() };
+            nodeQ[0].Color = 'r';
+
+            while (nodeQ.Count>0)
+            {
+                var currentNode = nodeQ[0];
+                nodeQ.RemoveAt(0);
+
+                foreach (var neighbor in _neighbors[currentNode])
+                {
+                    //_nodes.TryGetValue(neighbor, out var neighborNode);
+                    //if (currentNode.Color == neighborNode.Color) return false;
+                    //if (neighborNode.Color != 'b') continue;
+                    //neighborNode.Color = currentNode.Color == 'r' ? 'g' : 'r';
+                    //nodeQ.Add(neighborNode);
+                    if (currentNode.Color == neighbor.Color) return false;
+                    if (neighbor.Color != 'b') continue;
+                    neighbor.Color = currentNode.Color == 'r' ? 'g' : 'r';
+                    nodeQ.Add(neighbor);
+                }
+
+            }
+
+            return true;
         }
     }
 }
