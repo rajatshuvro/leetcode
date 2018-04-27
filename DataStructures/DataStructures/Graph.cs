@@ -185,5 +185,9 @@ namespace DataStructures
             return predecessors;
         }
 
+        public bool IsBipartite()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
