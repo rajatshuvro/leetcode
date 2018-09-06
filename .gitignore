@@ -52,3 +52,6 @@
 /CountRangeSum/obj
 /LeafSimilarTrees/bin/Debug/netcoreapp2.1
 /LeafSimilarTrees/obj
+/.vs/LeetCrawler/DesignTimeBuild
+/MaxAreaOfIsland/bin/Debug/netcoreapp2.1
+/MaxAreaOfIsland/obj

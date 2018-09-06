@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PyramidTransitionMatrix", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5D7F2FEA-AD96-4F0A-9469-FBDC0912800B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafSimilarTrees", "LeafSimilarTrees\LeafSimilarTrees.csproj", "{194C933F-CA97-436D-B914-2C54089F5037}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafSimilarTrees", "LeafSimilarTrees\LeafSimilarTrees.csproj", "{194C933F-CA97-436D-B914-2C54089F5037}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxAreaOfIsland", "MaxAreaOfIsland\MaxAreaOfIsland.csproj", "{D6D709C0-94EE-4DD0-8E1F-942935F1B821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{194C933F-CA97-436D-B914-2C54089F5037}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{194C933F-CA97-436D-B914-2C54089F5037}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{194C933F-CA97-436D-B914-2C54089F5037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
