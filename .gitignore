@@ -55,3 +55,5 @@
 /.vs/LeetCrawler/DesignTimeBuild
 /MaxAreaOfIsland/bin/Debug/netcoreapp2.1
 /MaxAreaOfIsland/obj
+/ReorderedPowerOfTwo/bin/Debug/netcoreapp2.1
+/ReorderedPowerOfTwo/obj

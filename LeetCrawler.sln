@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafSimilarTrees", "LeafSimilarTrees\LeafSimilarTrees.csproj", "{194C933F-CA97-436D-B914-2C54089F5037}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxAreaOfIsland", "MaxAreaOfIsland\MaxAreaOfIsland.csproj", "{D6D709C0-94EE-4DD0-8E1F-942935F1B821}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxAreaOfIsland", "MaxAreaOfIsland\MaxAreaOfIsland.csproj", "{D6D709C0-94EE-4DD0-8E1F-942935F1B821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReorderedPowerOfTwo", "ReorderedPowerOfTwo\ReorderedPowerOfTwo.csproj", "{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
