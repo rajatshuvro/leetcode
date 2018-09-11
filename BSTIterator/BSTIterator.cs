@@ -15,65 +15,79 @@ namespace BSTIterator
     {
         private List<TreeNode> _ancestors= new List<TreeNode>();
         // node status can be
-        // ------left-traversed (l) 
-        // ------right-traversed (r) 
-        private Dictionary<TreeNode, char> _nodeStatus = new Dictionary<TreeNode, char>();
+        // ---left-traversed (l) 
+        // ---right-traversed (r) 
+        private Dictionary<TreeNode, VisitStatus> _statuses = new Dictionary<TreeNode, VisitStatus>();
         private TreeNode _currentNode;
         public BSTIterator(TreeNode root)
         {
             _currentNode = root;
-            DiveLeft();
+            _statuses[_currentNode] = VisitStatus.Unvisited;
         }
 
-        private void DiveLeft()
+        private bool DiveLeft()
         {
+            //if node has been visited, we cannot visit its left subtree again
+            if (_statuses[_currentNode]==VisitStatus.LeftVisited) return false;
+            
+            var movedLeft = false;
+            _statuses[_currentNode] = VisitStatus.LeftVisited;
             while (_currentNode.left != null)
             {
-                _nodeStatus[_currentNode] = 'l';
+                movedLeft = true;
+                _statuses[_currentNode] = VisitStatus.LeftVisited;
                 _ancestors.Add(_currentNode);
                 _currentNode = _currentNode.left;
             }
+
+            return movedLeft;
         }
 
         /** @return whether we have a next smallest number */
         public bool HasNext()
         {
-
+            return !(_statuses[_currentNode] == VisitStatus.RightVisited && _ancestors.Count == 0);
         }
 
+        private enum VisitStatus:byte
+        {
+            Unvisited,
+            LeftVisited,
+            SelfVisited,
+            RightVisited
+        }
         /** @return the next smallest number */
         public int Next()
         {
-            if (_currentNode == null) return int.MinValue;
-
-            var value = _currentNode.val;
-
-            //move to next node
-            if (_currentNode.right != null && _nodeStatus[_currentNode]=='l')
+            
+            while (_currentNode != null)
             {
-                _ancestors.Add(_currentNode);
-                _nodeStatus[_currentNode] = 'r';
-                //var rightNode = _currentNode.right;
-                _currentNode = _currentNode.right;
+                if(DiveLeft()) break; //we were able to move left. So, the current node is the next one
 
-                DiveLeft();
-            }
-            else
-            {
-                while (_currentNode != null)
+                if (_statuses[_currentNode] != VisitStatus.SelfVisited) break;
+
+                //try to move right once and then down left since the next element is the leftmost leaf of the right subtree
+                
+                if (_currentNode.right != null && _statuses[_currentNode] != VisitStatus.RightVisited)
                 {
+                    _ancestors.Add(_currentNode);
+                    _currentNode = _currentNode.right;
+                    DiveLeft();
+                    _statuses[_currentNode] = VisitStatus.RightVisited;
+
+                }
+                else
+                {
+                    //move up the ancestry
+                    _currentNode = _ancestors[_ancestors.Count - 1];
+                    _ancestors.RemoveAt(_ancestors.Count-1);
                 }
 
-                _currentNode = _ancestors.Count > 0 ? _ancestors[_ancestors.Count - 1] : null;
-                _ancestors.RemoveAt(_ancestors.Count);
             }
-
-            return value;
+            _statuses[_currentNode] = VisitStatus.SelfVisited;
+            return _currentNode?.val ?? int.MinValue;
+            
         }
-
-        private bool IsLeaf(TreeNode node)
-        {
-            return node.left == null && node.right == null;
-        }
+       
     }
 }
