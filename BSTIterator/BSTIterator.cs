@@ -28,25 +28,27 @@ namespace BSTIterator
         private bool DiveLeft()
         {
             //if node has been visited, we cannot visit its left subtree again
-            if (_statuses[_currentNode]==VisitStatus.LeftVisited) return false;
+            if (_statuses[_currentNode]==VisitStatus.LeftVisited 
+                || _statuses[_currentNode] == VisitStatus.SelfVisited) return false;
             
             var movedLeft = false;
             _statuses[_currentNode] = VisitStatus.LeftVisited;
             while (_currentNode.left != null)
             {
                 movedLeft = true;
-                _statuses[_currentNode] = VisitStatus.LeftVisited;
                 _ancestors.Add(_currentNode);
                 _currentNode = _currentNode.left;
+                _statuses[_currentNode] = VisitStatus.LeftVisited;
             }
-
+            _statuses[_currentNode] = VisitStatus.SelfVisited;
             return movedLeft;
         }
 
         /** @return whether we have a next smallest number */
         public bool HasNext()
         {
-            return !(_statuses[_currentNode] == VisitStatus.RightVisited && _ancestors.Count == 0);
+            if (!_movedToNext) MoveToNext();
+            return _currentNode !=null;
         }
 
         private enum VisitStatus:byte
@@ -59,35 +61,59 @@ namespace BSTIterator
         /** @return the next smallest number */
         public int Next()
         {
-            
+            if (_movedToNext)
+                MoveToNext();
+
+            _movedToNext = false;
+            return _currentNode?.val ?? int.MinValue;
+        }
+
+        private bool _movedToNext = false;
+
+        private void MoveToNext()
+        {
+            if (_movedToNext) return;
+            _movedToNext = false;
             while (_currentNode != null)
             {
-                if(DiveLeft()) break; //we were able to move left. So, the current node is the next one
+                _statuses.TryAdd(_currentNode, VisitStatus.Unvisited);
 
-                if (_statuses[_currentNode] != VisitStatus.SelfVisited) break;
+                switch (_statuses[_currentNode])
+                {
+                    case VisitStatus.Unvisited:
+                        if(DiveLeft()) return;
+                        else continue;
+                    case VisitStatus.LeftVisited:
+                        _statuses[_currentNode] = VisitStatus.SelfVisited;
+                        return;
+                    case VisitStatus.SelfVisited:
+                        _statuses[_currentNode] = VisitStatus.RightVisited;
+                        if (_currentNode.right == null) continue;
 
-                //try to move right once and then down left since the next element is the leftmost leaf of the right subtree
+                        _ancestors.Add(_currentNode);
+                        _currentNode = _currentNode.right;
+                        DiveLeft();
+                        return;
+
+                    case VisitStatus.RightVisited:
+                        if (_ancestors.Count <= 0)
+                        {
+                            _currentNode = null;
+                        }
+                        else
+                        {
+                            _currentNode = _ancestors[_ancestors.Count - 1];
+                            _ancestors.RemoveAt(_ancestors.Count - 1);
+                        }
+                        break;
+
+                }
                 
-                if (_currentNode.right != null && _statuses[_currentNode] != VisitStatus.RightVisited)
-                {
-                    _ancestors.Add(_currentNode);
-                    _currentNode = _currentNode.right;
-                    DiveLeft();
-                    _statuses[_currentNode] = VisitStatus.RightVisited;
-
-                }
-                else
-                {
-                    //move up the ancestry
-                    _currentNode = _ancestors[_ancestors.Count - 1];
-                    _ancestors.RemoveAt(_ancestors.Count-1);
-                }
 
             }
-            _statuses[_currentNode] = VisitStatus.SelfVisited;
-            return _currentNode?.val ?? int.MinValue;
+
             
         }
-       
+
     }
 }
