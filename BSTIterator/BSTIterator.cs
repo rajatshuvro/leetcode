@@ -40,7 +40,7 @@ namespace BSTIterator
                 _currentNode = _currentNode.left;
                 _statuses[_currentNode] = VisitStatus.LeftVisited;
             }
-            _statuses[_currentNode] = VisitStatus.SelfVisited;
+            //_statuses[_currentNode] = VisitStatus.SelfVisited;
             return movedLeft;
         }
 
@@ -81,8 +81,10 @@ namespace BSTIterator
                 switch (_statuses[_currentNode])
                 {
                     case VisitStatus.Unvisited:
-                        if(DiveLeft()) return;
-                        else continue;
+                        DiveLeft();
+                        continue;
+                        //if(DiveLeft()) return;
+                        //else continue;
                     case VisitStatus.LeftVisited:
                         _statuses[_currentNode] = VisitStatus.SelfVisited;
                         return;
@@ -92,8 +94,9 @@ namespace BSTIterator
 
                         _ancestors.Add(_currentNode);
                         _currentNode = _currentNode.right;
-                        DiveLeft();
-                        return;
+                        continue;
+                        //DiveLeft();
+                        //return;
 
                     case VisitStatus.RightVisited:
                         if (_ancestors.Count <= 0)

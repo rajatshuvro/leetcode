@@ -37,7 +37,7 @@ namespace BSTIterator
                 Console.WriteLine("Failed to get next in UT 2");
                 return false;
             }
-            if (iterator.HasNext())
+            if (!iterator.HasNext())
             {
                 Console.WriteLine("Failed has next after extraction in UT 2");
                 return false;
@@ -47,7 +47,7 @@ namespace BSTIterator
                 Console.WriteLine("Failed to get next in UT 2");
                 return false;
             }
-            if (iterator.HasNext())
+            if (!iterator.HasNext())
             {
                 Console.WriteLine("Failed has next after extraction in UT 2");
                 return false;
@@ -57,7 +57,7 @@ namespace BSTIterator
                 Console.WriteLine("Failed to get next in UT 2");
                 return false;
             }
-            if (! iterator.HasNext())
+            if (iterator.HasNext())
             {
                 Console.WriteLine("Failed has next after extraction in UT 2");
                 return false;
