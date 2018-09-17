@@ -22,7 +22,8 @@ namespace BSTIterator
         public BSTIterator(TreeNode root)
         {
             _currentNode = root;
-            _statuses[_currentNode] = VisitStatus.Unvisited;
+            if (_currentNode!=null)
+                _statuses[_currentNode] = VisitStatus.Unvisited;
         }
 
         private bool DiveLeft()

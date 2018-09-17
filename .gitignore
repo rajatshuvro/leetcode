@@ -59,3 +59,5 @@
 /ReorderedPowerOfTwo/obj
 /BSTIterator/obj
 /BSTIterator/bin/Debug/netcoreapp2.1
+/BipartiteGraph/bin/Debug/netcoreapp2.0
+/BipartiteGraph/obj
