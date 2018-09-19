@@ -13,111 +13,36 @@ namespace BSTIterator
     //https://leetcode.com/problems/binary-search-tree-iterator/description/
     public class BSTIterator
     {
-        private List<TreeNode> _ancestors= new List<TreeNode>();
-        // node status can be
-        // ---left-traversed (l) 
-        // ---right-traversed (r) 
-        private Dictionary<TreeNode, VisitStatus> _statuses = new Dictionary<TreeNode, VisitStatus>();
-        private TreeNode _currentNode;
+        private List<TreeNode> _stack = new List<TreeNode>();
         public BSTIterator(TreeNode root)
         {
-            _currentNode = root;
-            if (_currentNode!=null)
-                _statuses[_currentNode] = VisitStatus.Unvisited;
-        }
-
-        private bool DiveLeft()
-        {
-            //if node has been visited, we cannot visit its left subtree again
-            if (_statuses[_currentNode]==VisitStatus.LeftVisited 
-                || _statuses[_currentNode] == VisitStatus.SelfVisited) return false;
-            
-            var movedLeft = false;
-            _statuses[_currentNode] = VisitStatus.LeftVisited;
-            while (_currentNode.left != null)
+            while (root != null)
             {
-                movedLeft = true;
-                _ancestors.Add(_currentNode);
-                _currentNode = _currentNode.left;
-                _statuses[_currentNode] = VisitStatus.LeftVisited;
+                _stack.Add(root);
+                root = root.left;
             }
-            //_statuses[_currentNode] = VisitStatus.SelfVisited;
-            return movedLeft;
         }
 
-        /** @return whether we have a next smallest number */
         public bool HasNext()
         {
-            if (!_movedToNext) MoveToNext();
-            return _currentNode !=null;
+            return _stack.Count > 0;
         }
 
-        private enum VisitStatus:byte
-        {
-            Unvisited,
-            LeftVisited,
-            SelfVisited,
-            RightVisited
-        }
-        /** @return the next smallest number */
         public int Next()
         {
-            if (_movedToNext)
-                MoveToNext();
+            var top = _stack[_stack.Count- 1];
+            _stack.RemoveAt(_stack.Count-1);
 
-            _movedToNext = false;
-            return _currentNode?.val ?? int.MinValue;
-        }
-
-        private bool _movedToNext = false;
-
-        private void MoveToNext()
-        {
-            if (_movedToNext) return;
-            _movedToNext = false;
-            while (_currentNode != null)
+            var result = top.val;
+            top = top.right;
+            while (top != null)
             {
-                _statuses.TryAdd(_currentNode, VisitStatus.Unvisited);
-
-                switch (_statuses[_currentNode])
-                {
-                    case VisitStatus.Unvisited:
-                        DiveLeft();
-                        continue;
-                        //if(DiveLeft()) return;
-                        //else continue;
-                    case VisitStatus.LeftVisited:
-                        _statuses[_currentNode] = VisitStatus.SelfVisited;
-                        return;
-                    case VisitStatus.SelfVisited:
-                        _statuses[_currentNode] = VisitStatus.RightVisited;
-                        if (_currentNode.right == null) continue;
-
-                        _ancestors.Add(_currentNode);
-                        _currentNode = _currentNode.right;
-                        continue;
-                        //DiveLeft();
-                        //return;
-
-                    case VisitStatus.RightVisited:
-                        if (_ancestors.Count <= 0)
-                        {
-                            _currentNode = null;
-                        }
-                        else
-                        {
-                            _currentNode = _ancestors[_ancestors.Count - 1];
-                            _ancestors.RemoveAt(_ancestors.Count - 1);
-                        }
-                        break;
-
-                }
-                
-
+                _stack.Add(top);
+                top = top.left;
             }
 
-            
+            return result;
         }
-
+        
     }
 }
