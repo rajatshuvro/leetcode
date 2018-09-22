@@ -5,29 +5,29 @@ namespace DataStructures
 {
     public sealed class MinHeap<T> where T : IComparable<T>
     {
-        private readonly List<T> _itemArray;
-        public int Count => _itemArray.Count;
-        public bool Contains(T x) => _itemArray.Contains(x);
+        private readonly List<T> _items;
+        public int Count => _items.Count;
+        public bool Contains(T x) => _items.Contains(x);
 
         public MinHeap()
         {
-            _itemArray = new List<T>();
+            _items = new List<T>();
         }
 
         public void Add(T item)
         {
-            _itemArray.Add(item);
+            _items.Add(item);
             Heapify();
         }
 
         private void Heapify()
         {
-            var i = _itemArray.Count - 1;
+            var i = _items.Count - 1;
             while (i > 0)
             {
                 var j = i % 2 == 0 ? i / 2 - 1 : i / 2;//the index of the parent
-                if (_itemArray[i].CompareTo(_itemArray[j]) < 0)
-                    SwapItems(_itemArray, i, j);
+                if (_items[i].CompareTo(_items[j]) < 0)
+                    SwapItems(_items, i, j);
 
                 i = j;
             }
@@ -35,23 +35,23 @@ namespace DataStructures
 
         public T ExtractMin()
         {
-            var min = _itemArray[0];
+            var min = _items[0];
 
             // the last item form the array is brought to the root and pushed down to the appropriate position
-            _itemArray[0] = _itemArray[_itemArray.Count - 1];
-            _itemArray.RemoveAt(_itemArray.Count - 1);
+            _items[0] = _items[_items.Count - 1];
+            _items.RemoveAt(_items.Count - 1);
 
 
-            for (var i = 0; i < _itemArray.Count / 2;)
+            for (var i = 0; i < _items.Count / 2;)
             {
                 var j = 2 * i + 1;
 
-                if (j + 1 < _itemArray.Count && _itemArray[j].CompareTo(_itemArray[j + 1]) > 0)
+                if (j + 1 < _items.Count && _items[j].CompareTo(_items[j + 1]) > 0)
                     // both children are present
                     j++; //A[2*i+2] is the smaller child
 
-                if (_itemArray[i].CompareTo(_itemArray[j]) > 0)
-                    SwapItems(_itemArray, i, j);
+                if (_items[i].CompareTo(_items[j]) > 0)
+                    SwapItems(_items, i, j);
 
                 i = j;
             }
@@ -67,15 +67,10 @@ namespace DataStructures
 
         public T GetMin()
         {
-            if (_itemArray.Count == 0)
+            if (_items.Count == 0)
                 return default(T);
-            return _itemArray[0];
+            return _items[0];
         }
-
-        public override string ToString()
-        {
-            return string.Join(",", _itemArray);
-
-        }
+        
     }
 }
