@@ -61,10 +61,12 @@ namespace DataStructures
             return min;
         }
 
-        public void Delete(T item)
+        public void Remove(T item)
         {
+            if (_items.Count == 0) return;
             int i= _items.Count-1;
-            while (i >=0 && _items[i].Equals(item)) i--;
+            while (i >=0 && !_items[i].Equals(item)) i--;
+            if (i < 0) return;
 
             SwapItems(_items, i, _items.Count - 1);
             _items.RemoveAt(_items.Count - 1);

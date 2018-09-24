@@ -8,6 +8,15 @@ namespace MedianFinder
 
         readonly MinHeap<int> _rightHalf = new MinHeap<int>();
 
+        //remove a number from the list
+        public void Remove(int num)
+        {
+            if (num <= _leftHalf.GetMax()) _leftHalf.Remove(num);
+            else if (num >= _rightHalf.GetMin()) _rightHalf.Remove(num);
+
+            BalanceHeaps();
+        }
+
         // Adds a num into the data structure.
         public void AddNum(int num)
         {
@@ -17,31 +26,32 @@ namespace MedianFinder
                 return;
             }
 
-            if (num <= _leftHalf.GetMax())
-                _leftHalf.Add(num);
-            else
-                _rightHalf.Add(num);
+            if (num <= _leftHalf.GetMax()) _leftHalf.Add(num);
+            else _rightHalf.Add(num);
 
-            //now we need to balance the two heaps
+            BalanceHeaps();
+        }
+
+        private void BalanceHeaps()
+        {
             while (_leftHalf.Count > _rightHalf.Count + 1)
             {
                 _rightHalf.Add(_leftHalf.ExtractMax());
                 return;
             }
-
-            while (_leftHalf.Count + 1 < _rightHalf.Count)
+            //the left heap cannot be empty if the right one has items
+            while (_leftHalf.Count < _rightHalf.Count)
             {
                 _leftHalf.Add(_rightHalf.ExtractMin());
                 return;
             }
-
         }
 
         // return the median of current data stream
         public double FindMedian()
         {
             if (_leftHalf.Count == _rightHalf.Count)
-                return (_leftHalf.GetMax() + _rightHalf.GetMin())*1.0 / 2;
+                return (_leftHalf.GetMax()*1.0 + _rightHalf.GetMin()*1.0) / 2;
 
             return _leftHalf.Count > _rightHalf.Count ? _leftHalf.GetMax() : _rightHalf.GetMin();
         }
