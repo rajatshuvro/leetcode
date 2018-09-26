@@ -13,12 +13,34 @@ namespace SlidingWindowMedian
             result &= UnitTest2();
             result &= UnitTest3();
             result &= UnitTest4();
-            //result &= UnitTest5();
+            result &= UnitTest5();
 
             if (result)
                 Console.WriteLine("Passed all unit tests");
 
             Console.Read();
+        }
+
+        private static bool UnitTest5()
+        {
+            var sol = new SlidingMedianFinder();
+            var medianVector = sol.MedianSlidingWindow(new[] { 7, 0, 3, 9, 9, 9, 1, 7, 2, 3 }, 6);
+            var expectedVector = new[] { 8, 6, 8, 8, 5 };
+
+            if (medianVector.Length != expectedVector.Length)
+            {
+                Console.WriteLine("failed unit test 5");
+                return false;
+            }
+
+            for (int i = 0; i < expectedVector.Length; i++)
+            {
+                if (medianVector[i] == expectedVector[i]) continue;
+                Console.WriteLine("failed unit test 5");
+                return false;
+            }
+
+            return true;
         }
 
         private static bool UnitTest4()
@@ -36,7 +58,7 @@ namespace SlidingWindowMedian
             for (int i = 0; i < expectedVector.Length; i++)
             {
                 if (medianVector[i] == expectedVector[i]) continue;
-                Console.WriteLine("failed unit test 4");
+                Console.WriteLine($"failed unit test 4 at index {i}");
                 return false;
             }
 

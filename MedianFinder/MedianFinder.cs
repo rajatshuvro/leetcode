@@ -9,12 +9,15 @@ namespace MedianFinder
         readonly MinHeap<int> _rightHalf = new MinHeap<int>();
 
         //remove a number from the list
-        public void Remove(int num)
+        public bool Remove(int num)
         {
-            if (num <= _leftHalf.GetMax()) _leftHalf.Remove(num);
-            else if (num >= _rightHalf.GetMin()) _rightHalf.Remove(num);
-
+            var result = false;
+            //if (num <= _leftHalf.GetMax()) result |=_leftHalf.Remove(num);
+            //else if (num >= _rightHalf.GetMin()) result |= _rightHalf.Remove(num);
+            result |= _leftHalf.Remove(num);
+            if (! result) result |= _rightHalf.Remove(num);
             BalanceHeaps();
+            return result;
         }
 
         // Adds a num into the data structure.

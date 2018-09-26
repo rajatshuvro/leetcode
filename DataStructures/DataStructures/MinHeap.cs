@@ -16,15 +16,15 @@ namespace DataStructures
         public void Add(T item)
         {
             _items.Add(item);
-            HeapifyUp();
+            HeapifyUp(Count -1);
         }
 
-        private void HeapifyUp()
+        private void HeapifyUp(int i)
         {
-            var i = _items.Count - 1;
             while (i > 0)
             {
                 var j = i % 2 == 0 ? i / 2 - 1 : i / 2;//the index of the parent
+                //if (j < 0) break;
                 if (_items[i].CompareTo(_items[j]) < 0)
                     SwapItems(_items, i, j);
                 else break;
@@ -54,24 +54,30 @@ namespace DataStructures
             var min = _items[0];
 
             // the last item form the array is brought to the root and pushed down to the appropriate position
-            _items[0] = _items[_items.Count - 1];
-            _items.RemoveAt(_items.Count - 1);
+            _items[0] = _items[Count - 1];
+            _items.RemoveAt(Count - 1);
 
             HeapifyDown(0);
             return min;
         }
 
-        public void Remove(T item)
+        public bool Remove(T item)
         {
-            if (_items.Count == 0) return;
-            int i= _items.Count-1;
+            if (Count == 0) return false;
+            int i= Count-1;
             while (i >=0 && !_items[i].Equals(item)) i--;
-            if (i < 0) return;
+            if (i < 0) return false;
 
-            SwapItems(_items, i, _items.Count - 1);
+            if (i != Count - 1)
+                SwapItems(_items, i, Count - 1);
+            else i--;
+
             _items.RemoveAt(_items.Count - 1);
 
+            if (Count < 2) return true;
             HeapifyDown(i);
+            HeapifyUp(i);
+            return true;
         }
         private static void SwapItems(IList<T> list, int i, int j)
         {
