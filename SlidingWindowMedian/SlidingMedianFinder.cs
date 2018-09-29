@@ -16,8 +16,6 @@
 
             for (int i = 1, j = k ; j < nums.Length; i++, j++)
             {
-                if (_medianFinder.Remove(nums[i-1])==false)
-                    Console.WriteLine("Failed to remove item!!");
                 _medianFinder.AddNum(nums[j]);
                 medians[i] = _medianFinder.FindMedian();
             }
