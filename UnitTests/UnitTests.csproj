@@ -16,10 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\DataStructures\DataStructures.csproj" />
     <ProjectReference Include="..\MaxAreaOfIsland\MaxAreaOfIsland.csproj" />
-    <ProjectReference Include="..\MedianFinder\MedianFinder.csproj" />
+    <ProjectReference Include="..\Problems\Problems.csproj" />
     <ProjectReference Include="..\ReorderedPowerOfTwo\ReorderedPowerOfTwo.csproj" />
-    <ProjectReference Include="..\RotatedSortedArraySearch\RotatedSortedArraySearch.csproj" />
-    <ProjectReference Include="..\SlidingWindowMedian\SlidingWindowMedian.csproj" />
   </ItemGroup>
 
 </Project>

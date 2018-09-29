@@ -1,8 +1,8 @@
-﻿namespace SlidingWindowMedian
+﻿namespace Problems
 {
     public class SlidingMedianFinder
     {
-        private readonly MedianFinder.MedianFinder _medianFinder = new MedianFinder.MedianFinder();
+        private readonly MedianFinder _medianFinder = new MedianFinder();
         public double[] MedianSlidingWindow(int[] nums, int k)
         {
             if (k > nums.Length) return null;

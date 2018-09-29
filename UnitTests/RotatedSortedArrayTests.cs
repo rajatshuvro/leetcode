@@ -1,4 +1,4 @@
-﻿using RotatedSortedArraySearch;
+﻿using Problems;
 using Xunit;
 
 namespace UnitTests

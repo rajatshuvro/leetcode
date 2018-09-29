@@ -1,6 +1,6 @@
 ﻿using DataStructures;
 
-namespace MedianFinder
+namespace Problems
 {
     public class MedianFinder
     {

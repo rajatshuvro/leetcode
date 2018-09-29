@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿using Problems;
 using Xunit;
 
 namespace UnitTests
@@ -9,7 +8,7 @@ namespace UnitTests
         [Fact]
         public void MedianFinderBasic()
         {
-            var medianFinder = new MedianFinder.MedianFinder();
+            var medianFinder = new MedianFinder();
 
             medianFinder.AddNum(1);
             medianFinder.AddNum(2);

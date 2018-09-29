@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RotatedSortedArraySearch
+namespace Problems
 {
     public class RotatedSortedArray
     {
