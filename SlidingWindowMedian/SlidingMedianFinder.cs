@@ -1,7 +1,4 @@
-﻿using System;
-using MedianFinder;
-
-namespace SlidingWindowMedian
+﻿namespace SlidingWindowMedian
 {
     public class SlidingMedianFinder
     {

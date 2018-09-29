@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -15,6 +15,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\DataStructures\DataStructures.csproj" />
+    <ProjectReference Include="..\MaxAreaOfIsland\MaxAreaOfIsland.csproj" />
+    <ProjectReference Include="..\MedianFinder\MedianFinder.csproj" />
+    <ProjectReference Include="..\ReorderedPowerOfTwo\ReorderedPowerOfTwo.csproj" />
+    <ProjectReference Include="..\RotatedSortedArraySearch\RotatedSortedArraySearch.csproj" />
+    <ProjectReference Include="..\SlidingWindowMedian\SlidingWindowMedian.csproj" />
   </ItemGroup>
 
 </Project>
