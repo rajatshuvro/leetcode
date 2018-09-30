@@ -14,8 +14,9 @@
 
             medians[0] = _medianFinder.FindMedian();
 
-            for (int i = 1, j = k ; j < nums.Length; i++, j++)
+            for (int i = 1, j = k; j < nums.Length; i++, j++)
             {
+                _medianFinder.Remove(nums[i - 1]);
                 _medianFinder.AddNum(nums[j]);
                 medians[i] = _medianFinder.FindMedian();
             }

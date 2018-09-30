@@ -18,22 +18,26 @@ namespace DataStructures
             HeapifyUp(Count-1);
         }
 
-        public bool Remove(T item)
+        
+        public bool Remove(T x, int i=0)
         {
-            if (Count == 0) return false;
-            int i = Count - 1;
-            while (i >= 0 && !_items[i].Equals(item)) i--;
-            if (i < 0) return false;
+            if (i >= Count) return false;
+            //if x is greater than the root, it doesn't exist in the heap
+            int comparison = x.CompareTo(_items[i]);
+            if ( comparison > 0) return false;
 
-            if (i != Count - 1)
-                SwapItems(_items, i, Count - 1);
-            else i--;
-            _items.RemoveAt(Count-1);
+            if (comparison == 0)
+            {
+                _items[i] = _items[_items.Count - 1];
+                _items.RemoveAt(_items.Count - 1);
+                HeapifyDown(i);
+                HeapifyUp(i);
+                return true;
+            }
 
-            if (Count < 2) return true;
-            HeapifyDown(i);
-            HeapifyUp(i);
-            return true;
+            if (Remove(x, 2 * i+1)) return true;
+            return Remove(x, 2 * i + 2);
+
         }
 
         private void HeapifyDown(int i)
@@ -55,10 +59,10 @@ namespace DataStructures
 
         private void HeapifyUp(int i)
         {
-            while (i > 0)
+            while (i > 0 && i < Count)
             {
                 var j = i % 2 == 0 ? i / 2 - 1 : i / 2;//the index of the parent
-                //if (j < 0) break;
+                if (j < 0) break;
                 if (_items[i].CompareTo(_items[j]) > 0)
                     SwapItems(_items, i, j);
                 else break;
