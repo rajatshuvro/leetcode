@@ -151,7 +151,7 @@ namespace DataStructures
 
             var predecessors = new Dictionary<Node<T>, Node<T>>();//keeps track of the shortest path predecessor
             //using Dijkstra's algorithm
-            var priorityQ = new MinHeap<Node<T>>();
+            var priorityQ = new MinHeap<Node<T>>(new Node<T>(default(T)));
             foreach (var node in _nodes)
             {
                 node.Weight = source.Equals(node) ? 0 : int.MaxValue;

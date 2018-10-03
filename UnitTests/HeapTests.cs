@@ -9,7 +9,7 @@ namespace UnitTests
         [Fact]
         public void BasicMinHeapTests()
         {
-            var minHeap = new MinHeap<int>();
+            var minHeap = new MinHeap<int>(int.MinValue);
 
             minHeap.Add(4);
             minHeap.Add(3);
@@ -28,7 +28,7 @@ namespace UnitTests
         [Fact]
         public void BasicMaxHeapTest()
         {
-            var maxHeap = new MaxHeap<int>();
+            var maxHeap = new MaxHeap<int>(int.MaxValue);
 
             maxHeap.Add(4);
             maxHeap.Add(3);

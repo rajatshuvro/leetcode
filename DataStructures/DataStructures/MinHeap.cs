@@ -7,10 +7,12 @@ namespace DataStructures
     {
         private readonly List<T> _items;
         public int Count => _items.Count;
+        private T _minValue;
 
-        public MinHeap()
+        public MinHeap(T minValue)
         {
             _items = new List<T>();
+            _minValue = minValue;
         }
 
         public void Add(T item)
@@ -64,22 +66,19 @@ namespace DataStructures
         public bool Remove(T x, int i=0)
         {
             if (i >= Count) return false;
-            //if x is greater than the root, it doesn't exist in the heap
+            //if x is smaller than the root, it doesn't exist in the heap
             int comparison = x.CompareTo(_items[i]);
             if (comparison < 0) return false;
 
             if (comparison == 0)
             {
-                _items[i] = _items[_items.Count - 1];
-                _items.RemoveAt(_items.Count - 1);
-                HeapifyDown(i);
+                _items[i] = _minValue;
                 HeapifyUp(i);
+                ExtractMin();
                 return true;
             }
 
-            if (Remove(x, 2 * i+1)) return true;
-            return Remove(x, 2 * i + 2);
-
+            return Remove(x, 2 * i+1) || Remove(x, 2 * i + 2);
         }
         private static void SwapItems(IList<T> list, int i, int j)
         {

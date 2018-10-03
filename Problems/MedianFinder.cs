@@ -4,9 +4,9 @@ namespace Problems
 {
     public class MedianFinder
     {
-        readonly MaxHeap<int> _leftHalf = new MaxHeap<int>();
+        readonly MaxHeap<int> _leftHalf = new MaxHeap<int>(int.MaxValue);
 
-        readonly MinHeap<int> _rightHalf = new MinHeap<int>();
+        readonly MinHeap<int> _rightHalf = new MinHeap<int>(int.MinValue);
 
         //remove a number from the list
         public bool Remove(int num)

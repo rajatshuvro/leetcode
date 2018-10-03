@@ -6,10 +6,12 @@ namespace DataStructures
     public class MaxHeap<T> where T : IComparable<T>
     {
         private readonly List<T> _items;
+        private readonly T _maxValue;
         public int Count => _items.Count;
-        public MaxHeap()
+        public MaxHeap(T maxValue)
         {
             _items = new List<T>();
+            _maxValue = maxValue;
         }
 
         public void Add(T item)
@@ -28,16 +30,13 @@ namespace DataStructures
 
             if (comparison == 0)
             {
-                _items[i] = _items[_items.Count - 1];
-                _items.RemoveAt(_items.Count - 1);
-                HeapifyDown(i);
+                _items[i] = _maxValue;
                 HeapifyUp(i);
+                ExtractMax();
                 return true;
             }
 
-            if (Remove(x, 2 * i+1)) return true;
-            return Remove(x, 2 * i + 2);
-
+            return Remove(x, 2 * i+1) || Remove(x, 2 * i + 2);
         }
 
         private void HeapifyDown(int i)
