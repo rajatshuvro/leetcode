@@ -1,58 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using DataStructures;
 
 namespace Problems
 {
-    public class LfuItem:IComparable<LfuItem>
+    public class LruItem : IComparable<LruItem>
     {
         public readonly int Key;
         private int _value;
-        private int _frequency;
         private int _accessTime;
 
-        public LfuItem(int key, int value, int time)
+        public LruItem(int key, int value, int time)
         {
             Key = key;
             _value = value;
             _accessTime = time;
-            _frequency = 1;
         }
 
         public int GetValue(int time)
         {
-            _frequency++;
             _accessTime = time;
             return _value;
         }
 
-        public int CompareTo(LfuItem other)
+        public int CompareTo(LruItem other)
         {
-            var comparison = _frequency.CompareTo(other._frequency);
-            return comparison != 0 ? comparison : _accessTime.CompareTo(other._accessTime);
+            return  _accessTime.CompareTo(other._accessTime);
         }
 
         public void UpdateValue(int value, int time)
         {
             _value = value;
-            _frequency++;
             _accessTime = time;
         }
     }
 
-    public class LFUCache
+    public class LRUCache
     {
         private readonly int _capacity;
-        private readonly Dictionary<int, LfuItem> _items;
-
+        private readonly Dictionary<int, LruItem> _items;
         private int _time;
-        public LFUCache(int capacity)
+
+        public LRUCache(int capacity)
         {
             _capacity = capacity;
             _time = 0;
-            _items = new Dictionary<int, LfuItem>(capacity);
+            _items = new Dictionary<int, LruItem>(capacity);
         }
 
         public int Get(int key)
@@ -82,7 +75,7 @@ namespace Problems
                 _items.Remove(item.Key);
             }
 
-            _items.Add(key, new LfuItem(key, value, _time));
+            _items.Add(key, new LruItem(key, value, _time));
 
         }
     }
