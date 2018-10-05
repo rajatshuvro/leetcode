@@ -1,4 +1,6 @@
-﻿namespace DataStructures
+﻿using System.Threading;
+
+namespace DataStructures
 {
     public class DoublyLinkedItem<T>
     {
@@ -6,11 +8,11 @@
         public DoublyLinkedItem<T> Left;
         public DoublyLinkedItem<T> Right;
 
-        public DoublyLinkedItem(T value, DoublyLinkedItem<T> left, DoublyLinkedItem<T> right)
+        public DoublyLinkedItem(T value)
         {
             Value = value;
-            Left = left;
-            Right = right;
+            Left = null;
+            Right = null;
         }
     }
 
@@ -18,9 +20,11 @@
     {
         private DoublyLinkedItem<T> _leftMostItem;
         private DoublyLinkedItem<T> _rightMostItem;
+        public int Count { get; private set; }
 
         public void AddAtLeftEnd(DoublyLinkedItem<T> item)
         {
+            Count++;
             if (_leftMostItem == null)
             {
                 _leftMostItem = item;
@@ -34,6 +38,7 @@
 
         public void AddAtRightEnd(DoublyLinkedItem<T> item)
         {
+            Count++;
             if (_rightMostItem == null)
             {
                 _leftMostItem = item;
@@ -52,6 +57,7 @@
             var item = _leftMostItem;
             _leftMostItem = _leftMostItem.Right;
             if (_leftMostItem == null) _rightMostItem = null;
+            Count--;
             return item;
         }
 
@@ -62,6 +68,7 @@
             var item = _rightMostItem;
             _rightMostItem = _rightMostItem.Left;
             if (_rightMostItem == null) _leftMostItem = null;
+            Count--;
             return item;
         }
 
