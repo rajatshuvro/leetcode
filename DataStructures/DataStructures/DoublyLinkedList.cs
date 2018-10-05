@@ -18,56 +18,62 @@ namespace DataStructures
 
     public class DoublyLinkedList<T> 
     {
-        private DoublyLinkedItem<T> _leftMostItem;
-        private DoublyLinkedItem<T> _rightMostItem;
+        public DoublyLinkedItem<T> LeftMostItem { get; private set; }
+        public DoublyLinkedItem<T> RightMostItem { get; private set; }
         public int Count { get; private set; }
 
         public void AddAtLeftEnd(DoublyLinkedItem<T> item)
         {
             Count++;
-            if (_leftMostItem == null)
+            if (LeftMostItem == null)
             {
-                _leftMostItem = item;
-                _rightMostItem = item;
+                LeftMostItem = item;
+                RightMostItem = item;
                 return;
             }
 
-            item.Right = _leftMostItem;
-            _leftMostItem = item;
+            item.Right = LeftMostItem;
+            LeftMostItem.Left = item;
+            LeftMostItem = item;
         }
 
         public void AddAtRightEnd(DoublyLinkedItem<T> item)
         {
             Count++;
-            if (_rightMostItem == null)
+            if (RightMostItem == null)
             {
-                _leftMostItem = item;
-                _rightMostItem = item;
+                LeftMostItem = item;
+                RightMostItem = item;
                 return;
             }
 
-            item.Left = _rightMostItem;
-            _rightMostItem = item;
+            item.Left = RightMostItem;
+            RightMostItem.Right = item;
+            RightMostItem = item;
         }
 
         public DoublyLinkedItem<T> RemoveFromLeftEnd()
         {
-            if (_leftMostItem == null) return null;
+            if (LeftMostItem == null) return null;
 
-            var item = _leftMostItem;
-            _leftMostItem = _leftMostItem.Right;
-            if (_leftMostItem == null) _rightMostItem = null;
+            var item = LeftMostItem;
+            LeftMostItem = LeftMostItem.Right;
+            if (LeftMostItem == null) RightMostItem = null;
+            else LeftMostItem.Left = null;
+
             Count--;
             return item;
         }
 
         public DoublyLinkedItem<T> RemoveFromRightEnd()
         {
-            if (_rightMostItem== null) return null;
+            if (RightMostItem== null) return null;
 
-            var item = _rightMostItem;
-            _rightMostItem = _rightMostItem.Left;
-            if (_rightMostItem == null) _leftMostItem = null;
+            var item = RightMostItem;
+            RightMostItem = RightMostItem.Left;
+            if (RightMostItem == null) LeftMostItem = null;
+            else RightMostItem.Right = null;
+
             Count--;
             return item;
         }
@@ -78,14 +84,16 @@ namespace DataStructures
 
             var right = item.Right;
             var left = item.Left;
+            if (LeftMostItem == item) LeftMostItem = right;
             item.Right = right.Right;
             item.Left = right;
+            if (item.Right != null) item.Right.Left = item;
 
             right.Right = item;
             right.Left = left;
 
             if (left!=null) left.Right = right;
-            if (item.Right == null) _rightMostItem = item;
+            if (item.Right == null) RightMostItem = item;
         }
 
         public void MoveLeft(DoublyLinkedItem<T> item)
@@ -94,14 +102,16 @@ namespace DataStructures
 
             var right = item.Right;
             var left = item.Left;
+            if (RightMostItem == item) RightMostItem = left;
             item.Right = left;
             item.Left = left.Left;
+            if (item.Left != null) item.Left.Right = item;
 
             left.Right = right;
-            right.Left = item;
+            left.Left = item;
 
             if (right != null) right.Left = left;
-            if (item.Left == null) _leftMostItem = item;
+            if (item.Left == null) LeftMostItem = item;
         }
 
     }
