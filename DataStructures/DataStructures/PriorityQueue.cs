@@ -34,7 +34,14 @@ namespace DataStructures
             if (_items.ContainsKey(x)) return false;
 
             var item = new DoublyLinkedItem<T>(x);
-            if (FirstItem != null && item.Value.CompareTo(FirstItem.Value) >= 0) AddAtBegin(item);
+            _items.Add(x, item);
+            if (FirstItem == null)
+            {
+                AddAtBegin(item);
+                return true;
+            }
+
+            if (item.Value.CompareTo(FirstItem.Value) >= 0) AddAtBegin(item);
             else
             {
                 AddAtEnd(item);
@@ -112,7 +119,9 @@ namespace DataStructures
         public T ExtractFirst()
         {
             if (Count == 0) return NullValue;
-            return ExtractFirstItem().Value;
+            var first = ExtractFirstItem().Value;
+            _items.Remove(first);
+            return first;
         }
 
         private DoublyLinkedItem<T> ExtractFirstItem()
@@ -131,7 +140,9 @@ namespace DataStructures
         public T ExtractLast()
         {
             if (Count == 0) return NullValue;
-            return ExtractLastItem().Value;
+            var last = ExtractLastItem().Value;
+            _items.Remove(last);
+            return last;
         }
 
         private DoublyLinkedItem<T> ExtractLastItem()
