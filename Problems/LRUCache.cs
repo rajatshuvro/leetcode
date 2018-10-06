@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataStructures;
 
 namespace Problems
 {
@@ -8,30 +9,30 @@ namespace Problems
     {
         public readonly int Key;
         private int _value;
-        private int _accessTime;
+        public int AccessTime { get; private set; }
 
         public LruItem(int key, int value, int time)
         {
             Key = key;
             _value = value;
-            _accessTime = time;
+            AccessTime = time;
         }
 
         public int GetValue(int time)
         {
-            _accessTime = time;
+            AccessTime = time;
             return _value;
         }
 
         public int CompareTo(LruItem other)
         {
-            return  _accessTime.CompareTo(other._accessTime);
+            return  AccessTime.CompareTo(other.AccessTime);
         }
 
         public void UpdateValue(int value, int time)
         {
             _value = value;
-            _accessTime = time;
+            AccessTime = time;
         }
     }
 
@@ -39,13 +40,15 @@ namespace Problems
     {
         private readonly int _capacity;
         private readonly Dictionary<int, LruItem> _items;
+        private readonly PriorityQueue<LruItem> _priorityQueue;
         private int _time;
 
         public LRUCache(int capacity)
         {
             _capacity = capacity;
             _time = 0;
-            _items = new Dictionary<int, LruItem>(capacity);
+            _items =new Dictionary<int, LruItem>(capacity);
+            _priorityQueue = new PriorityQueue<LruItem>(new LruItem(int.MinValue, int.MinValue, int.MinValue));
         }
 
         public int Get(int key)
@@ -53,7 +56,9 @@ namespace Problems
             if (_items.TryGetValue(key, out var item))
             {
                 _time++;
-                return item.GetValue(_time);
+                var val= item.GetValue(_time);
+                _priorityQueue.UpdatePriority(item);
+                return val;
             }
             return -1;
         }
@@ -63,19 +68,23 @@ namespace Problems
             if (_capacity == 0) return;
             _time++;
 
-            if (_items.ContainsKey(key))
+            if (_items.TryGetValue(key, out var item))
             {
-                _items[key].UpdateValue(value, _time);
+                item.UpdateValue(value, _time);
+                _priorityQueue.UpdatePriority(_items[key]);
                 return;
             }
 
             if (_capacity <= _items.Count)
             {
-                var item = _items.Values.Min();
-                _items.Remove(item.Key);
+                var lruItem = _priorityQueue.ExtractLast();
+                _items.Remove(lruItem.Key);
             }
 
-            _items.Add(key, new LruItem(key, value, _time));
+            var newItem = new LruItem(key, value, _time);
+
+            _items.Add(key, newItem);
+            _priorityQueue.TryAdd(newItem);
 
         }
     }
