@@ -51,6 +51,24 @@ namespace DataStructures
             return true;
         }
 
+        public void AddAtBegin(T x)
+        {
+            if (_items.ContainsKey(x)) return ;
+            var item = new DoublyLinkedItem<T>(x);
+            _items.Add(x, item);
+            AddAtBegin(item);
+            Prioritize(item);
+        }
+
+        public void AddAtEnd(T x)
+        {
+            if (_items.ContainsKey(x)) return;
+            var item = new DoublyLinkedItem<T>(x);
+            _items.Add(x, item);
+            AddAtEnd(item);
+            Prioritize(item);
+        }
+
         public bool Contains(T x)
         {
             return _items.ContainsKey(x);

@@ -89,7 +89,7 @@ namespace Problems
             var newItem = new LfuItem(key, value, _time);
 
             _items.Add(key, newItem);
-            _priorityQueue.TryAdd(newItem);
+            _priorityQueue.AddAtEnd(newItem);
 
         }
     }
