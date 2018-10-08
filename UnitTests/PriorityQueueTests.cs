@@ -65,6 +65,22 @@ namespace UnitTests
 
         }
 
-       
+        [Fact]
+        public void MoveToBegin()
+        {
+            var priorityQueue = new PriorityQueue<int>(int.MinValue);
+
+            priorityQueue.TryAdd(1);
+            priorityQueue.TryAdd(2);
+            priorityQueue.TryAdd(3);
+            priorityQueue.TryAdd(4);
+            priorityQueue.TryAdd(5);
+            priorityQueue.TryAdd(6);
+
+            priorityQueue.Remove(4);
+            Assert.Equal(5, priorityQueue.Count);
+            priorityQueue.MoveToBegin(3);
+            Assert.Equal(3, priorityQueue.ExtractFirst());
+        }
     }
 }

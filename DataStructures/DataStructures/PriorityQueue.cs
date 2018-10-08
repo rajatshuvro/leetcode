@@ -94,6 +94,23 @@ namespace DataStructures
             _items.Remove(x);
         }
 
+        public bool MoveToBegin(T x)
+        {
+            if (!_items.TryGetValue(x, out var item)) return false;
+            Remove(item);
+            AddAtBegin(item);
+            return true;
+        }
+
+        public bool MoveToEnd(T x)
+        {
+            if (!_items.TryGetValue(x, out var item)) return false;
+            Remove(item);
+            AddAtEnd(item);
+            return true;
+        }
+
+
         private void Remove(DoublyLinkedItem<T> item)
         {
             if (item == FirstItem)
