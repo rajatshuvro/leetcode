@@ -46,13 +46,14 @@ namespace Problems
     {
         private readonly int _capacity;
         private readonly Dictionary<int, LfuItem> _items;
-
+        private readonly PriorityQueue<LfuItem> _priorityQueue;
         private int _time;
         public LFUCache(int capacity)
         {
             _capacity = capacity;
             _time = 0;
             _items = new Dictionary<int, LfuItem>(capacity);
+            _priorityQueue = new PriorityQueue<LfuItem>(new LfuItem(-1, -1, -1));
         }
 
         public int Get(int key)
@@ -60,7 +61,9 @@ namespace Problems
             if (_items.TryGetValue(key, out var item))
             {
                 _time++;
-                return item.GetValue(_time);
+                var val = item.GetValue(_time);
+                _priorityQueue.UpdatePriority(item);
+                return val;
             }
             return -1;
         }
@@ -70,19 +73,23 @@ namespace Problems
             if (_capacity == 0) return;
             _time++;
 
-            if (_items.ContainsKey(key))
+            if (_items.TryGetValue(key, out var item))
             {
-                _items[key].UpdateValue(value, _time);
+                item.UpdateValue(value, _time);
+                _priorityQueue.UpdatePriority(item);
                 return;
             }
 
             if (_capacity <= _items.Count)
             {
-                var item = _items.Values.Min();
-                _items.Remove(item.Key);
+                var lfuItem = _priorityQueue.ExtractLast();
+                _items.Remove(lfuItem.Key);
             }
 
-            _items.Add(key, new LfuItem(key, value, _time));
+            var newItem = new LfuItem(key, value, _time);
+
+            _items.Add(key, newItem);
+            _priorityQueue.TryAdd(newItem);
 
         }
     }
