@@ -46,6 +46,38 @@ namespace UnitTests
             Assert.Equal(6, cache.Get(2));
         }
 
-        
+        [Fact]
+        public void GotTimeout()
+        {
+            //["LFUCache","put","put","put","get","put","put","get","put","put","get","put","get","get","get","put","put","get","put","get"]
+            //[[10],[7,28],[7,1],[8,15],[6],[10,27],[8,10],[8],[6,29],[1,9],[6],[10,7],[1],[2],[13],[8,30],[1,5],[1],[13,2],[12]]
+
+            var cache = new LFUCache(10);
+            var commands = new []
+            {
+                "put", "put", "put", "get", "put", "put", "get", "put", "put", "get", "put", "get", "get", "get", "put",
+                "put", "get", "put", "get"
+            };
+            var parameters = new int[,]
+            {
+                {7, 28}, {7, 1}, {8, 15}, {6,-1}, {10, 27}, {8, 10}, {8,-1}, {6, 29}, {1, 9}, {6,-1}, {10, 7}, {1,-1}, {2,-1}, {13,-1},
+                {8, 30}, {1, 5}, {1,-1}, {13, 2}, {12,-1}
+            };
+
+            for (int i = 0; i < commands.Length; i++)
+            {
+                var command = commands[i];
+                switch (command)
+                {
+                    case "put":
+                        cache.Put(parameters[i, 0], parameters[i, 1]);
+                        break;
+                    case "get":
+                        cache.Get(parameters[i, 0]);
+                        break;
+                }
+            }
+
+        }
     }
 }

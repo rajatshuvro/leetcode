@@ -27,14 +27,22 @@ namespace Problems
             var count = 0;
             var side3 = _nums[i];
 
-            for (int k = i - 1, j=0; k > j; k--)
+            for (int k = i - 1; k > 0; k--)
             {
                 var side2 = _nums[k];
                 //minimum required length of side1 so that the 3 sides make a triangle
                 var minSide1 = side3 - side2 + 1;
 
-                j = Array.BinarySearch(_nums, j, k-j, minSide1);
+                var j = Array.BinarySearch(_nums, 0, k, minSide1);
                 if (j < 0) j = ~j;
+                if (j >= k) break;
+
+                //binary search doesn't guarantee returning smallest index of the search item.
+                while (j>0 && _nums[j] == _nums[j - 1])
+                {
+                    j--;
+                }
+
                 count += k - j;
 
             }

@@ -62,7 +62,7 @@ namespace Problems
             {
                 _time++;
                 var val = item.GetValue(_time);
-                _priorityQueue.UpdatePriority(item);
+                _priorityQueue.AdjustPosition(item);
                 return val;
             }
             return -1;
@@ -76,7 +76,7 @@ namespace Problems
             if (_items.TryGetValue(key, out var item))
             {
                 item.UpdateValue(value, _time);
-                _priorityQueue.UpdatePriority(item);
+                _priorityQueue.AdjustPosition(item);
                 return;
             }
 

@@ -45,7 +45,7 @@ namespace DataStructures
             else
             {
                 AddAtEnd(item);
-                Prioritize(item);
+                AdjustPosition(item);
             }
 
             return true;
@@ -57,7 +57,7 @@ namespace DataStructures
             var item = new DoublyLinkedItem<T>(x);
             _items.Add(x, item);
             AddAtBegin(item);
-            Prioritize(item);
+            //AdjustPosition(item);
         }
 
         public void AddAtEnd(T x)
@@ -66,14 +66,10 @@ namespace DataStructures
             var item = new DoublyLinkedItem<T>(x);
             _items.Add(x, item);
             AddAtEnd(item);
-            Prioritize(item);
+            AdjustPosition(item);
         }
 
-        public bool Contains(T x)
-        {
-            return _items.ContainsKey(x);
-        }
-
+        
         private void AddAtBegin(DoublyLinkedItem<T> item)
         {
 
@@ -193,60 +189,52 @@ namespace DataStructures
             return item;
         }
 
-        public void UpdatePriority(T x)
+        public void AdjustPosition(T x)
         {
             if (!_items.TryGetValue(x, out var item)) return;
-            Prioritize(item);
+            AdjustPosition(item);
         }
 
-        private void Prioritize(DoublyLinkedItem<T> item)
+        private void AdjustPosition(DoublyLinkedItem<T> item)
         {
             while (item.Right != null && item.Value.CompareTo(item.Right.Value) < 0)
             {
-                StepDown(item);
+                if (item.Right == null) return;
+
+                var right = item.Right;
+                var left = item.Left;
+                if (FirstItem == item) FirstItem = right;
+                item.Right = right.Right;
+                item.Left = right;
+                if (item.Right != null) item.Right.Left = item;
+
+                right.Right = item;
+                right.Left = left;
+
+                if (left != null) left.Right = right;
+                if (item.Right == null) LastItem = item;
             }
 
             while (item.Left != null && item.Value.CompareTo(item.Left.Value) > 0)
             {
-                StepUp(item);
+                var right = item.Right;
+                var left = item.Left;
+                if (LastItem == item) LastItem = left;
+                item.Right = left;
+                item.Left = left.Left;
+                if (left.Left != null) left.Left.Right = item;
+
+                left.Right = right;
+                left.Left = item;
+
+                if (right != null)
+                {
+                    right.Left = left;
+                }
+                if (item.Left == null) FirstItem = item;
             }
         }
 
-        private void StepDown(DoublyLinkedItem<T> item)
-        {
-            if (item.Right == null) return ;
-
-            var right = item.Right;
-            var left = item.Left;
-            if (FirstItem == item) FirstItem = right;
-            item.Right = right.Right;
-            item.Left = right;
-            if (item.Right != null) item.Right.Left = item;
-
-            right.Right = item;
-            right.Left = left;
-
-            if (left!=null) left.Right = right;
-            if (item.Right == null) LastItem = item;
-        }
-
-        private void StepUp(DoublyLinkedItem<T> item)
-        {
-            if (item.Left == null) return;
-
-            var right = item.Right;
-            var left = item.Left;
-            if (LastItem == item) LastItem = left;
-            item.Right = left;
-            item.Left = left.Left;
-            if (item.Left != null) item.Left.Right = item;
-
-            left.Right = right;
-            left.Left = item;
-
-            if (right != null) right.Left = left;
-            if (item.Left == null) FirstItem = item;
-        }
-
+        
     }
 }
