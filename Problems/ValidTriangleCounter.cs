@@ -4,6 +4,7 @@ using System.Globalization;
 namespace Problems
 {
     //https://leetcode.com/problems/valid-triangle-number/description/
+    // lesson learned: I thought the binary search will be faster (commented out code), but that was not so.
     public class ValidTriangleCounter
     {
         private int[] _nums;
@@ -11,15 +12,29 @@ namespace Problems
         public int TriangleNumber(int[] nums)
         {
             Array.Sort(nums);
-
-            _nums = nums;
-            var numValidTrios = 0;
-            for (int i = 2; i < nums.Length; i++)
+            int count = 0, n = nums.Length;
+            for (int i = n - 1; i >= 2; i--)
             {
-                numValidTrios += TriangleNumber(i);
+                int l = 0, r = i - 1;
+                while (l < r)
+                {
+                    if (nums[l] + nums[r] > nums[i])
+                    {
+                        count += r - l;
+                        r--;
+                    }
+                    else l++;
+                }
             }
+            return count;
+            //_nums = nums;
+            //var numValidTrios = 0;
+            //for (int i = 2; i < nums.Length; i++)
+            //{
+            //    numValidTrios += TriangleNumber(i);
+            //}
 
-            return numValidTrios;
+            //return numValidTrios;
         }
         //find all valid trios where _num[i] is the largest
         private int TriangleNumber(int i)
