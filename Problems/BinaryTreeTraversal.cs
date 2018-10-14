@@ -11,25 +11,24 @@ namespace Problems
         {
             if (root == null) return new List<int>();
 
-            var stack = new List<TreeNode>(){root};
+            var stack = new Stack<TreeNode>();
+            stack.Push(root);
             var inOrder = new List<int>();
 
             while (stack.Count>0)
             {
-                var node = stack[stack.Count - 1];
+                var node = stack.Peek();
                 if (node.left != null)
                 {
-                    stack.Add(node.left);
+                    stack.Push(node.left);
                     node.left = null;
                     continue;
                 }
 
-                stack.RemoveAt(stack.Count - 1);
-
-                inOrder.Add(node.val);
+                inOrder.Add(stack.Pop().val);
                 if (node.right != null)
                 {
-                    stack.Add(node.right);
+                    stack.Push(node.right);
                     node.right = null;
                 }
             }
@@ -42,27 +41,25 @@ namespace Problems
         {
             if (root == null) return new List<int>();
 
-            var stack = new List<TreeNode>() { root };
+            var stack = new Stack<TreeNode>();
+            stack.Push(root);
             var preOrder = new List<int>();
 
             while (stack.Count > 0)
             {
-                var node = stack[stack.Count - 1];
-                stack.RemoveAt(stack.Count - 1);
+                var node = stack.Pop();
                 preOrder.Add(node.val);
-
-                if (node.left != null)
-                {
-                    stack.Add(node.left);
-                    node.left = null;
-                    continue;
-                }
 
                 if (node.right != null)
                 {
-                    stack.Add(node.right);
-                    node.right = null;
+                    stack.Push(node.right);
                 }
+
+                if (node.left != null)
+                {
+                    stack.Push(node.left);
+                }
+                
             }
 
             return preOrder;

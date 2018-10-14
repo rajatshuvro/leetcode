@@ -4,7 +4,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class IterativeInorderTests
+    public class InOrderTraversalTests
     {
         [Fact]
         public void Basic()
