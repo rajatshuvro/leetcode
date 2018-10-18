@@ -21,7 +21,7 @@ namespace DataStructures
 
         public int CompareTo(Interval other)
         {
-            return Start.CompareTo(other.Start);
+            return Start!=other.Start? Start.CompareTo(other.Start): End.CompareTo(other.End);
         }
     }
 
