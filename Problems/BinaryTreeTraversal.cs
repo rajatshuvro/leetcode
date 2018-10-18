@@ -7,7 +7,7 @@ namespace Problems
     {
         //https://leetcode.com/problems/binary-tree-inorder-traversal/description/
 
-        public IList<int> InorderTraversal(TreeNode root)
+        public IList<int> InOrderTraversal(TreeNode root)
         {
             if (root == null) return new List<int>();
 
@@ -37,7 +37,7 @@ namespace Problems
         }
 
         //https://leetcode.com/problems/binary-tree-preorder-traversal/description/
-        public IList<int> PreorderTraversal(TreeNode root)
+        public IList<int> PreOrderTraversal(TreeNode root)
         {
             if (root == null) return new List<int>();
 
@@ -63,6 +63,43 @@ namespace Problems
             }
 
             return preOrder;
+        }
+        //https://leetcode.com/problems/binary-tree-postorder-traversal/description/
+        public IList<int> PostOrderTraversal(TreeNode root)
+        {
+            if (root == null) return new List<int>();
+
+            var stack = new Stack<TreeNode>();
+            stack.Push(root);
+            var postOrder = new List<int>();
+
+            while (stack.Count > 0)
+            {
+                var node = stack.Peek();
+
+                if (node.left == null && node.right == null)
+                {
+                    postOrder.Add(stack.Pop().val);
+                    continue;
+                }
+
+                if (node.right != null)
+                {
+                    stack.Push(node.right);
+                    node.right = null;
+                }
+
+                if (node.left != null)
+                {
+                    stack.Push(node.left);
+                    node.left = null;
+                }
+
+                
+
+            }
+
+            return postOrder;
         }
     }
 }

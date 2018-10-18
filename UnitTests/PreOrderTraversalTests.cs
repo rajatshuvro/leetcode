@@ -17,7 +17,7 @@ namespace UnitTests
             node2.left = node3;
 
             var traverser = new BinaryTreeTraversal();
-            var preOrderList = traverser.PreorderTraversal(node1);
+            var preOrderList = traverser.PreOrderTraversal(node1);
 
             Assert.Equal(new []{1,2,3}, preOrderList);
         }
@@ -33,7 +33,7 @@ namespace UnitTests
             node2.right = node3;
 
             var traverser = new BinaryTreeTraversal();
-            var preOrderList = traverser.PreorderTraversal(node2);
+            var preOrderList = traverser.PreOrderTraversal(node2);
 
             Assert.Equal(new[] { 2, 1, 3 }, preOrderList);
         }
@@ -49,7 +49,7 @@ namespace UnitTests
             node3.left = node2;
 
             var traverser = new BinaryTreeTraversal();
-            var preOrderList = traverser.PreorderTraversal(node3);
+            var preOrderList = traverser.PreOrderTraversal(node3);
 
             Assert.Equal(new[] { 3, 2, 1 }, preOrderList);
         }
@@ -65,7 +65,7 @@ namespace UnitTests
             node2.right = node3;
 
             var traverser = new BinaryTreeTraversal();
-            var preOrderList = traverser.PreorderTraversal(node1);
+            var preOrderList = traverser.PreOrderTraversal(node1);
 
             Assert.Equal(new[] { 1, 2, 3 }, preOrderList);
         }
@@ -83,7 +83,7 @@ namespace UnitTests
             node4.left = node2;
 
             var traverser = new BinaryTreeTraversal();
-            var preOrderList = traverser.PreorderTraversal(node1);
+            var preOrderList = traverser.PreOrderTraversal(node1);
 
             Assert.Equal(new[] { 1, 4, 2, 3 }, preOrderList);
         }
