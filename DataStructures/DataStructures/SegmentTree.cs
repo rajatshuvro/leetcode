@@ -20,9 +20,9 @@ namespace DataStructures
     }
     public class SegmentTree
     {
-        public SegmentTree()
+        public SegmentTree(int min, int max)
         {
-            _root= new SegmentTreeNode(0, 1_000_000_000, 0, 0);
+            _root= new SegmentTreeNode(min, max, 0, 0);
         }
 
         private readonly SegmentTreeNode _root;

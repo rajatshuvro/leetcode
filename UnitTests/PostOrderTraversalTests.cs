@@ -16,7 +16,7 @@ namespace UnitTests
             node1.right = node2;
             node2.left = node3;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var postOrderList = traverser.PostOrderTraversal(node1);
 
             Assert.Equal(new []{3,2,1}, postOrderList);
@@ -32,7 +32,7 @@ namespace UnitTests
             node2.left = node1;
             node2.right = node3;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var postOrderList = traverser.PostOrderTraversal(node2);
 
             Assert.Equal(new[] { 1, 3 , 2}, postOrderList);
@@ -48,7 +48,7 @@ namespace UnitTests
             node2.left = node1;
             node3.left = node2;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var postOrderList = traverser.PostOrderTraversal(node3);
 
             Assert.Equal(new[] { 1, 2, 3 }, postOrderList);
@@ -64,7 +64,7 @@ namespace UnitTests
             node1.right = node2;
             node2.right = node3;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var postOrderList = traverser.PostOrderTraversal(node1);
 
             Assert.Equal(new[] { 3,2,1 }, postOrderList);
@@ -82,7 +82,7 @@ namespace UnitTests
             node1.right = node3;
             node4.left = node2;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var postOrderList = traverser.PostOrderTraversal(node1);
 
             Assert.Equal(new[] { 2, 4, 3, 1}, postOrderList);

@@ -1,4 +1,5 @@
-﻿using DataStructures;
+﻿using System.Linq;
+using DataStructures;
 using Problems;
 using Xunit;
 
@@ -16,10 +17,26 @@ namespace UnitTests
             node1.right = node2;
             node2.left = node3;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var inorderList = traverser.InOrderTraversal(node1);
 
             Assert.Equal(new []{1,3,2}, inorderList);
+        }
+
+        [Fact]
+        public void Basic_iterator()
+        {
+            var node1 = new TreeNode<int>(1);
+            var node2 = new TreeNode<int>(2);
+            var node3 = new TreeNode<int>(3);
+
+            node1.Right = node2;
+            node2.Left = node3;
+
+            var traverser = new BinaryTreeTraversal<int>();
+            var inorderList = traverser.InOrderIterator(node1).ToArray();
+
+            Assert.Equal(new[] { 1, 3, 2 }, inorderList);
         }
 
         [Fact]
@@ -32,8 +49,23 @@ namespace UnitTests
             node2.left = node1;
             node2.right = node3;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var inorderList = traverser.InOrderTraversal(node2);
+
+            Assert.Equal(new[] { 1, 2, 3 }, inorderList);
+        }
+
+        [Fact]
+        public void Balanced_iterator()
+        {
+            var node1 = new TreeNode<int>(1);
+            var node2 = new TreeNode<int>(2);
+            var node3 = new TreeNode<int>(3);
+
+            node2.Left = node1;
+            node2.Right = node3;
+            var traverser = new BinaryTreeTraversal<int>();
+            var inorderList = traverser.InOrderIterator(node2).ToArray();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
@@ -48,7 +80,7 @@ namespace UnitTests
             node2.left = node1;
             node3.left = node2;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var inorderList = traverser.InOrderTraversal(node3);
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
@@ -64,7 +96,7 @@ namespace UnitTests
             node1.right = node2;
             node2.right = node3;
 
-            var traverser = new BinaryTreeTraversal();
+            var traverser = new BinaryTreeTraversal<int>();
             var inorderList = traverser.InOrderTraversal(node1);
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);

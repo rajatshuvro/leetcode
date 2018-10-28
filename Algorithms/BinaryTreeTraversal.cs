@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataStructures;
 
 namespace Problems
 {
-    public class BinaryTreeTraversal
+    public class BinaryTreeTraversal<T> where T:IComparable<T>
     {
         //https://leetcode.com/problems/binary-tree-inorder-traversal/description/
 
@@ -36,6 +37,34 @@ namespace Problems
             return inOrder;
         }
 
+        public IEnumerable<T> InOrderIterator(TreeNode<T> root)
+        {
+            if (root == null) yield break;
+
+            var stack = new Stack<TreeNode<T>>();
+            stack.Push(root);
+
+            while (stack.Count > 0)
+            {
+                var node = stack.Peek();
+                if (node.Left != null)
+                {
+                    stack.Push(node.Left);
+                    node.Left = null;
+                    continue;
+                }
+
+                yield return stack.Pop().Value;
+                if (node.Right != null)
+                {
+                    stack.Push(node.Right);
+                    node.Right = null;
+                }
+            }
+
+        }
+
+        
         //https://leetcode.com/problems/binary-tree-preorder-traversal/description/
         public IList<int> PreOrderTraversal(TreeNode root)
         {

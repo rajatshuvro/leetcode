@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
     <ProjectReference Include="..\DataStructures\DataStructures\DataStructures.csproj" />
     <ProjectReference Include="..\MaxAreaOfIsland\MaxAreaOfIsland.csproj" />
     <ProjectReference Include="..\Problems\Problems.csproj" />
