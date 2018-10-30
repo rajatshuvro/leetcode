@@ -23,22 +23,7 @@ namespace UnitTests
             Assert.Equal(new []{1,3,2}, inorderList);
         }
 
-        [Fact]
-        public void Basic_iterator()
-        {
-            var node1 = new TreeNode<int>(1);
-            var node2 = new TreeNode<int>(2);
-            var node3 = new TreeNode<int>(3);
-
-            node1.Right = node2;
-            node2.Left = node3;
-
-            var traverser = new BinaryTreeTraversal<int>();
-            var inorderList = traverser.InOrderIterator(node1).ToArray();
-
-            Assert.Equal(new[] { 1, 3, 2 }, inorderList);
-        }
-
+        
         [Fact]
         public void Balanced()
         {
@@ -62,10 +47,11 @@ namespace UnitTests
             var node2 = new TreeNode<int>(2);
             var node3 = new TreeNode<int>(3);
 
-            node2.Left = node1;
-            node2.Right = node3;
-            var traverser = new BinaryTreeTraversal<int>();
-            var inorderList = traverser.InOrderIterator(node2).ToArray();
+            var tree = new BinarySearchTree<int>();
+            tree.Add(node2);
+            tree.Add(node1);
+            tree.Add(node3);
+            var inorderList = tree.GetValuesInOrder().Select(x => x.Value).ToArray();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
@@ -87,6 +73,23 @@ namespace UnitTests
         }
 
         [Fact]
+        public void LeftChain_iterator()
+        {
+            var node1 = new TreeNode<int>(1);
+            var node2 = new TreeNode<int>(2);
+            var node3 = new TreeNode<int>(3);
+
+            var tree = new BinarySearchTree<int>();
+            tree.Add(node3);
+            tree.Add(node2);
+            tree.Add(node1);
+            var inorderList = tree.GetValuesInOrder().Select(x => x.Value).ToArray();
+
+            Assert.Equal(new[] { 1, 2, 3 }, inorderList);
+        }
+
+
+        [Fact]
         public void Right_chain()
         {
             var node1 = new TreeNode(1);
@@ -101,5 +104,22 @@ namespace UnitTests
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
+
+        [Fact]
+        public void RightChain_iterator()
+        {
+            var node1 = new TreeNode<int>(1);
+            var node2 = new TreeNode<int>(2);
+            var node3 = new TreeNode<int>(3);
+
+            var tree = new BinarySearchTree<int>();
+            tree.Add(node1);
+            tree.Add(node2);
+            tree.Add(node3);
+            var inorderList = tree.GetValuesInOrder().Select(x=>x.Value).ToArray();
+
+            Assert.Equal(new[] { 1, 2, 3 }, inorderList);
+        }
+
     }
 }
