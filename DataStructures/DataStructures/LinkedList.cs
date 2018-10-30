@@ -43,16 +43,16 @@ namespace DataStructures
             First = node;
         }
 
-        public static IEnumerable<int> GetNodeValues(ListNode node)
+        public static List<int> GetNodeValues(ListNode node)
         {
-            if (node == null) yield break;
-
+            var values = new List<int>();
             while (node != null)
             {
-                yield return node.val;
+                values.Add(node.val);
                 node = node.next;
             }
 
+            return values;
         }
 
         public static ListNode GetReverseList(ListNode node)
