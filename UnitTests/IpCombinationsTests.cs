@@ -1,4 +1,6 @@
-﻿using Problems;
+﻿using System;
+using System.Collections.Generic;
+using Problems;
 using Xunit;
 
 namespace UnitTests
@@ -63,6 +65,36 @@ namespace UnitTests
             var combinations = sol.GetValidIpTriplets("2552", 2);
 
             Assert.Equal(new[] { "25.52", "255.2" }, combinations);
+        }
+
+        [Fact]
+        public void All_zeros()
+        {
+            var sol = new IpCombinations();
+
+            var combinations = sol.GetValidIpTriplets("0000", 4);
+
+            Assert.Equal(new[] { "0.0.0.0"}, combinations);
+        }
+
+        [Fact]
+        public void No_leading_zeros()
+        {
+            var sol = new IpCombinations();
+
+            var combinations = sol.GetValidIpTriplets("010010", 4);
+
+            Assert.Equal(new[] { "0.10.0.10", "0.100.1.0" }, combinations);
+        }
+
+        [Fact]
+        public void Empty_input()
+        {
+            var sol = new IpCombinations();
+
+            var combinations = sol.RestoreIpAddresses("");
+
+            Assert.Equal(new List<string>(), combinations);
         }
     }
 }
