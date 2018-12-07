@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DataStructures;
 
-namespace Problems
+namespace Algorithms
 {
     public class BinaryTreeTraversal<T> where T:IComparable<T>
     {
