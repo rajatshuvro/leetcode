@@ -30,9 +30,9 @@ namespace Problems
 
             var index = _inOrderIndex[val];
             if(i < index)
-                root.left = BuildTree(rootIndex + 1, i, index - 1);
+                root.left = BuildTree(++rootIndex, i, index - 1);
             if(index < j)
-                root.right = BuildTree(rootIndex + 2, index + 1, j);
+                root.right = BuildTree(++rootIndex, index + 1, j);
             return root;
         }
     }
