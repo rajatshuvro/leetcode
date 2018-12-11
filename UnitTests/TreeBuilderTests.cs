@@ -51,7 +51,5 @@ namespace UnitTests
             Assert.Equal(inOrder, treeTraverser.InOrderTraversal(root));
         }
 
-
-
     }
 }
