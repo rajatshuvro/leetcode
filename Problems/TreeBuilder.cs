@@ -5,13 +5,15 @@ namespace Problems
 {
     public class TreeBuilder
     {
-        Dictionary<int, int> _inOrderIndex= new Dictionary<int, int>();
+        Dictionary<int, int> _inOrderIndex;
         private int[] _preOrder;
         private int _rootIndex;
         public TreeNode BuildTree(int[] preorder, int[] inorder)
         {
             if (preorder == null || preorder.Length == 0) return null;
             _preOrder = preorder;
+
+            _inOrderIndex = new Dictionary<int, int>(_preOrder.Length);
 
             for (var i = 0; i < inorder.Length; i++)
                 _inOrderIndex[inorder[i]] = i;
