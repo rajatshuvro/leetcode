@@ -1,6 +1,5 @@
 ﻿using Algorithms;
 using DataStructures;
-using Problems;
 using Xunit;
 
 namespace UnitTests

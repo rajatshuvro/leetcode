@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using DataStructures;
+﻿using DataStructures;
 
 namespace Problems
 {

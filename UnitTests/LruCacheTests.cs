@@ -1,5 +1,4 @@
-﻿using System;
-using Problems;
+﻿using Problems;
 using Xunit;
 
 namespace UnitTests
