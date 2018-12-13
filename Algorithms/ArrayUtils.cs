@@ -4,7 +4,7 @@
     {
         public static int Partition(int[] nums, int i, int j, int pivotIndex)
         {
-            if (i < 0 || i > nums.Length || j > nums.Length) return -1;
+            if (i < 0 || i >= nums.Length || j >= nums.Length) return -1;
             if (i > j || pivotIndex > j || i > pivotIndex) return -1;
 
             var pivot = nums[pivotIndex];
