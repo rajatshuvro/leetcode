@@ -10,12 +10,53 @@ namespace Problems
         public int FindDuplicate(int[] nums)
         {
             _nums = nums;
-            return FindDuplicate(0, nums.Length-1);
+            var cycleLength = GetCycleLength();
+
+            return GetCycleStart(cycleLength);
         }
 
-        private int FindDuplicate(int i, int j)
+        private int GetCycleStart(int cycleLength)
         {
-            return -1;
+            var headIndex = 0;
+            var tailIndex = 0;
+
+            while (cycleLength > 0)
+            {
+                tailIndex = _nums[tailIndex];
+                cycleLength--;
+            }
+
+            while (_nums[headIndex] != _nums[tailIndex])
+            {
+                headIndex = _nums[headIndex];
+                tailIndex = _nums[tailIndex];
+            }
+
+            return _nums[headIndex];
+        }
+
+        private int GetCycleLength()
+        {
+            var singleStepperIndex = 0;
+            var singleStepCount = 0;
+            var doubleStepperIndex = 0;
+            doubleStepperIndex = _nums[doubleStepperIndex];
+            var doubleStepCount = 1;
+
+            do
+            {
+                if (doubleStepCount % 2 == 0)
+                {
+                    singleStepperIndex = _nums[singleStepperIndex];
+                    singleStepCount++;
+                }
+
+                doubleStepperIndex = _nums[doubleStepperIndex];
+                doubleStepCount++;
+
+            } while (_nums[singleStepperIndex] != _nums[doubleStepperIndex]);
+
+            return doubleStepCount - singleStepCount;
         }
     }
 }
