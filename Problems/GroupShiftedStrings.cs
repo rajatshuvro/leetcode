@@ -16,13 +16,13 @@ namespace Problems
             var stringsInGroup = new HashSet<int>();
             var groupLists = new List<IList<string>>();
 
-            for (var i = 0; i < strings.Length ; i++)
+            for (var i = 0; i < strings.Length; i++)
             {
-                if(stringsInGroup.Contains(i)) continue;
+                if (stringsInGroup.Contains(i)) continue;
 
                 stringsInGroup.Add(i);
 
-                var currList = new List<string>(){strings[i]};
+                var currList = new List<string>() { strings[i] };
                 for (var j = i + 1; j < strings.Length; j++)
                 {
                     if (stringsInGroup.Contains(j)) continue;
@@ -49,7 +49,8 @@ namespace Problems
                 //if(s1=="yx")
                 //    Console.WriteLine("bug");
                 var expectedChar = s[i] - diff;
-                if (expectedChar > 'z') expectedChar = 'a'+(expectedChar - 'z' -1);
+                if (expectedChar > 'z') expectedChar = 'a' + (expectedChar - 'z' - 1);
+                if (expectedChar < 'a') expectedChar = 'z' - ('a' - expectedChar - 1);
                 if (expectedChar != s1[i]) return false;
             }
 
