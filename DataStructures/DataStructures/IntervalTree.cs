@@ -5,23 +5,25 @@ namespace DataStructures
 {
     public class Interval:IComparable<Interval>
     {
-        public int Start;
-        public int End;
+        public int start;
+        public int end;
 
-        public Interval(int start, int end)
+        public Interval() { start = 0; end = 0; }
+
+        public Interval(int s, int e)
         {
-            Start = start;
-            End = end;
+            start = s;
+            end = e;
         }
 
         public bool Overlaps(Interval other)
         {
-            return Start < other.End && other.Start < End;
+            return start < other.end && other.start < end;
         }
 
         public int CompareTo(Interval other)
         {
-            return Start!=other.Start? Start.CompareTo(other.Start): End.CompareTo(other.End);
+            return start!=other.start? start.CompareTo(other.start): end.CompareTo(other.end);
         }
     }
 
@@ -35,7 +37,7 @@ namespace DataStructures
         public IntervalTreeNode (Interval value)
         {
             Value = value;
-            Range = new Interval(value.Start, value.End);
+            Range = new Interval(value.start, value.end);
         }
 
         public int CompareTo(IntervalTreeNode other)
@@ -56,8 +58,8 @@ namespace DataStructures
                 return;
             }
 
-            if (root.Range.Start > node.Range.Start) root.Range.Start = node.Range.Start;
-            if (root.Range.End < node.Range.End) root.Range.End = node.Range.End;
+            if (root.Range.start > node.Range.start) root.Range.start = node.Range.start;
+            if (root.Range.end < node.Range.end) root.Range.end = node.Range.end;
 
             if (node.CompareTo(root) < 0) Add(ref root.Left, node);
             if (node.CompareTo(root) > 0) Add(ref root.Right, node);

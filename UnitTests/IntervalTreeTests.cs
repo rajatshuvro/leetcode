@@ -20,28 +20,28 @@ namespace UnitTests
 
 
             tree.Add(interval1);
-            Assert.Equal(15, tree.GetRange().Start);
-            Assert.Equal(20, tree.GetRange().End);
+            Assert.Equal(15, tree.GetRange().start);
+            Assert.Equal(20, tree.GetRange().end);
 
             tree.Add(interval2);
-            Assert.Equal(10, tree.GetRange().Start);
-            Assert.Equal(30, tree.GetRange().End);
+            Assert.Equal(10, tree.GetRange().start);
+            Assert.Equal(30, tree.GetRange().end);
 
             tree.Add(interval3);
-            Assert.Equal(5, tree.GetRange().Start);
-            Assert.Equal(30, tree.GetRange().End);
+            Assert.Equal(5, tree.GetRange().start);
+            Assert.Equal(30, tree.GetRange().end);
 
             tree.Add(interval4);
-            Assert.Equal(5, tree.GetRange().Start);
-            Assert.Equal(30, tree.GetRange().End);
+            Assert.Equal(5, tree.GetRange().start);
+            Assert.Equal(30, tree.GetRange().end);
 
             tree.Add(interval5);
-            Assert.Equal(5, tree.GetRange().Start);
-            Assert.Equal(30, tree.GetRange().End);
+            Assert.Equal(5, tree.GetRange().start);
+            Assert.Equal(30, tree.GetRange().end);
 
             tree.Add(interval6);
-            Assert.Equal(5, tree.GetRange().Start);
-            Assert.Equal(40, tree.GetRange().End);
+            Assert.Equal(5, tree.GetRange().start);
+            Assert.Equal(40, tree.GetRange().end);
 
 
         }
@@ -70,7 +70,7 @@ namespace UnitTests
             {
                 interval3, interval2, interval4
             };
-            var observedIntervals = tree.GetOverlappingIntervals(new Interval(5, 13)).OrderBy(x => x.Start);
+            var observedIntervals = tree.GetOverlappingIntervals(new Interval(5, 13)).OrderBy(x => x.start);
             Assert.Equal(expectedIntervals, observedIntervals);
         }
 
@@ -98,7 +98,7 @@ namespace UnitTests
             {
                 interval3, interval2
             };
-            var observedIntervals = tree.GetOverlappingIntervals(new Interval(5, 12)).OrderBy(x => x.Start);
+            var observedIntervals = tree.GetOverlappingIntervals(new Interval(5, 12)).OrderBy(x => x.start);
             Assert.Equal(expectedIntervals, observedIntervals);
         }
 

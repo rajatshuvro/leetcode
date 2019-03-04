@@ -35,7 +35,6 @@ namespace Problems
                 }
                 groupLists.Add(currList);
             }
-
             return groupLists;
         }
 

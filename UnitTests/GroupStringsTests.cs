@@ -21,6 +21,7 @@ namespace UnitTests
             var sol = new GroupShiftedStrings();
 
             var result = sol.GroupStrings(input);
+            Assert.Equal(output.Count, result.Count);
             Assert.Equal(output[0], result[0]);
             Assert.Equal(output[1], result[1]);
             Assert.Equal(output[2], result[2]);
@@ -39,6 +40,7 @@ namespace UnitTests
             var sol = new GroupShiftedStrings();
 
             var result = sol.GroupStrings(input);
+            Assert.Equal(output.Count, result.Count);
             Assert.Equal(output[0], result[0]);
         }
 
@@ -54,6 +56,7 @@ namespace UnitTests
             var sol = new GroupShiftedStrings();
 
             var result = sol.GroupStrings(input);
+            Assert.Equal(output.Count, result.Count);
             Assert.Equal(output[0], result[0]);
         }
 
@@ -69,6 +72,7 @@ namespace UnitTests
             var sol = new GroupShiftedStrings();
 
             var result = sol.GroupStrings(input);
+            Assert.Equal(output.Count, result.Count);
             Assert.Equal(output[0], result[0]);
         }
 
