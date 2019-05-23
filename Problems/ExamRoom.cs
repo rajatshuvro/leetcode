@@ -1,4 +1,6 @@
-﻿namespace Problems
+﻿using DataStructures;
+
+namespace Problems
 {
     public class ExamRoom
     {
@@ -6,14 +8,17 @@
         //In an exam room, there are N seats in a single row, numbered 0, 1, 2, ..., N-1.
         //When a student enters the room, they must sit in the seat that maximizes the distance to the closest person.If there are multiple such seats, they sit in the seat with the lowest number.  (Also, if no one is in the room, then the student sits at seat number 0.)
         //Return a class ExamRoom(int N) that exposes two functions: ExamRoom.seat() returning an int representing what seat the student sat in, and ExamRoom.leave(int p) representing that the student in seat number p now leaves the room.It is guaranteed that any calls to ExamRoom.leave(p) have a student sitting in seat p.
+
+
+        private MaxHeap<Interval> _intervalHeap;
         public ExamRoom(int N)
         {
-
+            _intervalHeap = new MaxHeap<Interval>(new Interval(int.MinValue, int.MaxValue));
         }
 
         public int Seat()
         {
-
+            return -1;
         }
 
         public void Leave(int p)

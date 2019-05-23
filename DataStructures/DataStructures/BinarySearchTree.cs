@@ -7,6 +7,11 @@ namespace DataStructures
     {
         private TreeNode<T> _root;
 
+        public void Add(T value)
+        {
+            Add(new TreeNode<T>(value));
+        }
+
         public void Add(TreeNode<T> node)
         {
             Add(node, ref _root);
@@ -27,6 +32,58 @@ namespace DataStructures
         public IEnumerable<TreeNode<T>> GetValuesInOrder()
         {
             return GetValuesInOrder(_root);
+        }
+
+        private TreeNode<T> _predecessor, _successor;
+        public (TreeNode<T> predecessor,TreeNode<T> successor) GetPredecessorAndSuccessor(T value)
+        {
+            if (_root == null) return (null, null);
+
+            GetPredecessorAndSuccessor(value, _root);
+            return (_predecessor,_successor);
+        }
+
+        public void GetPredecessorAndSuccessor(T value, TreeNode<T> root)
+        {
+            if (root == null) return;
+            if (root.Value.CompareTo(value) < 0)
+            {
+                _successor = root;
+                GetPredecessorAndSuccessor(value, root.Left);
+            }
+
+            if (root.Value.CompareTo(value) > 0)
+            {
+                _predecessor = root;
+                GetPredecessorAndSuccessor(value, root.Right);
+            }
+            // we found the value
+            if (root.Left != null)
+            {
+                _predecessor = root.Left;
+                while (_predecessor.Right != null)
+                    _predecessor = _predecessor.Right;
+            }
+
+            if (root.Right != null)
+            {
+                _successor = root.Right;
+                while (_successor.Left != null)
+                    _successor = _successor.Left;
+            }
+
+        }
+
+        public TreeNode<T> Find(T value)
+        {
+            var currentNode = _root;
+            while (currentNode != null)
+            {
+                if (currentNode.Value.CompareTo(value) == 0) return currentNode;
+                currentNode = currentNode.Value.CompareTo(value) < 0 ? currentNode.Right : currentNode.Left;
+            }
+
+            return null;
         }
 
         private IEnumerable<TreeNode<T>> GetValuesInOrder(TreeNode<T> root)
