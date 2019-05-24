@@ -14,19 +14,34 @@ namespace DataStructures
 
         public void Add(TreeNode<T> node)
         {
-            Add(node, ref _root);
-        }
-
-        private static void Add(TreeNode<T> node, ref TreeNode<T> root)
-        {
-            if (root == null)
+            if (_root == null)
             {
-                root = node;
+                _root = node;
                 return;
             }
 
-            if (root.Value.CompareTo(node.Value) >= 0) Add(node, ref root.Left);
-            else Add(node, ref root.Right);
+            var current = _root;
+            while (true)
+            {
+                if (current.Value.CompareTo(node.Value) >= 0)
+                {
+                    if (current.Left == null)
+                    {
+                        current.Left = node;
+                        return;
+                    }
+                    current = current.Left;
+                }
+                else
+                {
+                    if (current.Right == null)
+                    {
+                        current.Right = node;
+                        return;
+                    }
+                    current = current.Right;
+                }
+            }
         }
 
         public IEnumerable<TreeNode<T>> GetValuesInOrder()
@@ -38,7 +53,8 @@ namespace DataStructures
         public (TreeNode<T> predecessor,TreeNode<T> successor) GetPredecessorAndSuccessor(T value)
         {
             if (_root == null) return (null, null);
-
+            _predecessor = null;
+            _successor = null;
             GetPredecessorAndSuccessor(value, _root);
             return (_predecessor,_successor);
         }
@@ -46,32 +62,40 @@ namespace DataStructures
         public void GetPredecessorAndSuccessor(T value, TreeNode<T> root)
         {
             if (root == null) return;
-            if (root.Value.CompareTo(value) < 0)
+
+            if (root.Value.CompareTo(value) == 0)
             {
-                _successor = root;
-                GetPredecessorAndSuccessor(value, root.Left);
+                if (root.Left != null)
+                {
+                    _predecessor = root.Left;
+                    while (_predecessor.Right != null)
+                        _predecessor = _predecessor.Right;
+                }
+
+                if (root.Right != null)
+                {
+                    _successor = root.Right;
+                    while (_successor.Left != null)
+                        _successor = _successor.Left;
+                }
+                
+            }
+            else
+            {
+                if (root.Value.CompareTo(value) > 0)
+                {
+                    _successor = root;
+                    GetPredecessorAndSuccessor(value, root.Left);
+                }
+                else
+                {
+                    _predecessor = root;
+                    GetPredecessorAndSuccessor(value, root.Right);
+                }
             }
 
-            if (root.Value.CompareTo(value) > 0)
-            {
-                _predecessor = root;
-                GetPredecessorAndSuccessor(value, root.Right);
-            }
-            // we found the value
-            if (root.Left != null)
-            {
-                _predecessor = root.Left;
-                while (_predecessor.Right != null)
-                    _predecessor = _predecessor.Right;
-            }
-
-            if (root.Right != null)
-            {
-                _successor = root.Right;
-                while (_successor.Left != null)
-                    _successor = _successor.Left;
-            }
-
+            
+            
         }
 
         public TreeNode<T> Find(T value)

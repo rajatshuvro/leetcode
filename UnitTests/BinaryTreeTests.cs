@@ -18,7 +18,6 @@ namespace UnitTests
             bst.Add(5);
             bst.Add(19);
             bst.Add(20);
-            bst.Add(40);
             bst.Add(35);
             bst.Add(45);
             bst.Add(44);
@@ -48,7 +47,6 @@ namespace UnitTests
             bst.Add(5);
             bst.Add(19);
             bst.Add(20);
-            bst.Add(40);
             bst.Add(35);
             bst.Add(45);
             bst.Add(44);
@@ -57,6 +55,33 @@ namespace UnitTests
             var (predNode, succNode) = bst.GetPredecessorAndSuccessor(val);
             Assert.Equal(pred, predNode.Value);
             Assert.Equal(succ, succNode.Value);
+        }
+
+        [Fact]
+        public void Missing_predecessor_or_successor()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(25);
+            bst.Add(15);
+            bst.Add(40);
+            bst.Add(10);
+            bst.Add(18);
+            bst.Add(5);
+            bst.Add(19);
+            bst.Add(20);
+            bst.Add(35);
+            bst.Add(45);
+            bst.Add(44);
+            bst.Add(49);
+
+            var (predNode, succNode) = bst.GetPredecessorAndSuccessor(5);
+            Assert.Null(predNode);
+            Assert.Equal(10, succNode.Value);
+
+            (predNode, succNode) = bst.GetPredecessorAndSuccessor(49);
+            Assert.Null(succNode);
+            Assert.Equal(45, predNode.Value);
         }
 
     }
