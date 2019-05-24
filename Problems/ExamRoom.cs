@@ -1,4 +1,6 @@
-﻿using DataStructures;
+﻿using System;
+using System.Collections.Generic;
+using DataStructures;
 
 namespace Problems
 {
@@ -10,20 +12,55 @@ namespace Problems
         //Return a class ExamRoom(int N) that exposes two functions: ExamRoom.seat() returning an int representing what seat the student sat in, and ExamRoom.leave(int p) representing that the student in seat number p now leaves the room.It is guaranteed that any calls to ExamRoom.leave(p) have a student sitting in seat p.
 
 
-        private MaxHeap<Interval> _intervalHeap;
+        private MaxHeap<SeatingInterval> _gaps;
+        private BinarySearchTree<int> _occupiedSeats;
+        private int _totalSeatCount;
+        private int _studentCount;
         public ExamRoom(int N)
         {
-            _intervalHeap = new MaxHeap<Interval>(new Interval(int.MinValue, int.MaxValue));
+            _totalSeatCount = N;
+            _studentCount = 0;
+            _gaps = new MaxHeap<SeatingInterval>(new SeatingInterval(int.MinValue, int.MaxValue));
+            //_gaps.Add(new SeatingInterval(-1,N));
+            _occupiedSeats = new BinarySearchTree<int>();
         }
 
         public int Seat()
         {
-            return -1;
+            if (_studentCount == 0)
+            {
+                _occupiedSeats.Add(0);
+            }
+
+            int seatNo = 0;
+            var maxGap = _gaps.GetMax();
+            var candidateSeats = new List<int>();
+
+            return seatNo;
         }
 
         public void Leave(int p)
         {
 
+        }
+
+        private class SeatingInterval:IComparable<SeatingInterval>
+        {
+            public readonly int Start;
+            public readonly int End;
+
+            public SeatingInterval(int start, int end)
+            {
+                Start = start;
+                End = end;
+            }
+            public int CompareTo(SeatingInterval other)
+            {
+                var length = End - Start + 1;
+                var otherLength = other.End - other.Start + 1;
+
+                return length.CompareTo(otherLength);
+            }
         }
     }
 }

@@ -12,6 +12,11 @@ namespace DataStructures
             Add(new TreeNode<T>(value));
         }
 
+        public bool IsEmpty()
+        {
+            return _root == null;
+        }
+
         public void Add(TreeNode<T> node)
         {
             if (_root == null)
