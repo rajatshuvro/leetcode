@@ -92,11 +92,7 @@ namespace DataStructures
         
         public void Remove(T value)
         {
-            var node = _root;
-            while (node != null)
-            {
-
-            }
+            _root = Remove(value, _root);
         }
 
         //returns new tree root of the tree with value deleted
@@ -105,21 +101,30 @@ namespace DataStructures
             if (node == null) return null;
             if (value.CompareTo(node.Value) < 0)
             {
-                return node.Left == null ? node : Remove(value, node.Left);
+                if (node.Left == null) return node;
+                node.Left = Remove(value, node.Left);
+                return node;
             }
 
             if (value.CompareTo(node.Value) > 0)
             {
-                return node.Right == null ? node : Remove(value, node.Right);
+                if (node.Right == null) return node;
+                node.Right = Remove(value, node.Right);
+                return node;
             }
 
             //value found
             //if one of the children is null, the other can replace the node
             if (node.Left == null) return node.Right;
             if (node.Right == null) return node.Left;
-            //replace the node with its predecessor
+            
+            //both child present, replace the node with its predecessor
             var predecessor = FindMaxNode(node.Left);
 
+            node.Left = Remove(predecessor.Value, node.Left);
+            node.Value = predecessor.Value;
+
+            return node;
         }
 
         private TreeNode<T> FindMaxNode(TreeNode<T> node)

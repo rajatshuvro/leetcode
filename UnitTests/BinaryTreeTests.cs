@@ -84,5 +84,109 @@ namespace UnitTests
             Assert.Equal(45, predNode.Value);
         }
 
+        [Fact]
+        public void Remove_Leaf()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(25);
+            bst.Add(15);
+            bst.Add(40);
+            bst.Add(10);
+            bst.Add(18);
+            bst.Add(5);
+            bst.Add(19);
+            bst.Add(20);
+            bst.Add(35);
+            bst.Add(45);
+            bst.Add(44);
+            bst.Add(49);
+
+            bst.Remove(5);
+            var (predNode, succNode) = bst.GetPredecessorAndSuccessor(10);
+            Assert.Null(predNode);
+            Assert.Equal(15, succNode.Value);
+
+            bst.Remove(49);
+            (predNode, succNode) = bst.GetPredecessorAndSuccessor(45);
+            Assert.Null(succNode);
+            Assert.Equal(44, predNode.Value);
+        }
+
+        [Fact]
+        public void Remove_node_with_one_child()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(25);
+            bst.Add(15);
+            bst.Add(40);
+            bst.Add(10);
+            bst.Add(18);
+            bst.Add(5);
+            bst.Add(19);
+            bst.Add(20);
+            bst.Add(35);
+            bst.Add(45);
+            bst.Add(44);
+            bst.Add(49);
+
+            bst.Remove(10);
+            var (predNode, succNode) = bst.GetPredecessorAndSuccessor(15);
+            Assert.Equal(5,predNode.Value);
+            Assert.Equal(18, succNode.Value);
+            
+        }
+
+        [Fact]
+        public void Remove_node_with_two_child()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(25);
+            bst.Add(15);
+            bst.Add(40);
+            bst.Add(10);
+            bst.Add(18);
+            bst.Add(5);
+            bst.Add(19);
+            bst.Add(20);
+            bst.Add(35);
+            bst.Add(45);
+            bst.Add(44);
+            bst.Add(49);
+
+            bst.Remove(40);
+            var (predNode, succNode) = bst.GetPredecessorAndSuccessor(35);
+            Assert.Equal(25, predNode.Value);
+            Assert.Equal(44, succNode.Value);
+
+        }
+
+        [Fact]
+        public void Remove_root()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(25);
+            bst.Add(15);
+            bst.Add(40);
+            bst.Add(10);
+            bst.Add(18);
+            bst.Add(5);
+            bst.Add(19);
+            bst.Add(20);
+            bst.Add(35);
+            bst.Add(45);
+            bst.Add(44);
+            bst.Add(49);
+
+            bst.Remove(25);
+            var (predNode, succNode) = bst.GetPredecessorAndSuccessor(20);
+            Assert.Equal(19, predNode.Value);
+            Assert.Equal(35, succNode.Value);
+
+        }
+
     }
 }
