@@ -49,6 +49,93 @@ namespace DataStructures
             }
         }
 
+        //public void Remove(T value)
+        //{
+        //    TreeNode<T> parent = null;
+        //    var node = _root;
+        //    bool isRightChild = false;
+        //    while (node != null)
+        //    {
+        //        if (node.Value.CompareTo(value) == 0) break;
+        //        parent = node;
+        //        isRightChild = node.Value.CompareTo(value) < 0;
+        //        node = isRightChild ? node.Right : node.Left;
+        //    }
+
+        //    if (node == null) return;//value not found in tree
+        //    if (parent == null)
+        //    {
+        //        //trying to delete the root node
+        //    }
+        //    else
+        //    {
+        //        if (IsLeaf(node))
+        //        {
+        //            if (isRightChild) parent.Right = null;
+        //            else parent.Left = null;
+        //            return;
+        //        }
+
+        //        if (parent.Left == null || parent.Right == null)
+        //        {
+        //            //only one child exist, which is the currentNode and we can delete it 
+        //            parent.Left = node.Left;
+        //            parent.Right = node.Right;
+        //        }
+        //        else
+        //        {
+        //            //have to replace node with predecessor or successor
+        //            if(node.Left == null) 
+        //        }
+        //    }
+        //}
+        
+        public void Remove(T value)
+        {
+            var node = _root;
+            while (node != null)
+            {
+
+            }
+        }
+
+        //returns new tree root of the tree with value deleted
+        private TreeNode<T> Remove(T value, TreeNode<T> node)
+        {
+            if (node == null) return null;
+            if (value.CompareTo(node.Value) < 0)
+            {
+                return node.Left == null ? node : Remove(value, node.Left);
+            }
+
+            if (value.CompareTo(node.Value) > 0)
+            {
+                return node.Right == null ? node : Remove(value, node.Right);
+            }
+
+            //value found
+            //if one of the children is null, the other can replace the node
+            if (node.Left == null) return node.Right;
+            if (node.Right == null) return node.Left;
+            //replace the node with its predecessor
+            var predecessor = FindMaxNode(node.Left);
+
+        }
+
+        private TreeNode<T> FindMaxNode(TreeNode<T> node)
+        {
+            if (node == null) return null;
+            while (node.Right != null)
+                node = node.Right;
+
+            return node;
+        }
+
+        public bool IsLeaf(TreeNode<T> node)
+        {
+            return node.Left == null && node.Right == null;
+        }
+
         public IEnumerable<TreeNode<T>> GetValuesInOrder()
         {
             return GetValuesInOrder(_root);
@@ -105,11 +192,11 @@ namespace DataStructures
 
         public TreeNode<T> Find(T value)
         {
-            var currentNode = _root;
-            while (currentNode != null)
+            var node = _root;
+            while (node != null)
             {
-                if (currentNode.Value.CompareTo(value) == 0) return currentNode;
-                currentNode = currentNode.Value.CompareTo(value) < 0 ? currentNode.Right : currentNode.Left;
+                if (node.Value.CompareTo(value) == 0) return node;
+                node = node.Value.CompareTo(value) < 0 ? node.Right : node.Left;
             }
 
             return null;
