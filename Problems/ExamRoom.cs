@@ -12,39 +12,74 @@ namespace Problems
         //Return a class ExamRoom(int N) that exposes two functions: ExamRoom.seat() returning an int representing what seat the student sat in, and ExamRoom.leave(int p) representing that the student in seat number p now leaves the room.It is guaranteed that any calls to ExamRoom.leave(p) have a student sitting in seat p.
 
 
-        private MaxHeap<SeatingInterval> _gaps;
-        private BinarySearchTree<int> _occupiedSeats;
-        private int _totalSeatCount;
+        private readonly MaxHeap<SeatingInterval> _gaps;
+        private readonly BinarySearchTree<int> _occupiedSeats;
+        private readonly int _totalSeatCount;
         private int _studentCount;
         public ExamRoom(int N)
         {
             _totalSeatCount = N;
             _studentCount = 0;
             _gaps = new MaxHeap<SeatingInterval>(new SeatingInterval(int.MinValue, int.MaxValue));
-            //_gaps.Add(new SeatingInterval(-1,N));
+            _gaps.Add(new SeatingInterval(-1,N));
             _occupiedSeats = new BinarySearchTree<int>();
         }
 
         public int Seat()
         {
-            if (_studentCount == 0)
+            if (_studentCount == _totalSeatCount) return -1;
+
+            _studentCount++;
+            var maxInterval = _gaps.ExtractMax();
+            //if the interval has -1 or N, edge seats are available, we need to use those edge seats.
+            if (maxInterval.Start == -1)
             {
+                //first seat is available
+                _gaps.Add(new SeatingInterval(0, maxInterval.End));
                 _occupiedSeats.Add(0);
+                return 0;
             }
 
-            int seatNo = 0;
-            var maxGap = _gaps.GetMax();
-            var candidateSeats = new List<int>();
+            if (maxInterval.End == _totalSeatCount )
+            {
+                //last seat is available
+                _gaps.Add(new SeatingInterval(maxInterval.Start, _totalSeatCount - 1));
+                _occupiedSeats.Add(_totalSeatCount -1);
+                return _totalSeatCount -1;
+            }
+
+            var seatNo = (maxInterval.End + maxInterval.Start) / 2;
+            _gaps.Add(new SeatingInterval(maxInterval.Start, seatNo));
+            _gaps.Add(new SeatingInterval(seatNo, maxInterval.End));
+            _occupiedSeats.Add(seatNo);
 
             return seatNo;
         }
 
         public void Leave(int p)
         {
+            if (_studentCount == 0) return;
+            if (_occupiedSeats.Find(p) == null) return;
+            _studentCount--;
 
+            var (predecessor, successor) = _occupiedSeats.GetPredecessorAndSuccessor(p);
+            var leftOccupied = predecessor?.Value ?? -1;
+            var rightOccupied = successor?.Value ?? _totalSeatCount;
+
+            if (!_gaps.Remove(new SeatingInterval(leftOccupied, p)))
+            {
+                throw new DataMisalignedException($"Missing interval in heap:{leftOccupied}-{p}");
+            }
+
+            if (!_gaps.Remove(new SeatingInterval(p, rightOccupied)))
+            {
+                throw new DataMisalignedException($"Missing interval in heap:{p}-{rightOccupied}");
+            }
+            _gaps.Add(new SeatingInterval(leftOccupied, rightOccupied));
+            
         }
 
-        private class SeatingInterval:IComparable<SeatingInterval>
+        private class SeatingInterval:IComparable<SeatingInterval>, IEquatable<SeatingInterval>
         {
             public readonly int Start;
             public readonly int End;
@@ -61,6 +96,14 @@ namespace Problems
 
                 return length.CompareTo(otherLength);
             }
+
+            public bool Equals(SeatingInterval other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return Start == other.Start && End == other.End;
+            }
+            
         }
     }
 }

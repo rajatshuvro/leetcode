@@ -188,5 +188,32 @@ namespace UnitTests
 
         }
 
+        [Fact]
+        public void Remove_random()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(25);
+            bst.Add(15);
+            bst.Add(40);
+            bst.Add(10);
+            bst.Add(18);
+            bst.Add(5);
+            bst.Add(19);
+            bst.Add(20);
+            bst.Add(35);
+            bst.Add(45);
+            bst.Add(44);
+            bst.Add(49);
+
+            bst.Remove(25);
+            Assert.Null(bst.Find(25));
+            bst.Remove(35);
+            Assert.Null(bst.Find(35));
+            bst.Remove(20);
+            Assert.Null(bst.Find(20));
+
+        }
+
     }
 }

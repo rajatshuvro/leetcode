@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class MaxHeap<T> where T : IComparable<T>
+    public class MaxHeap<T> where T : IComparable<T>, IEquatable<T>
     {
         private readonly List<T> _items;
         private readonly T _maxValue;
@@ -28,7 +28,7 @@ namespace DataStructures
             int comparison = x.CompareTo(_items[i]);
             if ( comparison > 0) return false;
 
-            if (comparison == 0)
+            if (x.Equals(_items[i]))
             {
                 _items[i] = _maxValue;
                 HeapifyUp(i);
