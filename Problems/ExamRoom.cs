@@ -60,26 +60,28 @@ namespace Problems
         {
             if (_studentCount == 0) return;
             if (_occupiedSeats.Find(p) == null) return;
+            _occupiedSeats.Remove(p);
             _studentCount--;
 
             var (predecessor, successor) = _occupiedSeats.GetPredecessorAndSuccessor(p);
             var leftOccupied = predecessor?.Value ?? -1;
             var rightOccupied = successor?.Value ?? _totalSeatCount;
 
-            if (!_gaps.Remove(new SeatingInterval(leftOccupied, p)))
-            {
-                throw new DataMisalignedException($"Missing interval in heap:{leftOccupied}-{p}");
-            }
-
-            if (!_gaps.Remove(new SeatingInterval(p, rightOccupied)))
-            {
-                throw new DataMisalignedException($"Missing interval in heap:{p}-{rightOccupied}");
-            }
+            _gaps.Remove(new SeatingInterval(leftOccupied, p));
+            //if (!_gaps.Remove(new SeatingInterval(leftOccupied, p)))
+            //{
+            //    throw new DataMisalignedException($"Missing interval in heap:{leftOccupied}-{p}");
+            //}
+            _gaps.Remove(new SeatingInterval(p, rightOccupied));
+            //if (!_gaps.Remove(new SeatingInterval(p, rightOccupied)))
+            //{
+            //    throw new DataMisalignedException($"Missing interval in heap:{p}-{rightOccupied}");
+            //}
             _gaps.Add(new SeatingInterval(leftOccupied, rightOccupied));
             
         }
 
-        private class SeatingInterval:IComparable<SeatingInterval>, IEquatable<SeatingInterval>
+        private class SeatingInterval:IComparable<SeatingInterval>
         {
             public readonly int Start;
             public readonly int End;
@@ -93,16 +95,13 @@ namespace Problems
             {
                 var length = End - Start + 1;
                 var otherLength = other.End - other.Start + 1;
+                if (length != otherLength)
+                    return length.CompareTo(otherLength);
 
-                return length.CompareTo(otherLength);
+                return Start == other.Start && End == other.End? 0: -1;
             }
 
-            public bool Equals(SeatingInterval other)
-            {
-                if (ReferenceEquals(null, other)) return false;
-                if (ReferenceEquals(this, other)) return true;
-                return Start == other.Start && End == other.End;
-            }
+            
             
         }
     }

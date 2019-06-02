@@ -42,6 +42,9 @@ namespace UnitTests
 
             examRoom.Leave(0);
             Assert.Equal(0, examRoom.Seat());
+            examRoom.Leave(9);
+            examRoom.Leave(6);
+            Assert.Equal(9, examRoom.Seat());
         }
     }
 }
