@@ -12,11 +12,6 @@ namespace DataStructures
             Add(new TreeNode<T>(value));
         }
 
-        public bool IsEmpty()
-        {
-            return _root == null;
-        }
-
         public void Add(TreeNode<T> node)
         {
             if (_root == null)
@@ -49,47 +44,6 @@ namespace DataStructures
             }
         }
 
-        //public void Remove(T value)
-        //{
-        //    TreeNode<T> parent = null;
-        //    var node = _root;
-        //    bool isRightChild = false;
-        //    while (node != null)
-        //    {
-        //        if (node.Value.CompareTo(value) == 0) break;
-        //        parent = node;
-        //        isRightChild = node.Value.CompareTo(value) < 0;
-        //        node = isRightChild ? node.Right : node.Left;
-        //    }
-
-        //    if (node == null) return;//value not found in tree
-        //    if (parent == null)
-        //    {
-        //        //trying to delete the root node
-        //    }
-        //    else
-        //    {
-        //        if (IsLeaf(node))
-        //        {
-        //            if (isRightChild) parent.Right = null;
-        //            else parent.Left = null;
-        //            return;
-        //        }
-
-        //        if (parent.Left == null || parent.Right == null)
-        //        {
-        //            //only one child exist, which is the currentNode and we can delete it 
-        //            parent.Left = node.Left;
-        //            parent.Right = node.Right;
-        //        }
-        //        else
-        //        {
-        //            //have to replace node with predecessor or successor
-        //            if(node.Left == null) 
-        //        }
-        //    }
-        //}
-        
         public void Remove(T value)
         {
             _root = Remove(value, _root);

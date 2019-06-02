@@ -98,7 +98,7 @@ namespace Problems
                 if (length != otherLength)
                     return length.CompareTo(otherLength);
 
-                return Start == other.Start && End == other.End? 0: -1;
+                return Start == other.Start && End == other.End? 0: Start.CompareTo(other.Start);
             }
 
             

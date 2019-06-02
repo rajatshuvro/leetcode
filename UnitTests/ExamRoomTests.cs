@@ -46,5 +46,22 @@ namespace UnitTests
             examRoom.Leave(6);
             Assert.Equal(9, examRoom.Seat());
         }
+
+        [Fact]
+        public void Test_case_0()
+        {
+            var examRoom = new ExamRoom(10);
+
+            Assert.Equal(0, examRoom.Seat());
+            Assert.Equal(9, examRoom.Seat());
+            Assert.Equal(4, examRoom.Seat());
+            Assert.Equal(6, examRoom.Seat());
+
+            examRoom.Leave(0);
+            Assert.Equal(0, examRoom.Seat());
+            examRoom.Leave(9);
+            examRoom.Leave(6);
+            Assert.Equal(9, examRoom.Seat());
+        }
     }
 }
