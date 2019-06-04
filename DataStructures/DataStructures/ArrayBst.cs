@@ -19,6 +19,30 @@ namespace DataStructures
             }
         }
 
+        // initialize the bst with the items given
+        public void Load(T[] items)
+        {
+            _items = new T[items.Length * 2];
+
+            for (var i = 0; i < _items.Length; i++)
+            {
+                _items[i] = _nullValue;
+            }
+
+            Array.Sort(items);
+            Build(items, 0, items.Length -1, RootIndex);
+        }
+
+        private void Build(T[] items, int low, int high, int rootIndex)
+        {
+            if (low > high) return;
+            var mid = (low + high) / 2;
+            _items[rootIndex] = items[mid];
+
+            Build(items, low, mid - 1, LeftChildIndex(rootIndex));
+            Build(items, mid + 1, high, RightChildIndex(rootIndex));
+        }
+
         public void Add(T value)
         {
             var i = RootIndex;
@@ -114,6 +138,33 @@ namespace DataStructures
             }
 
             return itemIndex;
+        }
+
+        private IEnumerable<T> GetSortedItems(int rootIndex)
+        {
+            var i = rootIndex;
+            if (IsNull(i)) yield break;
+
+            foreach (var item in GetSortedItems(LeftChildIndex(i)))
+            {
+                yield return item;
+            }
+
+            yield return _items[i];
+            foreach (var item in GetSortedItems(RightChildIndex(i)))
+            {
+                yield return item;
+            }
+
+        }
+        public IEnumerable<T> GetSortedItems()
+        {
+            return GetSortedItems(RootIndex);
+        }
+
+        private bool IsNull(int i)
+        {
+            return i >= _items.Length || _items[i].CompareTo(_nullValue) == 0;
         }
 
         private bool LeftChildExist(int i)

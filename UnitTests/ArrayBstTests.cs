@@ -119,5 +119,24 @@ namespace UnitTests
             Assert.True(bst.Find(1));
 
         }
+
+        [Fact]
+        public void GetSortedItems()
+        {
+            var bst = new ArrayBst<int>(int.MinValue, 16);
+
+            bst.Add(5);
+            bst.Add(3);
+            bst.Add(8);
+            bst.Add(1);
+            bst.Add(4);
+            bst.Add(2);
+            bst.Add(6);
+            bst.Add(9);
+            bst.Add(7);
+
+            Assert.Equal(new[] {1, 2, 3,4,5,6,7,8,9 }, bst.GetSortedItems());
+
+        }
     }
 }
