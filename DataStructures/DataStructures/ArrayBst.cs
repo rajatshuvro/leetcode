@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataStructures
 {
     //Binary search tree implementation using array instead of Treenodes with pointers
+    // warning!! while benchmarking with 1M random ints, proved to be very slow because it needs frequent re-balancing 
+    // to keep memory usage low. the regular BST is very fast. takes about 1 sec for 1 M adds.
     public class ArrayBst<T> where T:IComparable<T>
     {
         private T[] _items;
@@ -19,18 +22,33 @@ namespace DataStructures
             }
         }
 
-        // initialize the bst with the items given
-        public void Load(T[] items)
+        // re-crate the tree
+        public void ReBalance()
         {
-            _items = new T[items.Length * 2];
+            //Console.WriteLine("rebalancing");
+            var items = GetSortedItems().ToArray();
+            var newLength = GetCeilingPowerOfTwo(items.Length);
+
+            if(_items.Length < newLength)
+                _items = new T[newLength];
 
             for (var i = 0; i < _items.Length; i++)
             {
                 _items[i] = _nullValue;
             }
 
-            Array.Sort(items);
-            Build(items, 0, items.Length -1, RootIndex);
+            Build(items, 0, items.Length - 1, RootIndex);
+        }
+
+        private int GetCeilingPowerOfTwo(int length)
+        {
+            int i = 1;
+            while(i < length)
+            {
+                i <<= 1;
+            }
+
+            return i * 2;
         }
 
         private void Build(T[] items, int low, int high, int rootIndex)
@@ -38,6 +56,7 @@ namespace DataStructures
             if (low > high) return;
             var mid = (low + high) / 2;
             _items[rootIndex] = items[mid];
+            if (low == high) return;
 
             Build(items, low, mid - 1, LeftChildIndex(rootIndex));
             Build(items, mid + 1, high, RightChildIndex(rootIndex));
@@ -56,15 +75,8 @@ namespace DataStructures
             else
             {
                 // extend the array if we have run out of space
-                var newArray = new T[_items.Length * 2];
-                Array.Copy(_items,newArray,_items.Length);
-                for (var j = _items.Length; j < newArray.Length; j++)
-                {
-                    newArray[j] = _nullValue;
-                }
-
-                newArray[i] = value;
-                _items = newArray;
+                ReBalance();
+                Add(value);
             }
         }
 

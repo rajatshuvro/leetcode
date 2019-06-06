@@ -1,4 +1,5 @@
-﻿using DataStructures;
+﻿using System;
+using DataStructures;
 using Xunit;
 
 namespace UnitTests
@@ -120,23 +121,40 @@ namespace UnitTests
 
         }
 
-        [Fact]
-        public void GetSortedItems()
+        [Theory]
+        [InlineData(new[] {5,3,8,1,4,2,6,9,7 })]
+        [InlineData(new[] { 25, 3, 18, 12, 44, 22, 36, 19, 27 })]
+        public void GetSortedItems(int[] items)
         {
-            var bst = new ArrayBst<int>(int.MinValue, 16);
+            var bst = new ArrayBst<int>(int.MinValue, items.Length*2);
 
-            bst.Add(5);
-            bst.Add(3);
-            bst.Add(8);
-            bst.Add(1);
-            bst.Add(4);
-            bst.Add(2);
-            bst.Add(6);
-            bst.Add(9);
-            bst.Add(7);
+            foreach (var item in items)
+            {
+                bst.Add(item);
+            }
 
-            Assert.Equal(new[] {1, 2, 3,4,5,6,7,8,9 }, bst.GetSortedItems());
+            Array.Sort(items);
+            Assert.Equal(items, bst.GetSortedItems());
 
         }
+
+        [Theory]
+        [InlineData(new[] { 5, 3, 8, 1, 4, 2, 6, 9, 7 })]
+        [InlineData(new[] { 25, 3, 18, 12, 44, 22, 36, 19, 27 })]
+        public void Rebalance(int[] items)
+        {
+            var bst = new ArrayBst<int>(int.MinValue, items.Length * 2);
+
+            foreach (var item in items)
+            {
+                bst.Add(item);
+            }
+
+            Array.Sort(items);
+            Assert.Equal(items, bst.GetSortedItems());
+
+        }
+
+
     }
 }

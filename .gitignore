@@ -73,3 +73,5 @@
 /Algorithms/bin/Debug/netcoreapp2.1
 /Algorithms/obj
 /.vs/LeetCrawler/v16
+/Benchmark/bin/Debug/netcoreapp2.1
+/Benchmark/obj
