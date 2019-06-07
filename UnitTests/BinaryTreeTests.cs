@@ -220,13 +220,35 @@ namespace UnitTests
         {
             var bst = new BinarySearchTree<int>();
 
-            bst.BalancedAdd(3);
-            bst.BalancedAdd(4);
-            bst.BalancedAdd(5);
-            bst.BalancedAdd(2);
-            bst.BalancedAdd(1);
+            bst.Add(1);
+            bst.Add(2);
+            bst.Add(3);
+            bst.Add(4);
+            bst.Add(5);
+            bst.Add(6);
+            bst.Add(7);
 
-            Assert.Equal(new []{1,2,3,4,5}, bst.GetValuesInOrder());
+            Assert.Equal(new []{1,2,3,4,5,6,7}, bst.GetSortedValues());
+        }
+
+        [Fact]
+        public void Balanced_remove()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.Add(1);
+            bst.Add(2);
+            bst.Add(3);
+            bst.Add(4);
+            bst.Add(5);
+            bst.Add(6);
+            bst.Add(7);
+
+            bst.Remove(5);
+            bst.Remove(7);
+            bst.Remove(6);
+
+            Assert.Equal(new[] { 1, 2, 3, 4 }, bst.GetSortedValues());
         }
 
     }

@@ -7,50 +7,50 @@ namespace DataStructures
     {
         private TreeNode<T> _root;
 
+        //public void Add(T value)
+        //{
+        //    Add(new TreeNode<T>(value));
+        //}
+
+        //private void Add(TreeNode<T> node)
+        //{
+        //    if (_root == null)
+        //    {
+        //        _root = node;
+        //        return;
+        //    }
+
+        //    var current = _root;
+        //    while (true)
+        //    {
+        //        if (current.Value.CompareTo(node.Value) >= 0)
+        //        {
+        //            if (current.Left == null)
+        //            {
+        //                current.Left = node;
+        //                return;
+        //            }
+        //            current = current.Left;
+        //        }
+        //        else
+        //        {
+        //            if (current.Right == null)
+        //            {
+        //                current.Right = node;
+        //                return;
+        //            }
+        //            current = current.Right;
+        //        }
+        //    }
+        //}
+
         public void Add(T value)
         {
-            Add(new TreeNode<T>(value));
-        }
-
-        private void Add(TreeNode<T> node)
-        {
-            if (_root == null)
-            {
-                _root = node;
-                return;
-            }
-
-            var current = _root;
-            while (true)
-            {
-                if (current.Value.CompareTo(node.Value) >= 0)
-                {
-                    if (current.Left == null)
-                    {
-                        current.Left = node;
-                        return;
-                    }
-                    current = current.Left;
-                }
-                else
-                {
-                    if (current.Right == null)
-                    {
-                        current.Right = node;
-                        return;
-                    }
-                    current = current.Right;
-                }
-            }
-        }
-
-        public void BalancedAdd(T value)
-        {
             var node = new TreeNode<T>(value);
-            _root = BalancedAdd(node, _root);
+            _root = Add(node, _root);
         }
         //recursive implementation that keeps the tree balanced for random adds.
-        private TreeNode<T> BalancedAdd(TreeNode<T> node, TreeNode<T> root)
+        private TreeNode<T> Add(TreeNode<T> node, TreeNode<T> root)
         {
             if (root == null)
             {
@@ -60,23 +60,21 @@ namespace DataStructures
             var compare = node.Value.CompareTo(root.Value);
             if (compare <= 0)
             {
-                root.Left = BalancedAdd(node, root.Left);
-                if (!IsBalanced(root)) return Balance(root);
-
-                root.Height = RecomputeHeight(root);
-                return root;
+                root.Left = Add(node, root.Left);
+                return Balance(root);
             }
 
-            root.Right = BalancedAdd(node, root.Right);
-            if (!IsBalanced(root)) return Balance(root);
-
-            root.Height = (byte)(Math.Max(GetHeight(root.Left), GetHeight(root.Right)) + 1);
-            return root;
+            root.Right = Add(node, root.Right);
+            return Balance(root);
         }
 
         private TreeNode<T> Balance(TreeNode<T> root)
         {
-            if (IsBalanced(root)) return root;
+            if (IsBalanced(root))
+            {
+                root.Height = RecomputeHeight(root);
+                return root;
+            }
 
             if (GetHeight(root.Left) < GetHeight(root.Right))
             {
@@ -96,7 +94,7 @@ namespace DataStructures
             return rootLeft;
         }
 
-        private bool IsBalanced(TreeNode<T> node)
+        private static bool IsBalanced(TreeNode<T> node)
         {
             if (node == null) return true;
             return Math.Abs(GetHeight(node.Left)-GetHeight(node.Right)) <=1;
@@ -121,18 +119,20 @@ namespace DataStructures
         private TreeNode<T> Remove(T value, TreeNode<T> node)
         {
             if (node == null) return null;
-            if (value.CompareTo(node.Value) < 0)
+            var compare = value.CompareTo(node.Value);
+            
+            if (compare < 0)
             {
                 if (node.Left == null) return node;
                 node.Left = Remove(value, node.Left);
-                return node;
+                return Balance(node);
             }
 
-            if (value.CompareTo(node.Value) > 0)
+            if (compare > 0)
             {
                 if (node.Right == null) return node;
                 node.Right = Remove(value, node.Right);
-                return node;
+                return Balance(node);
             }
 
             //value found
@@ -145,11 +145,10 @@ namespace DataStructures
 
             node.Left = Remove(predecessor.Value, node.Left);
             node.Value = predecessor.Value;
-
-            return node;
+            return Balance(node);
         }
 
-        private TreeNode<T> FindMaxNode(TreeNode<T> node)
+        private static TreeNode<T> FindMaxNode(TreeNode<T> node)
         {
             if (node == null) return null;
             while (node.Right != null)
@@ -163,9 +162,9 @@ namespace DataStructures
             return node.Left == null && node.Right == null;
         }
 
-        public IEnumerable<T> GetValuesInOrder()
+        public IEnumerable<T> GetSortedValues()
         {
-            return GetValuesInOrder(_root);
+            return GetSortedValues(_root);
         }
 
         private TreeNode<T> _predecessor, _successor;
@@ -229,18 +228,18 @@ namespace DataStructures
             return null;
         }
 
-        private IEnumerable<T> GetValuesInOrder(TreeNode<T> root)
+        private static IEnumerable<T> GetSortedValues(TreeNode<T> root)
         {
             if (root == null) yield break;
 
-            foreach (var value in GetValuesInOrder(root.Left))
+            foreach (var value in GetSortedValues(root.Left))
             {
                 yield return value;
             }
 
             yield return root.Value;
 
-            foreach (var value in GetValuesInOrder(root.Right))
+            foreach (var value in GetSortedValues(root.Right))
             {
                 yield return value;
             }

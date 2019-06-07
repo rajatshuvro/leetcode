@@ -47,7 +47,7 @@ namespace UnitTests
             tree.Add(2);
             tree.Add(1);
             tree.Add(3);
-            var inorderList = tree.GetValuesInOrder();
+            var inorderList = tree.GetSortedValues();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
@@ -75,7 +75,7 @@ namespace UnitTests
             tree.Add(3);
             tree.Add(2);
             tree.Add(1);
-            var inorderList = tree.GetValuesInOrder();
+            var inorderList = tree.GetSortedValues();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
@@ -104,7 +104,7 @@ namespace UnitTests
             tree.Add(1);
             tree.Add(2);
             tree.Add(3);
-            var inorderList = tree.GetValuesInOrder();
+            var inorderList = tree.GetSortedValues();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
