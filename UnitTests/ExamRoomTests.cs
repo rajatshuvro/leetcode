@@ -55,13 +55,10 @@ namespace UnitTests
             Assert.Equal(0, examRoom.Seat());
             Assert.Equal(9, examRoom.Seat());
             Assert.Equal(4, examRoom.Seat());
-            Assert.Equal(6, examRoom.Seat());
+            Assert.Equal(2, examRoom.Seat());
 
-            examRoom.Leave(0);
-            Assert.Equal(0, examRoom.Seat());
-            examRoom.Leave(9);
-            examRoom.Leave(6);
-            Assert.Equal(9, examRoom.Seat());
+            examRoom.Leave(4);
+            Assert.Equal(5, examRoom.Seat());
         }
     }
 }

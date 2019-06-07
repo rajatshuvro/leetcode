@@ -68,15 +68,7 @@ namespace Problems
             var rightOccupied = successor?.Value ?? _totalSeatCount;
 
             _gaps.Remove(new SeatingInterval(leftOccupied, p));
-            //if (!_gaps.Remove(new SeatingInterval(leftOccupied, p)))
-            //{
-            //    throw new DataMisalignedException($"Missing interval in heap:{leftOccupied}-{p}");
-            //}
             _gaps.Remove(new SeatingInterval(p, rightOccupied));
-            //if (!_gaps.Remove(new SeatingInterval(p, rightOccupied)))
-            //{
-            //    throw new DataMisalignedException($"Missing interval in heap:{p}-{rightOccupied}");
-            //}
             _gaps.Add(new SeatingInterval(leftOccupied, rightOccupied));
             
         }
@@ -95,13 +87,12 @@ namespace Problems
             {
                 var length = End - Start + 1;
                 var otherLength = other.End - other.Start + 1;
+
                 if (length != otherLength)
                     return length.CompareTo(otherLength);
 
                 return Start == other.Start && End == other.End? 0: Start.CompareTo(other.Start);
             }
-
-            
             
         }
     }
