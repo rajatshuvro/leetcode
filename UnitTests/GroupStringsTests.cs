@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Problems;
 using Xunit;
+using Xunit.Sdk;
 
 namespace UnitTests
 {
@@ -76,40 +77,40 @@ namespace UnitTests
             Assert.Equal(output[0], result[0]);
         }
 
-        [Fact]
-        public void Test_15()
-        {
-            var input = new[] { "fpbnsbrkbcyzdmmmoisaa", "cpjtwqcdwbldwwrryuclcngw", "a", "fnuqwejouqzrif", "js", "qcpr", "zghmdiaqmfelr", "iedda", "l", "dgwlvcyubde", "lpt", "qzq", "zkddvitlk", "xbogegswmad", "mkndeyrh", "llofdjckor", "lebzshcb", "firomjjlidqpsdeqyn", "dclpiqbypjpfafukqmjnjg", "lbpabjpcmkyivbtgdwhzlxa", "wmalmuanxvjtgmerohskwil", "yxgkdlwtkekavapflheieb", "oraxvssurmzybmnzhw", "ohecvkfe", "kknecibjnq", "wuxnoibr", "gkxpnpbfvjm", "lwpphufxw", "sbs", "txb", "ilbqahdzgij", "i", "zvuur", "yfglchzpledkq", "eqdf", "nw", "aiplrzejplumda", "d", "huoybvhibgqibbwwdzhqhslb", "rbnzendwnoklpyyyauemm" };
-            var output = new List<List<string>>()
-            {
-                new List<string>(){ "a", "d", "i", "l" },
-                new List<string>(){ "eqdf", "qcpr" },
-                new List<string>(){ "lpt","txb" },
-                new List<string>(){ "yfglchzpledkq","zghmdiaqmfelr"},
-                new List<string>(){ "kknecibjnq","llofdjckor"},
-                new List<string>(){ "cpjtwqcdwbldwwrryuclcngw","huoybvhibgqibbwwdzhqhslb"},
-                new List<string>(){ "lbpabjpcmkyivbtgdwhzlxa","wmalmuanxvjtgmerohskwil"},
-                new List<string>(){ "iedda","zvuur"},
-                new List<string>(){ "js","nw"},
-                new List<string>(){ "lebzshcb","ohecvkfe"},
-                new List<string>(){ "dgwlvcyubde","ilbqahdzgij"},
-                new List<string>(){ "lwpphufxw","zkddvitlk"},
-                new List<string>(){ "qzq","sbs"},
-                new List<string>(){ "dclpiqbypjpfafukqmjnjg","yxgkdlwtkekavapflheieb"},
-                new List<string>(){ "mkndeyrh","wuxnoibr"},
-                new List<string>(){ "firomjjlidqpsdeqyn","oraxvssurmzybmnzhw"},
-                new List<string>(){ "gkxpnpbfvjm","xbogegswmad"},
-                new List<string>(){ "fpbnsbrkbcyzdmmmoisaa","rbnzendwnoklpyyyauemm"},
-                new List<string>(){ "aiplrzejplumda","fnuqwejouqzrif"},
+        //[Fact]
+        //public void Test_15()
+        //{
+        //    var input = new[] { "fpbnsbrkbcyzdmmmoisaa", "cpjtwqcdwbldwwrryuclcngw", "a", "fnuqwejouqzrif", "js", "qcpr", "zghmdiaqmfelr", "iedda", "l", "dgwlvcyubde", "lpt", "qzq", "zkddvitlk", "xbogegswmad", "mkndeyrh", "llofdjckor", "lebzshcb", "firomjjlidqpsdeqyn", "dclpiqbypjpfafukqmjnjg", "lbpabjpcmkyivbtgdwhzlxa", "wmalmuanxvjtgmerohskwil", "yxgkdlwtkekavapflheieb", "oraxvssurmzybmnzhw", "ohecvkfe", "kknecibjnq", "wuxnoibr", "gkxpnpbfvjm", "lwpphufxw", "sbs", "txb", "ilbqahdzgij", "i", "zvuur", "yfglchzpledkq", "eqdf", "nw", "aiplrzejplumda", "d", "huoybvhibgqibbwwdzhqhslb", "rbnzendwnoklpyyyauemm" };
+        //    var output = new List<List<string>>()
+        //    {
+        //        new List<string>(){ "a", "d", "i", "l" },
+        //        new List<string>(){ "eqdf", "qcpr" },
+        //        new List<string>(){ "lpt","txb" },
+        //        new List<string>(){ "yfglchzpledkq","zghmdiaqmfelr"},
+        //        new List<string>(){ "kknecibjnq","llofdjckor"},
+        //        new List<string>(){ "cpjtwqcdwbldwwrryuclcngw","huoybvhibgqibbwwdzhqhslb"},
+        //        new List<string>(){ "lbpabjpcmkyivbtgdwhzlxa","wmalmuanxvjtgmerohskwil"},
+        //        new List<string>(){ "iedda","zvuur"},
+        //        new List<string>(){ "js","nw"},
+        //        new List<string>(){ "lebzshcb","ohecvkfe"},
+        //        new List<string>(){ "dgwlvcyubde","ilbqahdzgij"},
+        //        new List<string>(){ "lwpphufxw","zkddvitlk"},
+        //        new List<string>(){ "qzq","sbs"},
+        //        new List<string>(){ "dclpiqbypjpfafukqmjnjg","yxgkdlwtkekavapflheieb"},
+        //        new List<string>(){ "mkndeyrh","wuxnoibr"},
+        //        new List<string>(){ "firomjjlidqpsdeqyn","oraxvssurmzybmnzhw"},
+        //        new List<string>(){ "gkxpnpbfvjm","xbogegswmad"},
+        //        new List<string>(){ "fpbnsbrkbcyzdmmmoisaa","rbnzendwnoklpyyyauemm"},
+        //        new List<string>(){ "aiplrzejplumda","fnuqwejouqzrif"},
 
-            };
+        //    };
 
-            var sol = new GroupShiftedStrings();
+        //    var sol = new GroupShiftedStrings();
 
-            var result = sol.GroupStrings(input);
-            Assert.Equal(output.Count, result.Count);
-            Assert.Equal(output[0], result[0]);
-        }
+        //    var result = sol.GroupStrings(input);
+        //    Assert.Equal(output.Count, result.Count);
+        //    Assert.Equal(output[0], result[0]);
+        //}
 
     }
 }

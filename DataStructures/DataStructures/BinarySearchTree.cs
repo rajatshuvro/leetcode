@@ -12,7 +12,7 @@ namespace DataStructures
             Add(new TreeNode<T>(value));
         }
 
-        public void Add(TreeNode<T> node)
+        private void Add(TreeNode<T> node)
         {
             if (_root == null)
             {
@@ -44,6 +44,74 @@ namespace DataStructures
             }
         }
 
+        public void BalancedAdd(T value)
+        {
+            var node = new TreeNode<T>(value);
+            _root = BalancedAdd(node, _root);
+        }
+        //recursive implementation that keeps the tree balanced for random adds.
+        private TreeNode<T> BalancedAdd(TreeNode<T> node, TreeNode<T> root)
+        {
+            if (root == null)
+            {
+                return node;
+            }
+
+            var compare = node.Value.CompareTo(root.Value);
+            if (compare <= 0)
+            {
+                root.Left = BalancedAdd(node, root.Left);
+                if (!IsBalanced(root)) return Balance(root);
+
+                root.Height = RecomputeHeight(root);
+                return root;
+            }
+
+            root.Right = BalancedAdd(node, root.Right);
+            if (!IsBalanced(root)) return Balance(root);
+
+            root.Height = (byte)(Math.Max(GetHeight(root.Left), GetHeight(root.Right)) + 1);
+            return root;
+        }
+
+        private TreeNode<T> Balance(TreeNode<T> root)
+        {
+            if (IsBalanced(root)) return root;
+
+            if (GetHeight(root.Left) < GetHeight(root.Right))
+            {
+                var rootRight    = root.Right;
+                root.Right       = rootRight.Left;
+                root.Height      = RecomputeHeight(root);
+                rootRight.Left   = root;
+                rootRight.Height = RecomputeHeight(rootRight);
+                return rootRight;
+            }
+
+            var rootLeft    = root.Left;
+            root.Left       = rootLeft.Right;
+            root.Height     = RecomputeHeight(root);
+            rootLeft.Right  = root;
+            rootLeft.Height = RecomputeHeight(rootLeft);
+            return rootLeft;
+        }
+
+        private bool IsBalanced(TreeNode<T> node)
+        {
+            if (node == null) return true;
+            return Math.Abs(GetHeight(node.Left)-GetHeight(node.Right)) <=1;
+        }
+
+        private static byte RecomputeHeight(TreeNode<T> node)
+        {
+            return (byte)(Math.Max(GetHeight(node.Left), GetHeight(node.Right)) + 1);
+        }
+
+        private static byte GetHeight(TreeNode<T> node)
+        {
+            if (node == null) return 0;
+            return node.Height;
+        }
         public void Remove(T value)
         {
             _root = Remove(value, _root);
@@ -95,7 +163,7 @@ namespace DataStructures
             return node.Left == null && node.Right == null;
         }
 
-        public IEnumerable<TreeNode<T>> GetValuesInOrder()
+        public IEnumerable<T> GetValuesInOrder()
         {
             return GetValuesInOrder(_root);
         }
@@ -161,20 +229,20 @@ namespace DataStructures
             return null;
         }
 
-        private IEnumerable<TreeNode<T>> GetValuesInOrder(TreeNode<T> root)
+        private IEnumerable<T> GetValuesInOrder(TreeNode<T> root)
         {
             if (root == null) yield break;
 
-            foreach (var node in GetValuesInOrder(root.Left))
+            foreach (var value in GetValuesInOrder(root.Left))
             {
-                yield return node;
+                yield return value;
             }
 
-            yield return root;
+            yield return root.Value;
 
-            foreach (var node in GetValuesInOrder(root.Right))
+            foreach (var value in GetValuesInOrder(root.Right))
             {
-                yield return node;
+                yield return value;
             }
         }
 

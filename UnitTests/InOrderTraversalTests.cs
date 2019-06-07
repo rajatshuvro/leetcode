@@ -43,15 +43,11 @@ namespace UnitTests
         [Fact]
         public void Balanced_iterator()
         {
-            var node1 = new TreeNode<int>(1);
-            var node2 = new TreeNode<int>(2);
-            var node3 = new TreeNode<int>(3);
-
             var tree = new BinarySearchTree<int>();
-            tree.Add(node2);
-            tree.Add(node1);
-            tree.Add(node3);
-            var inorderList = tree.GetValuesInOrder().Select(x => x.Value).ToArray();
+            tree.Add(2);
+            tree.Add(1);
+            tree.Add(3);
+            var inorderList = tree.GetValuesInOrder();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
@@ -75,15 +71,11 @@ namespace UnitTests
         [Fact]
         public void LeftChain_iterator()
         {
-            var node1 = new TreeNode<int>(1);
-            var node2 = new TreeNode<int>(2);
-            var node3 = new TreeNode<int>(3);
-
             var tree = new BinarySearchTree<int>();
-            tree.Add(node3);
-            tree.Add(node2);
-            tree.Add(node1);
-            var inorderList = tree.GetValuesInOrder().Select(x => x.Value).ToArray();
+            tree.Add(3);
+            tree.Add(2);
+            tree.Add(1);
+            var inorderList = tree.GetValuesInOrder();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }
@@ -108,15 +100,11 @@ namespace UnitTests
         [Fact]
         public void RightChain_iterator()
         {
-            var node1 = new TreeNode<int>(1);
-            var node2 = new TreeNode<int>(2);
-            var node3 = new TreeNode<int>(3);
-
             var tree = new BinarySearchTree<int>();
-            tree.Add(node1);
-            tree.Add(node2);
-            tree.Add(node3);
-            var inorderList = tree.GetValuesInOrder().Select(x=>x.Value).ToArray();
+            tree.Add(1);
+            tree.Add(2);
+            tree.Add(3);
+            var inorderList = tree.GetValuesInOrder();
 
             Assert.Equal(new[] { 1, 2, 3 }, inorderList);
         }

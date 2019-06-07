@@ -215,5 +215,19 @@ namespace UnitTests
 
         }
 
+        [Fact]
+        public void Balanced_add()
+        {
+            var bst = new BinarySearchTree<int>();
+
+            bst.BalancedAdd(3);
+            bst.BalancedAdd(4);
+            bst.BalancedAdd(5);
+            bst.BalancedAdd(2);
+            bst.BalancedAdd(1);
+
+            Assert.Equal(new []{1,2,3,4,5}, bst.GetValuesInOrder());
+        }
+
     }
 }
