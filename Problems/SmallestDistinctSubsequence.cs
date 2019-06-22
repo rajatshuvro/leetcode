@@ -34,31 +34,36 @@ namespace Problems
 
         private string SmallestSubsequence(int i)
         {
+            string s1 = null;
+            if (_map.Count == 0 || i >= _text.Length) return null;
             if (_memoizationTable.TryGetValue((i, _map.GetHashCode()), out var result))
                 return result;
 
-            string s1 = null;
-            if (_map.Count == 0 || i >= _text.Length) return null;
-            //the _text.substring(i) must contain all the items in the hash map
-            if (IsMissingRequiredChars(i))
+            if (_map.Count == 1)
             {
-                _memoizationTable[(i, _map.GetHashCode())] = null;
+                var index = _map.GetAllSetPositions().First();
+                var c = (char)('a' + index);
+                if (_text.IndexOf(c, i) > 0) return c.ToString();
                 return null;
             }
 
+            //the _text.substring(i) must contain all the items in the hash map
+            if (IsMissingRequiredChars(i))
+                return null;
             if (i == _text.Length - 1 && _map.IsSet(_text[i] - 'a'))
-            {
-                //_memoizationTable[(i, _map.GetHashCode())] = $"{_text[i]}";
                 return $"{_text[i]}";
-            }
+            
             
             //assume char i will not be in the optimal subsequence
             var s2 = SmallestSubsequence(i + 1);
+            _memoizationTable[(i+1, _map.GetHashCode())] = s2;
             // assume char i will be in the optimal subsequence
             if (_map.IsSet(_text[i] - 'a'))
             {
                 _map.Clear(_text[i] - 'a');
-                s1 = _text[i] + SmallestSubsequence(i + 1);
+                var ss = SmallestSubsequence(i + 1);
+                _memoizationTable[(i + 1, _map.GetHashCode())] = ss;
+                s1 = _text[i] + ss;
                 _map.Set(_text[i] - 'a');
             }
 
