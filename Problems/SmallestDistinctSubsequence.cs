@@ -43,7 +43,7 @@ namespace Problems
             {
                 var index = _map.GetAllSetPositions().First();
                 var c = (char)('a' + index);
-                if (_text.IndexOf(c, i) > 0) return c.ToString();
+                if (_text.IndexOf(c, i) >= 0) return c.ToString();
                 return null;
             }
 
