@@ -3,6 +3,7 @@ using DataStructures;
 
 namespace Problems
 {
+    //https://leetcode.com/problems/next-greater-node-in-linked-list/
     public class NextGreaterNumber
     {
         public class ValueAndIndex
