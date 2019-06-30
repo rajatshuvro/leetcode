@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Problems
+﻿namespace Problems
 {
     public class FindDuplicateNumber
     {

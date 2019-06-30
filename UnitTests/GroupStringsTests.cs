@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Problems;
 using Xunit;
-using Xunit.Sdk;
 
 namespace UnitTests
 {
