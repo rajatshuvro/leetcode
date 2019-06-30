@@ -23,25 +23,31 @@
             }
             // i might have gone past the pivot element
             while (i > startIndex && array[i] > pivot) i--;
+            // the pivot has to be at index i, otherwise, no downstream algorithms seems to work
+            var lastPivotIndex = i;
+            while (array[lastPivotIndex] != pivot)
+            {
+                lastPivotIndex--;
+            }
+            Swap(array, lastPivotIndex, i);
             return i;
         }
 
         //find the kth element in the array _nums[i...j]. K is 0 based
         public static int FindKthElement(int[] array, int i, int j, int k)
         {
-            if (k >= j ) return GetMax(array, i, j);
-            if (k <= i) return GetMin(array, i, j);
-
             if (i == j) return array[i];
 
             var pivotIndex = (i + j) / 2;
 
             var pivotRank = Partition(array, i, j, pivotIndex);
 
-            return k <= pivotRank ? FindKthElement(array, i, pivotRank, k) : FindKthElement(array, pivotRank + 1, j, k);
+            if (pivotRank == k) return array[pivotRank];
+
+            return k < pivotRank ? FindKthElement(array, i, pivotRank - 1, k) : FindKthElement(array, pivotRank + 1, j, k);
         }
 
-        private static int GetMax(int[] array, int i = 0, int j= -1)
+        public static int GetMax(int[] array, int i = 0, int j= -1)
         {
             if (j == -1) j = array.Length - 1;
             var max = array[i++];
@@ -54,7 +60,7 @@
             return max;
         }
 
-        private static int GetMin(int[] array, int i = 0, int j = -1)
+        public static int GetMin(int[] array, int i = 0, int j = -1)
         {
             if (j == -1) j = array.Length - 1;
             var min = array[i++];

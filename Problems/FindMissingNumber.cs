@@ -33,9 +33,9 @@ namespace Problems
             var pivotIndex = (i + j) / 2;
             var pivot = _nums[pivotIndex];
 
-            pivotIndex = ArrayUtils.Partition(_nums, i, j, pivotIndex);
+            var pivotRank = ArrayUtils.Partition(_nums, i, j, pivotIndex);
 
-            return pivotIndex == pivot ? MissingNumber(pivotIndex + 1, j) : MissingNumber(i, pivotIndex);
+            return pivotRank == pivot ? MissingNumber(pivotRank + 1, j) : MissingNumber(i, pivotRank);
 
         }
     }

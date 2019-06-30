@@ -33,6 +33,7 @@ namespace UnitTests
         }
 
         [Theory]
+        [InlineData(new[] { 2,1 }, 0, 1)]
         [InlineData(new[] { 3, 2, 1, 5, 6, 4 }, 4, 5)]
         [InlineData(new[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 6, 5)]
         public void FindingKthElement(int[] nums, int k, int expectedNum)
