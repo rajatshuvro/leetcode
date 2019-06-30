@@ -35,15 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafSimilarTrees", "LeafSim
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxAreaOfIsland", "MaxAreaOfIsland\MaxAreaOfIsland.csproj", "{D6D709C0-94EE-4DD0-8E1F-942935F1B821}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReorderedPowerOfTwo", "ReorderedPowerOfTwo\ReorderedPowerOfTwo.csproj", "{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSTIterator", "BSTIterator\BSTIterator.csproj", "{D21C7F77-8F26-4E33-BF16-028FDECB2AB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Problems", "Problems\Problems.csproj", "{7E45F4DD-3606-4400-B4E3-C32867E0BF5D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Algorithms.csproj", "{F4E74041-9FED-4E78-9B2D-183E6E20201E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark", "Benchmark\Benchmark.csproj", "{85416EF1-40C2-43E2-8DC0-95FDEB8B7BBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "Benchmark\Benchmark.csproj", "{85416EF1-40C2-43E2-8DC0-95FDEB8B7BBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,10 +113,6 @@ Global
 		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D709C0-94EE-4DD0-8E1F-942935F1B821}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A0EE7CB-4AF3-4EF7-8FF8-C11471875A05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D21C7F77-8F26-4E33-BF16-028FDECB2AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D21C7F77-8F26-4E33-BF16-028FDECB2AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D21C7F77-8F26-4E33-BF16-028FDECB2AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU

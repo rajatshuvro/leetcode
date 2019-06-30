@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
-namespace ReorderedPowerOfTwo
+namespace Problems
 {
-    public class Solution
+    public class ReorderedPowerOfTwo
     {
         public bool ReorderedPowerOf2(int N)
         {
@@ -42,7 +42,7 @@ namespace ReorderedPowerOfTwo
                 default:
                     return 134_217_728;
             }
-         
+
         }
 
         private int[] GetIntegerProfile(int n)

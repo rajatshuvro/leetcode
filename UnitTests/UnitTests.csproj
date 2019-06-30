@@ -18,7 +18,6 @@
     <ProjectReference Include="..\DataStructures\DataStructures\DataStructures.csproj" />
     <ProjectReference Include="..\MaxAreaOfIsland\MaxAreaOfIsland.csproj" />
     <ProjectReference Include="..\Problems\Problems.csproj" />
-    <ProjectReference Include="..\ReorderedPowerOfTwo\ReorderedPowerOfTwo.csproj" />
   </ItemGroup>
 
 </Project>
