@@ -6,44 +6,7 @@ namespace DataStructures
     public class BinarySearchTree<T> where T:IComparable<T>
     {
         private TreeNode<T> _root;
-
-        //public void Add(T value)
-        //{
-        //    Add(new TreeNode<T>(value));
-        //}
-
-        //private void Add(TreeNode<T> node)
-        //{
-        //    if (_root == null)
-        //    {
-        //        _root = node;
-        //        return;
-        //    }
-
-        //    var current = _root;
-        //    while (true)
-        //    {
-        //        if (current.Value.CompareTo(node.Value) >= 0)
-        //        {
-        //            if (current.Left == null)
-        //            {
-        //                current.Left = node;
-        //                return;
-        //            }
-        //            current = current.Left;
-        //        }
-        //        else
-        //        {
-        //            if (current.Right == null)
-        //            {
-        //                current.Right = node;
-        //                return;
-        //            }
-        //            current = current.Right;
-        //        }
-        //    }
-        //}
-
+        
         public void Add(T value)
         {
             var node = new TreeNode<T>(value);
@@ -162,9 +125,9 @@ namespace DataStructures
             return node.Left == null && node.Right == null;
         }
 
-        public IEnumerable<T> GetSortedValues()
+        public IEnumerable<T> GetSortedValues(bool reverse=false)
         {
-            return GetSortedValues(_root);
+            return reverse ? ReverseOrderValues(_root): InOrderValues(_root);
         }
 
         private TreeNode<T> _predecessor, _successor;
@@ -228,21 +191,40 @@ namespace DataStructures
             return null;
         }
 
-        private static IEnumerable<T> GetSortedValues(TreeNode<T> root)
+        private static IEnumerable<T> InOrderValues(TreeNode<T> root)
         {
             if (root == null) yield break;
 
-            foreach (var value in GetSortedValues(root.Left))
+            foreach (var value in InOrderValues(root.Left))
             {
                 yield return value;
             }
 
             yield return root.Value;
 
-            foreach (var value in GetSortedValues(root.Right))
+            foreach (var value in InOrderValues(root.Right))
             {
                 yield return value;
             }
+        }
+
+        private static IEnumerable<T> ReverseOrderValues(TreeNode<T> root)
+        {
+            if (root == null) yield break;
+
+            foreach (var value in ReverseOrderValues(root.Right))
+            {
+                yield return value;
+            }
+
+            yield return root.Value;
+
+            foreach (var value in ReverseOrderValues(root.Left))
+            {
+                yield return value;
+            }
+
+            
         }
 
         public IEnumerable<TreeNode<T>> GetValuesWithin(T begin, T end)
