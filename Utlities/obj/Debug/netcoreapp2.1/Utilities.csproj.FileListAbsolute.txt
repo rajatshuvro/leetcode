@@ -6,3 +6,4 @@ C:\leetcode\Utlities\obj\Debug\netcoreapp2.1\Utilities.AssemblyInfoInputs.cache
 C:\leetcode\Utlities\obj\Debug\netcoreapp2.1\Utilities.AssemblyInfo.cs
 C:\leetcode\Utlities\obj\Debug\netcoreapp2.1\Utilities.dll
 C:\leetcode\Utlities\obj\Debug\netcoreapp2.1\Utilities.pdb
+C:\leetcode\Utlities\obj\Debug\netcoreapp2.1\Utilities.csprojAssemblyReference.cache
