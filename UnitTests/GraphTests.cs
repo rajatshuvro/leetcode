@@ -10,15 +10,15 @@ namespace UnitTests
         {
             var edges = new List<Edge<int>>()
             {
-                new Edge<int>(new Node<int>(1), new Node<int>(2),false,  7),
-                new Edge<int>(new Node<int>(1), new Node<int>(3),false,  9),
-                new Edge<int>(new Node<int>(1), new Node<int>(6), false, 14),
-                new Edge<int>(new Node<int>(2), new Node<int>(3), false, 10),
-                new Edge<int>(new Node<int>(2), new Node<int>(4), false, 15),
-                new Edge<int>(new Node<int>(3), new Node<int>(4), false, 11),
-                new Edge<int>(new Node<int>(3), new Node<int>(6), false, 2),
-                new Edge<int>(new Node<int>(4), new Node<int>(5), false, 6),
-                new Edge<int>(new Node<int>(5), new Node<int>(6), false, 9)
+                new Edge<int>(new GraphNode<int>(1), new GraphNode<int>(2),false,  7),
+                new Edge<int>(new GraphNode<int>(1), new GraphNode<int>(3),false,  9),
+                new Edge<int>(new GraphNode<int>(1), new GraphNode<int>(6), false, 14),
+                new Edge<int>(new GraphNode<int>(2), new GraphNode<int>(3), false, 10),
+                new Edge<int>(new GraphNode<int>(2), new GraphNode<int>(4), false, 15),
+                new Edge<int>(new GraphNode<int>(3), new GraphNode<int>(4), false, 11),
+                new Edge<int>(new GraphNode<int>(3), new GraphNode<int>(6), false, 2),
+                new Edge<int>(new GraphNode<int>(4), new GraphNode<int>(5), false, 6),
+                new Edge<int>(new GraphNode<int>(5), new GraphNode<int>(6), false, 9)
             };
 
             var graph = new Graph<int>(false, edges);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DataStructures;
 
 namespace Problems
 {
@@ -13,50 +14,61 @@ namespace Problems
         The graph is given in the following form: graph[i] is a list of indexes j for which the edge between nodes i and j exists.  Each node is an integer between 0 and graph.length - 1.  There are no self edges or parallel edges: graph[i] does not contain i, and it doesn't contain any element twice.
          */
 
-        public bool IsBipartite(int[][] graph)
+        public bool IsBipartite(int[][] adjacencyMatrix)
         {
-            //trying to bi-color the graph
-            var nodeColors = new Dictionary<int, char>();
-            var minUncoloredNode = 0;
-            while (nodeColors.Count < graph.GetLength(0))
+            var edges = new HashSet<Edge<int>>();
+            for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
             {
-                while (minUncoloredNode < graph.GetLength(0) && nodeColors.ContainsKey(minUncoloredNode))
-                    minUncoloredNode++;//get to the next graph component
-
-                if (!IsComponentBipartite(graph, minUncoloredNode, nodeColors)) return false;
-            }
-
-            return true;
-
-        }
-
-        private bool IsComponentBipartite(int[][] graph, int startNode, Dictionary<int, char> nodeColors)
-        {
-            nodeColors[startNode] = 'w';
-            var stack = new Stack<int>();
-
-            stack.Push(startNode);
-            while(stack.Count > 0)
-            {
-                var i = stack.Pop();
-                for (var j = 0; j < graph[i].Length; j++)
+                for (int j = 0; j < adjacencyMatrix[i].Length; j++)
                 {
-                    var v = graph[i][j];
-                    
-                    if (nodeColors.TryGetValue(v, out var color))
-                    {
-                        if (color == nodeColors[i]) return false;
-                    }
-                    else
-                    {
-                        stack.Push(v);
-                        nodeColors[v] = nodeColors[i] == 'b' ? 'w' : 'b';
-                    }
+                    edges.Add(new Edge<int>(new GraphNode<int>(i), new GraphNode<int>(adjacencyMatrix[i][j])));
                 }
-
             }
+            var graph = new Graph<int>(false, edges);
 
-            return true;
+            return graph.IsBipartite();
+            //trying to bi-color the graph
+            //var nodeColors = new Dictionary<int, char>();
+            //var minUncoloredNode = 0;
+            //while (nodeColors.Count < adjacencyMatrix.GetLength(0))
+            //{
+            //    while (minUncoloredNode < adjacencyMatrix.GetLength(0) && nodeColors.ContainsKey(minUncoloredNode))
+            //        minUncoloredNode++;//get to the next graph component
+
+            //    if (!IsComponentBipartite(adjacencyMatrix, minUncoloredNode, nodeColors)) return false;
+            //}
+
+            //return true;
+
         }
+
+        //private bool IsComponentBipartite(int[][] graph, int startNode, Dictionary<int, char> nodeColors)
+        //{
+        //    nodeColors[startNode] = 'w';
+        //    var stack = new Stack<int>();
+
+        //    stack.Push(startNode);
+        //    while(stack.Count > 0)
+        //    {
+        //        var i = stack.Pop();
+        //        for (var j = 0; j < graph[i].Length; j++)
+        //        {
+        //            var v = graph[i][j];
+                    
+        //            if (nodeColors.TryGetValue(v, out var color))
+        //            {
+        //                if (color == nodeColors[i]) return false;
+        //            }
+        //            else
+        //            {
+        //                stack.Push(v);
+        //                nodeColors[v] = nodeColors[i] == 'b' ? 'w' : 'b';
+        //            }
+        //        }
+
+        //    }
+
+        //    return true;
+        //}
     }
 }

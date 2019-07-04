@@ -5,20 +5,20 @@ using System.Linq;
 
 namespace DataStructures
 {
-    public class Node<T> : IEquatable<Node<T>>, IComparable<Node<T>> where T : IEquatable<T>
+    public class GraphNode<T> : IEquatable<GraphNode<T>>, IComparable<GraphNode<T>> where T : IEquatable<T>
     {
         public readonly T Label;
         public int Weight;
-        public char Color;
+        public NodeColor Color;
 
-        public Node(T label,  int weight=0, char color='b')
+        public GraphNode(T label,  int weight=0, NodeColor color=NodeColor.uncolored)
         {
             Label  = label;
             Weight = weight;
             Color  = color;
         }
 
-        public bool Equals(Node<T> other)
+        public bool Equals(GraphNode<T> other)
         {
             return Label.Equals(other.Label);
         }
@@ -28,20 +28,31 @@ namespace DataStructures
             return Label.GetHashCode();
         }
 
-        public int CompareTo(Node<T> other)
+        public int CompareTo(GraphNode<T> other)
         {
             return Weight.CompareTo(other.Weight);
         }
     }
 
+    public enum NodeColor : byte
+    {
+        uncolored,
+        colored,
+        black,
+        white,
+        red,
+        greed,
+        
+    }
+
     public class Edge<T> : IEquatable<Edge<T>> where T : IEquatable<T>
     {
-        public readonly Node<T> Source;
-        public readonly Node<T> Destination;
+        public readonly GraphNode<T> Source;
+        public readonly GraphNode<T> Destination;
         public int Weight;
         public readonly bool IsDirected;
 
-        public Edge(Node<T> source, Node<T> destination, bool isDirected=false, int weight = 0)
+        public Edge(GraphNode<T> source, GraphNode<T> destination, bool isDirected=false, int weight = 0)
         {
             Source = source;
             Destination = destination;
@@ -65,25 +76,25 @@ namespace DataStructures
     public class Graph<T> where T:IEquatable<T>
     {
         public readonly bool IsDirected;
-        private readonly HashSet<Node<T>> _nodes;
-        private readonly HashSet<Edge<T>> _edges;
-        private readonly Dictionary<Node<T>, HashSet<Node<T>>> _neighbors;
+        public readonly HashSet<GraphNode<T>> Nodes;
+        public readonly HashSet<Edge<T>> Edges;
+        public readonly Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> Neighbors;
 
-        public int NumNodes => _nodes.Count;
-        public int NumEdges => _edges.Count;
+        public int NumNodes => Nodes.Count;
+        public int NumEdges => Edges.Count;
 
         public Graph(bool isDirected, IEnumerable<Edge<T>> edges)
         {
             IsDirected = isDirected;
-            _edges     = new HashSet<Edge<T>>();
-            _nodes     = new HashSet<Node<T>>();
-            _neighbors = new Dictionary<Node<T>, HashSet<Node<T>>>();
+            Edges     = new HashSet<Edge<T>>();
+            Nodes     = new HashSet<GraphNode<T>>();
+            Neighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>();
 
             foreach (var edge in edges)
             {
-                _nodes.Add(edge.Source);
-                _nodes.Add(edge.Destination);
-                _edges.Add(edge);
+                Nodes.Add(edge.Source);
+                Nodes.Add(edge.Destination);
+                Edges.Add(edge);
 
                 AddNeighbor(edge.Source, edge.Destination);
 
@@ -92,13 +103,13 @@ namespace DataStructures
             
         }
 
-        private void AddNeighbor(Node<T> source, Node<T> destination)
+        private void AddNeighbor(GraphNode<T> source, GraphNode<T> destination)
         {
-            if (_neighbors.TryGetValue(source, out var neighbors))
+            if (Neighbors.TryGetValue(source, out var neighbors))
             {
                 neighbors.Add(destination);
             }
-            else _neighbors[source] = new HashSet<Node<T>>{ destination };
+            else Neighbors[source] = new HashSet<GraphNode<T>>{ destination };
 
         }
 
@@ -106,8 +117,8 @@ namespace DataStructures
         {
             if (RunDijkstraFrom(sourceLabel)==null) return null;
 
-            var distances = new Dictionary<T, int>(_nodes.Count);
-            foreach (var node in _nodes)
+            var distances = new Dictionary<T, int>(Nodes.Count);
+            foreach (var node in Nodes)
             {
                 distances[node.Label] = node.Weight;
             }
@@ -123,7 +134,7 @@ namespace DataStructures
             if ( predecessors == null) return null;
 
             var path = new List<T>(){destLabel};
-            if (!_nodes.TryGetValue(new Node<T>(destLabel), out var currentNode)) return null;
+            if (!Nodes.TryGetValue(new GraphNode<T>(destLabel), out var currentNode)) return null;
 
             while (!currentNode.Label.Equals(sourceLabel))
             {
@@ -145,14 +156,14 @@ namespace DataStructures
             return new Graph<T>(false, treeEdges);
         }
 
-        public IReadOnlyDictionary<Node<T>, Node<T>> RunDijkstraFrom(T src)
+        public IReadOnlyDictionary<GraphNode<T>, GraphNode<T>> RunDijkstraFrom(T src)
         {
-            if (!_nodes.TryGetValue(new Node<T>(src), out var source)) return null;
+            if (!Nodes.TryGetValue(new GraphNode<T>(src), out var source)) return null;
 
-            var predecessors = new Dictionary<Node<T>, Node<T>>();//keeps track of the shortest path predecessor
+            var predecessors = new Dictionary<GraphNode<T>, GraphNode<T>>();//keeps track of the shortest path predecessor
             //using Dijkstra's algorithm
-            var priorityQ = new MinHeap<Node<T>>(new Node<T>(default(T)));
-            foreach (var node in _nodes)
+            var priorityQ = new MinHeap<GraphNode<T>>(new GraphNode<T>(default(T)));
+            foreach (var node in Nodes)
             {
                 node.Weight = source.Equals(node) ? 0 : int.MaxValue;
                 priorityQ.Add(node);
@@ -161,15 +172,15 @@ namespace DataStructures
             while (priorityQ.Count != 0)
             {
                 var minNode = priorityQ.GetMin();
-                minNode.Color = 'w';//indicating that these nodes are done
+                minNode.Color = NodeColor.colored;//indicating that these nodes are done
 
-                foreach (var neighbor in _neighbors[minNode])
+                foreach (var neighbor in Neighbors[minNode])
                 {
-                    _nodes.TryGetValue(neighbor, out var neighborNode);
+                    Nodes.TryGetValue(neighbor, out var neighborNode);
 
-                    if (neighborNode.Color == 'w') continue;
+                    if (neighborNode.Color == NodeColor.colored) continue;
 
-                    if (!_edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
+                    if (!Edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
                         throw new InvalidDataException($"failed to find edge to neighbor {minNode.Label}->{neighbor.Label}");
                     int edgeWeight = edge.Weight;
 
@@ -185,5 +196,56 @@ namespace DataStructures
             return predecessors;
         }
 
+        public void ClearNodeColors()
+        {
+            foreach (var node in Nodes)
+            {
+                node.Color = NodeColor.uncolored;
+            }
+        }
+        public void ClearNodeWeights()
+        {
+            foreach (var node in Nodes)
+            {
+                node.Weight = 0;
+            }
+        }
+
+        public bool IsBipartite()
+        {
+            foreach (var node in Nodes)
+            {
+                //if a node is colored, it has been assigned to a component and checked
+                if(node.Color != NodeColor.uncolored) continue;
+                
+                if (!IsComponentBipartite(node)) return false;
+            }
+            ClearNodeColors();
+            return true;
+        }
+
+        private bool IsComponentBipartite(GraphNode<T> startNode)
+        {
+            var nodeStack = new Stack<GraphNode<T>>();
+            startNode.Color = NodeColor.black;
+            nodeStack.Push(startNode);
+            while (nodeStack.Count > 0)
+            {
+                var node = nodeStack.Pop();
+                foreach (var neighbor in Neighbors[node])
+                {
+                    if (neighbor.Color == NodeColor.uncolored)
+                    {
+                        neighbor.Color = node.Color == NodeColor.black ? NodeColor.white : NodeColor.black;
+                        nodeStack.Push(neighbor);
+                        continue;
+                    }
+                    if (neighbor.Color == node.Color) return false;
+
+                }
+            }
+            
+            return true;
+        }
     }
 }
