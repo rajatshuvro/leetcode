@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Algorithms;
 using DataStructures;
 
 namespace Problems
@@ -26,49 +27,11 @@ namespace Problems
             }
             var graph = new Graph<int>(false, edges);
 
-            return graph.IsBipartite();
-            //trying to bi-color the graph
-            //var nodeColors = new Dictionary<int, char>();
-            //var minUncoloredNode = 0;
-            //while (nodeColors.Count < adjacencyMatrix.GetLength(0))
-            //{
-            //    while (minUncoloredNode < adjacencyMatrix.GetLength(0) && nodeColors.ContainsKey(minUncoloredNode))
-            //        minUncoloredNode++;//get to the next graph component
-
-            //    if (!IsComponentBipartite(adjacencyMatrix, minUncoloredNode, nodeColors)) return false;
-            //}
-
-            //return true;
+            return GraphComponents<int>.IsBipartite(graph);
+            
 
         }
 
-        //private bool IsComponentBipartite(int[][] graph, int startNode, Dictionary<int, char> nodeColors)
-        //{
-        //    nodeColors[startNode] = 'w';
-        //    var stack = new Stack<int>();
-
-        //    stack.Push(startNode);
-        //    while(stack.Count > 0)
-        //    {
-        //        var i = stack.Pop();
-        //        for (var j = 0; j < graph[i].Length; j++)
-        //        {
-        //            var v = graph[i][j];
-                    
-        //            if (nodeColors.TryGetValue(v, out var color))
-        //            {
-        //                if (color == nodeColors[i]) return false;
-        //            }
-        //            else
-        //            {
-        //                stack.Push(v);
-        //                nodeColors[v] = nodeColors[i] == 'b' ? 'w' : 'b';
-        //            }
-        //        }
-
-        //    }
-
-        //    return true;
-        //}
+        
     }
 }

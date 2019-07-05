@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Algorithms;
 using DataStructures;
 using Xunit;
 
@@ -38,8 +39,8 @@ namespace UnitTests
         public void GetShortestDistances()
         {
             var graph = GetGraph();
-
-            var distances = graph.GetShortestDistancesFrom(1);
+            
+            var distances = Dijkstras<int>.GetShortestDistancesFrom(graph, 1);
 
             Assert.Equal(0, distances[1]);
             Assert.Equal(7, distances[2]);
@@ -53,8 +54,7 @@ namespace UnitTests
         public void GetShortestPath()
         {
             var graph = GetGraph();
-
-            var shortestPath = graph.GetShortestPath(1,6);
+            var shortestPath = Dijkstras<int>.GetShortestPath(graph, 1,6);
 
             Assert.Equal(new [] {1,3,6}, shortestPath);
         }
