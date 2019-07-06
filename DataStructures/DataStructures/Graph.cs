@@ -82,6 +82,21 @@ namespace DataStructures
         public int NumNodes => Nodes.Count;
         public int NumEdges => Edges.Count;
 
+        public Graph(IEnumerable<GraphNode<T>> nodes, IEnumerable<Edge<T>> edges)
+        {
+            Nodes = nodes.ToHashSet();
+            Edges = new HashSet<Edge<T>>();
+            Neighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>();
+
+            foreach (var edge in edges)
+            {
+                IsDirected = edge.IsDirected;
+                Edges.Add(edge);
+
+                AddNeighbor(edge.Source, edge.Destination);
+                if (!IsDirected) AddNeighbor(edge.Destination, edge.Source);
+            }
+        }
         public Graph(IEnumerable<Edge<T>> edges)
         {
             Edges     = new HashSet<Edge<T>>();
