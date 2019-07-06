@@ -1,5 +1,4 @@
 ﻿using Algorithms;
-using DataStructures;
 
 namespace Problems
 {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Problems;
+﻿using Problems;
 using Xunit;
 
 namespace UnitTests

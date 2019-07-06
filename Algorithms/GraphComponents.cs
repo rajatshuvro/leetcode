@@ -11,7 +11,7 @@ namespace Algorithms
         private readonly List<GraphNode<T>> _dfsOrder;
         public GraphComponents(Graph<T> graph)
         {
-            _graph = graph;
+            _graph     = graph;
             _nodeToScc = new Dictionary<GraphNode<T>, T>(graph.Nodes.Count);
             _dfsOrder  = new List<GraphNode<T>>(graph.Nodes.Count);
         }
@@ -33,27 +33,39 @@ namespace Algorithms
             }
         }
 
-        private void ComponentVisit(GraphNode<T> node, T sccLabel)
+        private void ComponentVisit(GraphNode<T> node, T sccLabel, Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> neighbors=null)
         {
             _nodeToScc[node] = sccLabel;
             node.Color = Color.Colored;
-            if (!_graph.Neighbors.ContainsKey(node)) return;
-            foreach (var neighbor in _graph.Neighbors[node])
+
+            if (neighbors == null) neighbors = _graph.Neighbors;
+
+            if (!neighbors.ContainsKey(node)) return;
+            foreach (var neighbor in neighbors[node])
             {
-                if(neighbor.Color != Color.Colored) ComponentVisit(neighbor, sccLabel);
+                if(neighbor.Color != Color.Colored) ComponentVisit(neighbor, sccLabel, neighbors);
             }
         }
         // implements Kosaraju's algorithm (https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)
         private void KosarajuScc()
         {
-            
-            var dfsOrder = GetDepthFirstOrder();
+            var reverseOrder = GetDepthFirstOrder();
+            reverseOrder.Reverse();
+            _graph.ClearNodeColors();
+
+            var inNeighbors = _graph.GetInNeighbors();
+            foreach (var node in reverseOrder)
+            {
+                if(node.Color == Color.Colored) continue;
+                ComponentVisit(node, node.Label, inNeighbors);
+            }
         }
 
         
-        private IEnumerable<GraphNode<T>> GetDepthFirstOrder()
+        public List<GraphNode<T>> GetDepthFirstOrder()
         {
             _graph.ClearNodeColors();
+            _dfsOrder.Clear();
 
             foreach (var node in _graph.Nodes)
             {

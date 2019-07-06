@@ -147,7 +147,7 @@ namespace DataStructures
                 {
                     neighbors.Add(edge.Source);
                 }
-                else Neighbors[edge.Destination] = new HashSet<GraphNode<T>> { edge.Source };
+                else inNeighbors[edge.Destination] = new HashSet<GraphNode<T>> { edge.Source };
             }
 
             return inNeighbors;
