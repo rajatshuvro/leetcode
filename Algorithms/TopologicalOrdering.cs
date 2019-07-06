@@ -21,7 +21,7 @@ namespace Algorithms
             _ordering.Clear();
             foreach (var node in _graph.Nodes)
             {
-                if (node.Color == NodeColor.uncolored) Visit(node);
+                if (node.Color == Color.Uncolored) Visit(node);
             }
 
             if (_ordering.Count != _graph.Nodes.Count) _ordering.Clear();
@@ -31,25 +31,25 @@ namespace Algorithms
 
         private void Visit(GraphNode<T> node)
         {
-            if (node.Color == NodeColor.black) return;
-            if (node.Color == NodeColor.white) return;// cycle detected
+            if (node.Color == Color.Black) return;
+            if (node.Color == Color.White) return;// cycle detected
 
             if (!_graph.Neighbors.ContainsKey(node))
             {
                 //node has no successor
-                node.Color = NodeColor.black;
+                node.Color = Color.Black;
                 _ordering.Add(node.Label);
                 return;
             }
 
-            node.Color = NodeColor.white;
+            node.Color = Color.White;
             foreach (var neighbor in _graph.Neighbors[node])
             {
                 Visit(neighbor);
-                if(neighbor.Color != NodeColor.black) return;
+                if(neighbor.Color != Color.Black) return;
             }
 
-            node.Color = NodeColor.black;
+            node.Color = Color.Black;
             _ordering.Add(node.Label);
         }
     }

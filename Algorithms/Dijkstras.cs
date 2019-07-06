@@ -24,13 +24,13 @@ namespace Algorithms
             while (priorityQ.Count != 0)
             {
                 var minNode = priorityQ.GetMin();
-                minNode.Color = NodeColor.colored;//indicating that these nodes are done
+                minNode.Color = Color.Colored;//indicating that these nodes are done
 
                 foreach (var neighbor in graph.Neighbors[minNode])
                 {
                     graph.Nodes.TryGetValue(neighbor, out var neighborNode);
 
-                    if (neighborNode.Color == NodeColor.colored) continue;
+                    if (neighborNode.Color == Color.Colored) continue;
 
                     if (!graph.Edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
                         throw new InvalidDataException($"failed to find edge to neighbor {minNode.Label}->{neighbor.Label}");

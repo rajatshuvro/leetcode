@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace DataStructures
@@ -9,13 +8,18 @@ namespace DataStructures
     {
         public readonly T Label;
         public int Weight;
-        public NodeColor Color;
+        public Color Color;
+        public int InDegree;
+        public int OutDegree;
+        public int Degree => InDegree + OutDegree;
 
-        public GraphNode(T label,  int weight=0, NodeColor color=NodeColor.uncolored)
+        public GraphNode(T label,  int weight=0, Color color=Color.Uncolored)
         {
-            Label  = label;
-            Weight = weight;
-            Color  = color;
+            Label     = label;
+            Weight    = weight;
+            Color     = color;
+            InDegree  = 0;
+            OutDegree = 0;
         }
 
         public bool Equals(GraphNode<T> other)
@@ -34,15 +38,15 @@ namespace DataStructures
         }
     }
 
-    public enum NodeColor : byte
+    public enum Color : byte
     {
-        uncolored,
-        colored,
-        black,
-        white,
-        red,
-        greed,
-        
+        Uncolored,
+        Colored,
+        Black,
+        White,
+        Red,
+        Green,
+        Blue
     }
 
     public class Edge<T> : IEquatable<Edge<T>> where T : IEquatable<T>
@@ -50,14 +54,16 @@ namespace DataStructures
         public readonly GraphNode<T> Source;
         public readonly GraphNode<T> Destination;
         public int Weight;
+        public Color Color;
         public readonly bool IsDirected;
 
-        public Edge(GraphNode<T> source, GraphNode<T> destination, bool isDirected=false, int weight = 0)
+        public Edge(GraphNode<T> source, GraphNode<T> destination, bool isDirected=false, int weight = 0, Color color= Color.Uncolored)
         {
             Source      = source;
             Destination = destination;
             Weight      = weight;
             IsDirected  = isDirected;
+            Color       = color;
         }
 
         public override int GetHashCode()
@@ -92,6 +98,8 @@ namespace DataStructures
             {
                 IsDirected = edge.IsDirected;
                 Edges.Add(edge);
+                edge.Source.OutDegree++;
+                edge.Destination.InDegree++;
 
                 AddNeighbor(edge.Source, edge.Destination);
                 if (!IsDirected) AddNeighbor(edge.Destination, edge.Source);
@@ -108,6 +116,8 @@ namespace DataStructures
                 IsDirected = edge.IsDirected;
                 Nodes.Add(edge.Source);
                 Nodes.Add(edge.Destination);
+                edge.Source.OutDegree++;
+                edge.Destination.InDegree++;
                 Edges.Add(edge);
 
                 AddNeighbor(edge.Source, edge.Destination);
@@ -131,16 +141,17 @@ namespace DataStructures
         {
             foreach (var node in Nodes)
             {
-                node.Color = NodeColor.uncolored;
+                node.Color = Color.Uncolored;
             }
         }
-        public void ClearNodeWeights()
+        public void ClearEdgeColors()
         {
-            foreach (var node in Nodes)
+            foreach (var edge in Edges)
             {
-                node.Weight = 0;
+                edge.Color = Color.Uncolored;
             }
         }
+        
         
     }
 }
