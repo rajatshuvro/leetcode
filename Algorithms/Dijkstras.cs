@@ -88,7 +88,7 @@ namespace Algorithms
 
             var treeEdges = predecessors.Select(kvp => new Edge<T>(kvp.Key, kvp.Value)).ToList();
 
-            return new Graph<T>(false, treeEdges);
+            return new Graph<T>(treeEdges);
         }
 
     }

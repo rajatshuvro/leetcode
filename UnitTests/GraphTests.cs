@@ -22,7 +22,7 @@ namespace UnitTests
                 new Edge<int>(new GraphNode<int>(5), new GraphNode<int>(6), false, 9)
             };
 
-            var graph = new Graph<int>(false, edges);
+            var graph = new Graph<int>(edges);
             return graph;
         }
 

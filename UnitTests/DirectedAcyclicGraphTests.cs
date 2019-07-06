@@ -1,0 +1,127 @@
+﻿using System.Collections.Generic;
+using Algorithms;
+using DataStructures;
+using Xunit;
+
+namespace UnitTests
+{
+    public class DirectedAcyclicGraphTests
+    {
+        [Fact]
+        public void TestCase_0()
+        {
+            var edges = new List<Edge<int>>();
+
+            var graph = new Graph<int>(edges);
+
+            Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+        [Fact]
+        public void TestCase_1()
+        {
+            var edges = new List<Edge<int>>()
+            {
+                new Edge<int>(new GraphNode<int>(1), new GraphNode<int>(2), true)
+            };
+
+            var graph = new Graph<int>(edges);
+
+            Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+
+        [Fact]
+        public void TestCase_2()
+        {
+            var node1 = new GraphNode<int>(1);
+            var node2 = new GraphNode<int>(2);
+
+            var edges = new List<Edge<int>>()
+            {
+                new Edge<int>(node1, node2, true),
+                new Edge<int>(node2, node1, true)
+            };
+
+            var graph = new Graph<int>(edges);
+
+            Assert.False(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+
+        [Fact]
+        public void TestCase_3()
+        {
+            var node1 = new GraphNode<int>(1);
+            var node2 = new GraphNode<int>(2);
+            var node3 = new GraphNode<int>(3);
+            var node4 = new GraphNode<int>(4);
+
+            var edges = new List<Edge<int>>()
+            {
+                new Edge<int>(node1, node2, true),
+                new Edge<int>(node2, node3, true),
+                new Edge<int>(node3, node4, true)
+            };
+
+            var graph = new Graph<int>(edges);
+
+            Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+
+        [Fact]
+        public void TestCase_4()
+        {
+            var node1 = new GraphNode<int>(1);
+            var node2 = new GraphNode<int>(2);
+            var node3 = new GraphNode<int>(3);
+            var node4 = new GraphNode<int>(4);
+
+            var edges = new List<Edge<int>>()
+            {
+                new Edge<int>(node1, node2, true),
+                new Edge<int>(node2, node3, true),
+                new Edge<int>(node3, node4, true),
+                new Edge<int>(node4, node2, true)
+            };
+
+            var graph = new Graph<int>(edges);
+
+            Assert.False(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+
+        [Fact]
+        public void TestCase_5()
+        {
+            var node1 = new GraphNode<int>(1);
+            var node2 = new GraphNode<int>(2);
+            var node3 = new GraphNode<int>(3);
+            
+            var edges = new List<Edge<int>>()
+            {
+                new Edge<int>(node1, node2, true),
+                new Edge<int>(node3, node2, true),
+                
+            };
+
+            var graph = new Graph<int>(edges);
+
+            Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+
+        [Fact]
+        public void TestCase_6()
+        {
+            var node1 = new GraphNode<int>(1);
+            var node2 = new GraphNode<int>(2);
+            var node3 = new GraphNode<int>(3);
+            var edges = new List<Edge<int>>()
+            {
+                new Edge<int>(node1, node2, true),
+                new Edge<int>(node1, node3, true),
+                new Edge<int>(node2, node3, true),
+            };
+
+            var graph = new Graph<int>(edges);
+
+            Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
+        }
+    }
+}

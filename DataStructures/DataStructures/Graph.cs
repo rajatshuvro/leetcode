@@ -54,17 +54,16 @@ namespace DataStructures
 
         public Edge(GraphNode<T> source, GraphNode<T> destination, bool isDirected=false, int weight = 0)
         {
-            Source = source;
+            Source      = source;
             Destination = destination;
-            Weight = weight;
-            IsDirected = isDirected;
+            Weight      = weight;
+            IsDirected  = isDirected;
         }
 
         public override int GetHashCode()
         {
             return Source.GetHashCode() ^ Destination.GetHashCode();
         }
-
 
         public bool Equals(Edge<T> other)
         {
@@ -83,22 +82,22 @@ namespace DataStructures
         public int NumNodes => Nodes.Count;
         public int NumEdges => Edges.Count;
 
-        public Graph(bool isDirected, IEnumerable<Edge<T>> edges)
+        public Graph(IEnumerable<Edge<T>> edges)
         {
-            IsDirected = isDirected;
             Edges     = new HashSet<Edge<T>>();
             Nodes     = new HashSet<GraphNode<T>>();
             Neighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>();
 
             foreach (var edge in edges)
             {
+                IsDirected = edge.IsDirected;
                 Nodes.Add(edge.Source);
                 Nodes.Add(edge.Destination);
                 Edges.Add(edge);
 
                 AddNeighbor(edge.Source, edge.Destination);
 
-                if (! isDirected) AddNeighbor(edge.Destination, edge.Source);
+                if (! IsDirected) AddNeighbor(edge.Destination, edge.Source);
             }
             
         }

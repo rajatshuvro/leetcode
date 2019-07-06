@@ -1,5 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Collections.Generic;
+using Algorithms;
+using DataStructures;
 
 namespace Problems
 {
@@ -8,15 +9,20 @@ namespace Problems
         //https://leetcode.com/problems/course-schedule/
         public bool CanFinish(int numCourses, int[][] prerequisites)
         {
-            //we will use colors to indicate if a node has been visited
-            var nodeColors = new char[numCourses];
-            Array.Fill(nodeColors,'w');
-
+            var nodes = new List<GraphNode<int>>(numCourses);
             for (var i = 0; i < numCourses; i++)
             {
-                if (nodeColors[i] == 'w') break; //ColorComponent(i);
+                nodes.Add(new GraphNode<int>(i));
             }
-            return true;
+
+            var edges = new List<Edge<int>>(prerequisites.GetLength(0));
+            for (var i = 0; i < prerequisites.GetLength(0); i++)
+            {
+                edges.Add(new Edge<int>(nodes[prerequisites[i][0]], nodes[prerequisites[i][1]], true));
+            }
+
+            var diGraph = new Graph<int>(edges);
+            return GraphProperties<int>.IsDirectedAcyclic(diGraph);
         }
     }
 }

@@ -25,9 +25,9 @@ namespace Problems
                     edges.Add(new Edge<int>(new GraphNode<int>(i), new GraphNode<int>(adjacencyMatrix[i][j])));
                 }
             }
-            var graph = new Graph<int>(false, edges);
+            var graph = new Graph<int>(edges);
 
-            return GraphComponents<int>.IsBipartite(graph);
+            return GraphProperties<int>.IsBipartite(graph);
             
 
         }
