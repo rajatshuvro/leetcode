@@ -4,7 +4,7 @@ using DataStructures;
 
 namespace Algorithms
 {
-    public static class GraphProperties<T> where T : IEquatable<T>
+    public static class GraphProperties<T> where T : IEquatable<T>, IComparable<T>
     {
         public static bool IsDirectedAcyclic(Graph<T> graph)
         {
@@ -83,33 +83,19 @@ namespace Algorithms
             return true;
         }
 
-        public static bool AreNodesStronglyConnected(Graph<T> graph, List<GraphNode<T>> nodeList) 
+        public static bool InSameConnectedComponent(Graph<T> graph, List<GraphNode<T>> nodeList) 
         {
-            throw new NotImplementedException();
-        }
+            var componentAlgorithm = new GraphComponents<T>(graph);
+            var componentLabels = componentAlgorithm.GetConnectedComponents();
 
-        public static bool AreNodesConnected(Graph<T> graph, List<GraphNode<T>> nodeList)
-        {
-            graph.ClearNodeColors();
-            // starting form an arbitrary node in nodeList, we should be able to color all nodes 
-            // by following the neighbors
-            var startNode = nodeList[0];
-            startNode.Color = Color.Colored;
-
-            var stack = new Stack<GraphNode<T>>();
-            stack.Push(startNode);
-            while (stack.Count > 0)
+            var label = componentLabels[nodeList[0]];
+            for (int i = 1; i < nodeList.Count; i++)
             {
-                var node = stack.Pop();
-                foreach (var neighbor in graph.Neighbors[node])
-                {
-                    if(neighbor.Color == Color.Colored) continue;
-                    neighbor.Color = Color.Colored;
-                    stack.Push(neighbor);
-                }
+                if (! label.Equals(componentLabels[nodeList[i]])) return false;
             }
-            
-            return nodeList.TrueForAll(x=>x.Color==Color.Colored);
+
+            return true;
         }
+        
     }
 }

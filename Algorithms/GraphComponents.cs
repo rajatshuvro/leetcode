@@ -4,7 +4,7 @@ using DataStructures;
 
 namespace Algorithms
 {
-    public class GraphComponents<T> where T:IEquatable<T>
+    public class GraphComponents<T> where T:IEquatable<T>, IComparable<T>
     {
         private readonly Graph<T> _graph;
         private readonly IDictionary<GraphNode<T>, T> _nodeToScc;

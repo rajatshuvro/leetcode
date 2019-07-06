@@ -6,7 +6,7 @@ using DataStructures;
 
 namespace Algorithms
 {
-    public static class Dijkstras<T> where T : IEquatable<T>
+    public static class Dijkstras<T> where T : IEquatable<T>,IComparable<T>
     {
         public static IReadOnlyDictionary<GraphNode<T>, GraphNode<T>> RunDijkstraFrom(Graph<T> graph, T src)
         {

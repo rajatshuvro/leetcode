@@ -4,7 +4,7 @@ using DataStructures;
 
 namespace Algorithms
 {
-    public class TopologicalOrdering<T> where T:IEquatable<T>
+    public class TopologicalOrdering<T> where T:IEquatable<T>,IComparable<T>
     {
         private Graph<T> _graph;
         private List<T> _ordering;

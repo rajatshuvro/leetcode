@@ -49,7 +49,7 @@ namespace DataStructures
         Blue
     }
 
-    public class Edge<T> : IEquatable<Edge<T>> where T : IEquatable<T>
+    public class Edge<T> : IEquatable<Edge<T>> where T : IEquatable<T>, IComparable<T>
     {
         public readonly GraphNode<T> Source;
         public readonly GraphNode<T> Destination;
@@ -78,7 +78,7 @@ namespace DataStructures
         }
     }
 
-    public class Graph<T> where T:IEquatable<T>
+    public class Graph<T> where T:IEquatable<T>, IComparable<T>
     {
         public readonly bool IsDirected;
         public readonly HashSet<GraphNode<T>> Nodes;
