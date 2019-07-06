@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DataStructures;
 
 namespace Algorithms
@@ -81,6 +82,35 @@ namespace Algorithms
             }
 
             return true;
+        }
+
+        public static bool AreNodesStronglyConnected(Graph<T> graph, List<GraphNode<T>> nodeList) 
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool AreNodesConnected(Graph<T> graph, List<GraphNode<T>> nodeList)
+        {
+            graph.ClearNodeColors();
+            // starting form an arbitrary node in nodeList, we should be able to color all nodes 
+            // by following the neighbors
+            var startNode = nodeList[0];
+            startNode.Color = Color.Colored;
+
+            var stack = new Stack<GraphNode<T>>();
+            stack.Push(startNode);
+            while (stack.Count > 0)
+            {
+                var node = stack.Pop();
+                foreach (var neighbor in graph.Neighbors[node])
+                {
+                    if(neighbor.Color == Color.Colored) continue;
+                    neighbor.Color = Color.Colored;
+                    stack.Push(neighbor);
+                }
+            }
+            
+            return nodeList.TrueForAll(x=>x.Color==Color.Colored);
         }
     }
 }

@@ -136,6 +136,22 @@ namespace DataStructures
             else Neighbors[source] = new HashSet<GraphNode<T>>{ destination };
 
         }
+        // needed for strongly connected components algorithm
+        public Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> GetInNeighbors()
+        {
+            var inNeighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>(Nodes.Count);
+
+            foreach (var edge in Edges)
+            {
+                if (inNeighbors.TryGetValue(edge.Destination, out var neighbors))
+                {
+                    neighbors.Add(edge.Source);
+                }
+                else Neighbors[edge.Destination] = new HashSet<GraphNode<T>> { edge.Source };
+            }
+
+            return inNeighbors;
+        }
 
         public void ClearNodeColors()
         {
