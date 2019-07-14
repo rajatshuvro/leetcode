@@ -86,15 +86,33 @@ namespace DataStructures
 
     public class Graph<T> where T:IEquatable<T>, IComparable<T>
     {
-        public readonly bool IsDirected;
-        public readonly HashSet<GraphNode<T>> Nodes;
-        public readonly List<Edge<T>> Edges;
-        public readonly Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> Neighbors;
+        public bool IsDirected;
+        public HashSet<GraphNode<T>> Nodes;
+        public List<Edge<T>> Edges;
+        public Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> Neighbors;
 
         public int NumNodes => Nodes.Count;
         public int NumEdges => Edges.Count;
 
         public Graph(IEnumerable<GraphNode<T>> nodes, IEnumerable<Edge<T>> edges)
+        {
+            Initialize(nodes, edges);
+        }
+
+        
+        public Graph(IList<Edge<T>> edges)
+        {
+            var nodes = new List<GraphNode<T>>();
+            foreach (var edge in edges)
+            {
+                nodes.Add(edge.Source);
+                nodes.Add(edge.Destination);
+            }
+            
+            Initialize(nodes, edges);
+        }
+
+        private void Initialize(IEnumerable<GraphNode<T>> nodes, IEnumerable<Edge<T>> edges)
         {
             Nodes = nodes.ToHashSet();
             Edges = new List<Edge<T>>();
@@ -103,6 +121,15 @@ namespace DataStructures
             foreach (var edge in edges)
             {
                 IsDirected = edge.IsDirected;
+                //if(IsDirected)
+                //    Edges.Add(edge);
+                //else
+                //{
+                //    // make sure the source is the smaller node
+                //    if(edge.Source.CompareTo(edge.Destination) > 0)
+                //        Edges.Add(new Edge<T>(edge.Destination, edge.Source, edge.IsDirected, edge.Weight, edge.Color));
+                //    else  Edges.Add(edge);
+                //}
                 Edges.Add(edge);
                 edge.Source.OutDegree++;
                 edge.Destination.InDegree++;
@@ -113,30 +140,20 @@ namespace DataStructures
 
             Edges.Sort();
         }
-        public Graph(IEnumerable<Edge<T>> edges)
-        {
-            Edges     = new List<Edge<T>>();
-            Nodes     = new HashSet<GraphNode<T>>();
-            Neighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>();
-
-            foreach (var edge in edges)
-            {
-                IsDirected = edge.IsDirected;
-                Nodes.Add(edge.Source);
-                Nodes.Add(edge.Destination);
-                edge.Source.OutDegree++;
-                edge.Destination.InDegree++;
-                Edges.Add(edge);
-
-                AddNeighbor(edge.Source, edge.Destination);
-
-                if (! IsDirected) AddNeighbor(edge.Destination, edge.Source);
-            }
-            Edges.Sort();
-        }
 
         public IEnumerable<Edge<T>> GetEdges(GraphNode<T> source, GraphNode<T> destination)
         {
+            var searchEdge = new Edge<T>(source, destination);
+            var index = Edges.BinarySearch(searchEdge);
+            if (index < 0) yield break;
+            //the index does not necessarily point to the first occurence of the item searched
+            while (index > 0 && Edges[index - 1].Equals(searchEdge)) index--;
+
+            while (index < Edges.Count && Edges[index].Equals(searchEdge))
+            {
+                yield return Edges[index];
+                index++;
+            }
 
         }
         private void AddNeighbor(GraphNode<T> source, GraphNode<T> destination)

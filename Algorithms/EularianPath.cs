@@ -104,15 +104,13 @@ namespace Algorithms
             {
                 var node = stack.Pop();
                 path.Add(node);
-                //we want to create the same path every time. So selecting the min possible neighbor
-                var minNeighbor = GetMinNeighbor(node); 
+                //we want to create the same path every time. So selecting the min possible outgoing edge
+                var minEdge = GetMinOutEdge(node); 
 
-                if (minNeighbor == null) continue;
+                if (minEdge == null) continue;
 
-                stack.Push(minNeighbor);
-                //color the edge
-                _graph.Edges.TryGetValue(new Edge<T>(node, minNeighbor), out var edge);
-                edge.Color = Color.Colored;
+                stack.Push(minEdge.Destination);
+                minEdge.Color = Color.Colored;
             }
 
             return path;
@@ -125,8 +123,10 @@ namespace Algorithms
                 if (!_graph.Neighbors.ContainsKey(node)) continue;
                 foreach (var neighbor in _graph.Neighbors[node])
                 {
-                    _graph.Edges.TryGetValue(new Edge<T>(node, neighbor), out var edge);
-                    if (edge.Color == Color.Uncolored) return node;
+                    foreach (var edge in _graph.GetEdges(node, neighbor))
+                    {
+                        if (edge.Color == Color.Uncolored) return node;
+                    }
                 }
             }
 
@@ -134,23 +134,29 @@ namespace Algorithms
         }
 
 
-        private GraphNode<T> GetMinNeighbor(GraphNode<T> node)
+        private Edge<T> GetMinOutEdge(GraphNode<T> node)
         {
             if (!_graph.Neighbors.ContainsKey(node)) return null;
             GraphNode<T> minNeighbor = null;
+            Edge<T> minEdge = null;
             foreach (var neighbor in _graph.Neighbors[node])
             {
-                _graph.Edges.TryGetValue(new Edge<T>(node, neighbor), out var edge);
-                if(edge.Color == Color.Colored) continue;
-                if (minNeighbor == null)
+                foreach (var edge in _graph.GetEdges(node, neighbor))
                 {
-                    minNeighbor = neighbor;
-                    continue;
+                    if (edge.Color == Color.Colored) continue;
+                    if (minEdge == null)
+                    {
+                        minEdge = edge;
+                        minNeighbor = neighbor;
+                        continue;
+                    }
+                    minEdge = minNeighbor.Label.CompareTo(neighbor.Label) < 0 ? minEdge : edge;
+                    minNeighbor = minEdge.Destination;
                 }
-                minNeighbor = minNeighbor.Label.CompareTo(neighbor.Label) < 0 ? minNeighbor : neighbor;
+                
             }
 
-            return minNeighbor;
+            return minEdge;
         }
 
         public static bool IsEulerian(Graph<T> graph)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Algorithms;
 using DataStructures;
 
@@ -25,7 +26,7 @@ namespace Problems
                     edges.Add(new Edge<int>(new GraphNode<int>(i), new GraphNode<int>(adjacencyMatrix[i][j])));
                 }
             }
-            var graph = new Graph<int>(edges);
+            var graph = new Graph<int>(edges.ToList());
 
             return GraphProperties<int>.IsBipartite(graph);
             

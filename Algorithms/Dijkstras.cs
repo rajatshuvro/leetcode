@@ -32,15 +32,18 @@ namespace Algorithms
 
                     if (neighborNode.Color == Color.Colored) continue;
 
-                    if (!graph.Edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
-                        throw new InvalidDataException($"failed to find edge to neighbor {minNode.Label}->{neighbor.Label}");
-                    int edgeWeight = edge.Weight;
-
-                    if (neighborNode.Weight > minNode.Weight + edgeWeight)
+                    foreach (var edge in graph.GetEdges(minNode, neighbor))
                     {
-                        neighborNode.Weight = minNode.Weight + edgeWeight;
-                        predecessors[neighborNode] = minNode;
+                        //if (!graph.Edges.TryGetValue(new Edge<T>(minNode, neighbor), out var edge))
+                        //    throw new InvalidDataException($"failed to find edge to neighbor {minNode.Label}->{neighbor.Label}");
+
+                        if (neighborNode.Weight > minNode.Weight + edge.Weight)
+                        {
+                            neighborNode.Weight = minNode.Weight + edge.Weight;
+                            predecessors[neighborNode] = minNode;
+                        }
                     }
+                    
                 }
 
                 priorityQ.ExtractMin();

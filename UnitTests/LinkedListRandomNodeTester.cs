@@ -7,29 +7,29 @@ namespace UnitTests
 {
     public class LinkedListRandomNodeTester
     {
-        [Theory]
-        [InlineData(new[] { 10, 100, 100, 20, 20, 100 })]
-        [InlineData(new[] { 10, 1, 10, 20, 100 })]
-        public void TestRandomness(int[] numbers)
-        {
-            var inputFreq = GetFrequencies(numbers);
-            var linkedList = new LinkedList();
-            foreach (var number in numbers)
-            {
-                linkedList.Add(new ListNode(number));
-            }
+        //[Theory]
+        //[InlineData(new[] { 10, 100, 100, 20, 20, 100 })]
+        //[InlineData(new[] { 10, 1, 10, 20, 100 })]
+        //public void TestRandomness(int[] numbers)
+        //{
+        //    var inputFreq = GetFrequencies(numbers);
+        //    var linkedList = new LinkedList();
+        //    foreach (var number in numbers)
+        //    {
+        //        linkedList.Add(new ListNode(number));
+        //    }
 
-            var randomNodeGenerator = new LinkedListRandomNode(linkedList.First);
-            var randomNodeFrequencies = GetRandomNodeFreq(randomNodeGenerator, numbers.Length);
+        //    var randomNodeGenerator = new LinkedListRandomNode(linkedList.First);
+        //    var randomNodeFrequencies = GetRandomNodeFreq(randomNodeGenerator, numbers.Length);
 
-            Assert.Equal(inputFreq.Count, randomNodeFrequencies.Count);
-            foreach (var (number, frequency) in inputFreq)
-            {
-                var observedFreq = randomNodeFrequencies[number];
-                var freqRatio = frequency > observedFreq ? observedFreq / frequency : frequency / observedFreq;
-                Assert.True(freqRatio > 0.95);
-            }
-        }
+        //    Assert.Equal(inputFreq.Count, randomNodeFrequencies.Count);
+        //    foreach (var (number, frequency) in inputFreq)
+        //    {
+        //        var observedFreq = randomNodeFrequencies[number];
+        //        var freqRatio = frequency > observedFreq ? observedFreq / frequency : frequency / observedFreq;
+        //        Assert.True(freqRatio > 0.95);
+        //    }
+        //}
 
         private Dictionary<int, double> GetRandomNodeFreq(LinkedListRandomNode randomNodeGenerator, int count)
         {
