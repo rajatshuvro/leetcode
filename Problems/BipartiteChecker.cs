@@ -20,7 +20,6 @@ namespace Problems
         {
             var nodes = new HashSet<GraphNode<int>>();
 
-
             var edges = new List<UndirectedEdge<int>>();
             for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
             {

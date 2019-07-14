@@ -127,7 +127,7 @@ namespace Algorithms
         private DirectedEdge<T> GetMinOutEdge(GraphNode<T> node)
         {
             if (!_directedGraph.Neighbors.ContainsKey(node)) return null;
-            GraphNode<T> minNeighbor = null;
+            GraphNode<T> minLabel = null;
             DirectedEdge<T> minEdge = null;
             foreach (var neighbor in _directedGraph.Neighbors[node])
             {
@@ -137,11 +137,16 @@ namespace Algorithms
                     if (minEdge == null)
                     {
                         minEdge = edge;
-                        minNeighbor = neighbor;
+                        minLabel = neighbor;
                         continue;
                     }
-                    minEdge = minNeighbor.Label.CompareTo(neighbor.Label) < 0 ? minEdge : edge;
-                    minNeighbor = minEdge.Destination;
+
+                    if (minLabel.Label.CompareTo(neighbor.Label) > 0)
+                    {
+                        minEdge = edge;
+                        minLabel = minEdge.Destination;
+                    }
+                    
                 }
                 
             }
