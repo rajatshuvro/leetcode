@@ -6,6 +6,8 @@ namespace Problems
 {
     public class ReconstructItinerary
     {
+        private const string StartAirport="JFK";
+        
         //https://leetcode.com/problems/reconstruct-itinerary/
         public IList<string> FindItinerary(IList<IList<string>> tickets)
         {
@@ -29,7 +31,7 @@ namespace Problems
             var graph = new Graph<string>(nodes, edges);
             var eular = new EularianPath<string>(graph);
 
-            return eular.GetEularianPath();
+            return eular.GetEularianPath(StartAirport);
         }
     }
 }

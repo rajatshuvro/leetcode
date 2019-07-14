@@ -24,7 +24,7 @@ namespace UnitTests
             var graph = new Graph<int>(nodes, edges);
             var eular = new EularianPath<int>(graph);
 
-            Assert.Equal(new[] { 0, 1 }, eular.GetEularianPath());
+            Assert.Equal(new[] { 0, 1 }, eular.GetEularianPath(0));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace UnitTests
             var graph = new Graph<int>(nodes, edges);
             var eular = new EularianPath<int>(graph);
 
-            Assert.Equal(new[]{0,1,2, 0}, eular.GetEularianPath());
+            Assert.Equal(new[]{0,1,2, 0}, eular.GetEularianPath(0));
         }
     }
 }

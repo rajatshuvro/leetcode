@@ -19,17 +19,17 @@ namespace Algorithms
             return IsEulerian(_graph);
         }
 
-        public IList<T> GetEularianPath()
+        public IList<T> GetEularianPath(T startPoint)
         {
-            return _graph.IsDirected ? GetDirectedPath() : GetUndirectedPath();
+            return _graph.IsDirected ? GetDirectedPath(startPoint) : GetUndirectedPath(startPoint);
         }
 
-        private IList<T> GetUndirectedPath()
+        private IList<T> GetUndirectedPath(T startPoint)
         {
             throw new NotImplementedException();
         }
 
-        private IList<T> GetDirectedPath()
+        private IList<T> GetDirectedPath(T startPoint)
         {
             // we assume the graph is eularian
             var (source, sink) = GetSourceAndSink();
@@ -39,8 +39,11 @@ namespace Algorithms
             if (source != null ^ sink != null) return null;
             var eularianPath = new LinkedList<GraphNode<T>>();
             _graph.ClearEdgeColors();
-            // if source is null, we have an eularian circuit. We can start anywhere
-            var startNode = source ?? _graph.Nodes.First();
+            // if source is null, we have an eularian circuit.
+            // If a start point is suggested, we use that, otherwise, we can start anywhere
+            if (! _graph.Nodes.TryGetValue(new GraphNode<T>(startPoint), out var startNode))
+                startNode = _graph.Nodes.First();
+            startNode = source ?? startNode;
 
             while (startNode != null) 
             {
@@ -80,7 +83,7 @@ namespace Algorithms
                 return true;
             }
 
-            var mergeNode = eularianPath.Find(startNode);
+            var mergeNode = eularianPath.FindLast(startNode);
             if (mergeNode == null) return false; // unable to merge
             for (var i=1; i < partialPath.Count && mergeNode != null; i++)
             {
@@ -101,8 +104,8 @@ namespace Algorithms
             {
                 var node = stack.Pop();
                 path.Add(node);
-                var minNeighbor =
-                    GetMinNeighbor(node); //we want to create the same path every time. So selecting the min possible neighbor
+                //we want to create the same path every time. So selecting the min possible neighbor
+                var minNeighbor = GetMinNeighbor(node); 
 
                 if (minNeighbor == null) continue;
 

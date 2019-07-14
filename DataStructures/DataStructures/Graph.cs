@@ -49,7 +49,7 @@ namespace DataStructures
         Blue
     }
 
-    public class Edge<T> : IEquatable<Edge<T>> where T : IEquatable<T>, IComparable<T>
+    public class Edge<T> : IEquatable<Edge<T>>, IComparable<Edge<T>> where T : IEquatable<T>, IComparable<T>
     {
         public readonly GraphNode<T> Source;
         public readonly GraphNode<T> Destination;
@@ -64,6 +64,12 @@ namespace DataStructures
             Weight      = weight;
             IsDirected  = isDirected;
             Color       = color;
+        }
+
+        public int CompareTo(Edge<T> other)
+        {
+            if (!Source.Label.Equals(other.Source.Label)) return Source.Label.CompareTo(other.Source.Label);
+            return Destination.Label.CompareTo(other.Destination.Label);
         }
 
         public override int GetHashCode()
@@ -82,7 +88,7 @@ namespace DataStructures
     {
         public readonly bool IsDirected;
         public readonly HashSet<GraphNode<T>> Nodes;
-        public readonly HashSet<Edge<T>> Edges;
+        public readonly List<Edge<T>> Edges;
         public readonly Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> Neighbors;
 
         public int NumNodes => Nodes.Count;
@@ -91,7 +97,7 @@ namespace DataStructures
         public Graph(IEnumerable<GraphNode<T>> nodes, IEnumerable<Edge<T>> edges)
         {
             Nodes = nodes.ToHashSet();
-            Edges = new HashSet<Edge<T>>();
+            Edges = new List<Edge<T>>();
             Neighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>();
 
             foreach (var edge in edges)
@@ -104,10 +110,12 @@ namespace DataStructures
                 AddNeighbor(edge.Source, edge.Destination);
                 if (!IsDirected) AddNeighbor(edge.Destination, edge.Source);
             }
+
+            Edges.Sort();
         }
         public Graph(IEnumerable<Edge<T>> edges)
         {
-            Edges     = new HashSet<Edge<T>>();
+            Edges     = new List<Edge<T>>();
             Nodes     = new HashSet<GraphNode<T>>();
             Neighbors = new Dictionary<GraphNode<T>, HashSet<GraphNode<T>>>();
 
@@ -124,9 +132,13 @@ namespace DataStructures
 
                 if (! IsDirected) AddNeighbor(edge.Destination, edge.Source);
             }
-            
+            Edges.Sort();
         }
 
+        public IEnumerable<Edge<T>> GetEdges(GraphNode<T> source, GraphNode<T> destination)
+        {
+
+        }
         private void AddNeighbor(GraphNode<T> source, GraphNode<T> destination)
         {
             if (Neighbors.TryGetValue(source, out var neighbors))

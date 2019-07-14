@@ -56,5 +56,44 @@ namespace UnitTests
             Assert.Equal(new[] { "JFK", "NRT", "JFK", "KUL" }, itineraryReconstructor.FindItinerary(tickets));
 
         }
+
+        [Fact]
+        public void TestCase3()
+        {
+            var tickets = new List<IList<string>>()
+            {
+                new List<string>(){ "JFK","AAA" },
+                new List<string>(){ "AAA","JFK"},
+                new List<string>(){ "JFK", "BBB" },
+                new List<string>(){ "JFK","CCC" },
+                new List<string>(){ "CCC", "JFK" }
+            };
+
+            var itineraryReconstructor = new ReconstructItinerary();
+            Assert.Equal(new[] { "JFK", "AAA", "JFK", "CCC", "JFK", "BBB" }, itineraryReconstructor.FindItinerary(tickets));
+
+        }
+
+        [Fact]
+        public void TestCase4()
+        {
+            var tickets = new List<IList<string>>()
+            {
+                new List<string>(){ "EZE","AXA" },
+                new List<string>(){ "TIA","ANU"},
+                new List<string>(){ "ANU","JFK" },
+                new List<string>(){ "JFK","ANU" },
+                new List<string>(){ "ANU", "EZE" },
+                new List<string>(){ "TIA","ANU" },
+                new List<string>(){ "AXA","TIA" },
+                new List<string>(){ "TIA","JFK" },
+                new List<string>(){ "ANU","TIA" },
+                new List<string>(){ "JFK", "TIA" }
+            };
+
+            var itineraryReconstructor = new ReconstructItinerary();
+            Assert.Equal(new[] { "JFK", "ANU", "EZE", "AXA", "TIA", "ANU", "JFK", "TIA", "ANU", "TIA", "JFK" }, itineraryReconstructor.FindItinerary(tickets));
+
+        }
     }
 }
