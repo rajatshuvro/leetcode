@@ -18,15 +18,26 @@ namespace Problems
 
         public bool IsBipartite(int[][] adjacencyMatrix)
         {
-            var edges = new HashSet<DirectedEdge<int>>();
+            var nodes = new HashSet<GraphNode<int>>();
+
+
+            var edges = new List<UndirectedEdge<int>>();
             for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < adjacencyMatrix[i].Length; j++)
                 {
-                    edges.Add(new DirectedEdge<int>(new GraphNode<int>(i), new GraphNode<int>(adjacencyMatrix[i][j])));
+                    var node_i = new GraphNode<int>(i);
+                    node_i = nodes.TryGetValue(node_i, out var node) ? node : node_i;
+                    nodes.Add(node_i);
+
+                    var node_j = new GraphNode<int>(adjacencyMatrix[i][j]);
+                    node_j = nodes.TryGetValue(node_j, out node) ? node : node_j;
+                    nodes.Add(node_j);
+
+                    edges.Add(new UndirectedEdge<int>(node_i, node_j));
                 }
             }
-            var graph = new DirectedGraph<int>(edges.ToList());
+            var graph = new UndirectedGraph<int>(nodes, edges);
 
             return GraphProperties<int>.IsBipartite(graph);
             

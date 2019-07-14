@@ -44,20 +44,20 @@ namespace Algorithms
             return false;
         }
 
-        public static bool IsBipartite(DirectedGraph<T> directedGraph)
+        public static bool IsBipartite(UndirectedGraph<T> graph)
         {
-            foreach (var node in directedGraph.Nodes)
+            foreach (var node in graph.Nodes)
             {
                 //if a node is colored, it has been assigned to a component and checked
                 if (node.Color != Color.Uncolored) continue;
 
-                if (!IsComponentBipartite(directedGraph, node)) return false;
+                if (!IsComponentBipartite(graph, node)) return false;
             }
-            directedGraph.ClearNodeColors();
+            graph.ClearNodeColors();
             return true;
         }
 
-        private static bool IsComponentBipartite(DirectedGraph<T> directedGraph, GraphNode<T> startNode)
+        private static bool IsComponentBipartite(UndirectedGraph<T> graph, GraphNode<T> startNode)
         {
             var nodeStack = new Stack<GraphNode<T>>();
             startNode.Color = Color.Black;
@@ -65,7 +65,7 @@ namespace Algorithms
             while (nodeStack.Count > 0)
             {
                 var node = nodeStack.Pop();
-                foreach (var neighbor in directedGraph.Neighbors[node])
+                foreach (var neighbor in graph.Neighbors[node])
                 {
                     if (neighbor.Color == Color.Uncolored)
                     {
