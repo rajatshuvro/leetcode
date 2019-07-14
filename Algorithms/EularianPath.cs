@@ -7,29 +7,19 @@ namespace Algorithms
 {
     public class EularianPath<T> where T:IEquatable<T>, IComparable<T>
     {
-        private readonly Graph<T> _graph;
+        private readonly DirectedGraph<T> _directedGraph;
 
-        public EularianPath(Graph<T> graph)
+        public EularianPath(DirectedGraph<T> directedGraph)
         {
-            _graph = graph;
-        }
-
-        public bool IsEularian()
-        {
-            return IsEulerian(_graph);
+            _directedGraph = directedGraph;
         }
 
         public IList<T> GetEularianPath(T startPoint)
         {
-            return _graph.IsDirected ? GetDirectedPath(startPoint) : GetUndirectedPath(startPoint);
+            return GetDirectedPath(startPoint);
         }
 
-        private IList<T> GetUndirectedPath(T startPoint)
-        {
-            throw new NotImplementedException();
-        }
-
-        private IList<T> GetDirectedPath(T startPoint)
+        public IList<T> GetDirectedPath(T startPoint)
         {
             // we assume the graph is eularian
             var (source, sink) = GetSourceAndSink();
@@ -38,11 +28,11 @@ namespace Algorithms
             // In that case we get an eularian circuit
             if (source != null ^ sink != null) return null;
             var eularianPath = new LinkedList<GraphNode<T>>();
-            _graph.ClearEdgeColors();
+            _directedGraph.ClearEdgeColors();
             // if source is null, we have an eularian circuit.
             // If a start point is suggested, we use that, otherwise, we can start anywhere
-            if (! _graph.Nodes.TryGetValue(new GraphNode<T>(startPoint), out var startNode))
-                startNode = _graph.Nodes.First();
+            if (! _directedGraph.Nodes.TryGetValue(new GraphNode<T>(startPoint), out var startNode))
+                startNode = _directedGraph.Nodes.First();
             startNode = source ?? startNode;
 
             while (startNode != null) 
@@ -52,14 +42,14 @@ namespace Algorithms
                 startNode = GetNodeWithUnusedEdges(eularianPath);
             } 
             
-            return _graph.Edges.Any(x => x.Color == Color.Uncolored) ? null : eularianPath.Select(x=>x.Label).ToList();
+            return _directedGraph.Edges.Any(x => x.Color == Color.Uncolored) ? null : eularianPath.Select(x=>x.Label).ToList();
         }
 
         private (GraphNode<T> source, GraphNode<T> sink) GetSourceAndSink()
         {
             GraphNode<T> source = null;
             GraphNode<T> sink = null;
-            foreach (var node in _graph.Nodes)
+            foreach (var node in _directedGraph.Nodes)
             {
                 if (node.InDegree == 0 && node.OutDegree == 0) continue;
                 if (node.InDegree == node.OutDegree) continue;
@@ -98,7 +88,7 @@ namespace Algorithms
         private List<GraphNode<T>> GetPartialPath(GraphNode<T> startNode)
         {
             var stack = new Stack<GraphNode<T>>();
-            var path = new List<GraphNode<T>>(_graph.Nodes.Count);
+            var path = new List<GraphNode<T>>(_directedGraph.Nodes.Count);
             stack.Push(startNode);
             while (stack.Count > 0)
             {
@@ -120,10 +110,10 @@ namespace Algorithms
         {
             foreach (var node in path)
             {
-                if (!_graph.Neighbors.ContainsKey(node)) continue;
-                foreach (var neighbor in _graph.Neighbors[node])
+                if (!_directedGraph.Neighbors.ContainsKey(node)) continue;
+                foreach (var neighbor in _directedGraph.Neighbors[node])
                 {
-                    foreach (var edge in _graph.GetEdges(node, neighbor))
+                    foreach (var edge in _directedGraph.GetEdges(node, neighbor))
                     {
                         if (edge.Color == Color.Uncolored) return node;
                     }
@@ -134,14 +124,14 @@ namespace Algorithms
         }
 
 
-        private Edge<T> GetMinOutEdge(GraphNode<T> node)
+        private DirectedEdge<T> GetMinOutEdge(GraphNode<T> node)
         {
-            if (!_graph.Neighbors.ContainsKey(node)) return null;
+            if (!_directedGraph.Neighbors.ContainsKey(node)) return null;
             GraphNode<T> minNeighbor = null;
-            Edge<T> minEdge = null;
-            foreach (var neighbor in _graph.Neighbors[node])
+            DirectedEdge<T> minEdge = null;
+            foreach (var neighbor in _directedGraph.Neighbors[node])
             {
-                foreach (var edge in _graph.GetEdges(node, neighbor))
+                foreach (var edge in _directedGraph.GetEdges(node, neighbor))
                 {
                     if (edge.Color == Color.Colored) continue;
                     if (minEdge == null)
@@ -159,18 +149,13 @@ namespace Algorithms
             return minEdge;
         }
 
-        public static bool IsEulerian(Graph<T> graph)
-        {
-            return !graph.IsDirected ? IsUndirectedEulerian(graph) : IsDirectedEulerian(graph);
-        }
-
-        private static bool IsDirectedEulerian(Graph<T> graph)
+        public static bool IsDirectedEulerian(DirectedGraph<T> directedGraph)
         {
             var sourceNodeCount = 0;
             var sinkNodeCount = 0;
             var nodes = new List<GraphNode<T>>();
 
-            foreach (var node in graph.Nodes)
+            foreach (var node in directedGraph.Nodes)
             {
                 if (node.InDegree ==0 && node.OutDegree ==0) continue;
                 nodes.Add(node);
@@ -179,21 +164,21 @@ namespace Algorithms
                 if (node.OutDegree - node.InDegree == 1 ) sourceNodeCount++;
             }
             //all nodes with degree>0 have to be in the same component
-            return sinkNodeCount == 1 && sourceNodeCount == 1 && GraphProperties<T>.InSameConnectedComponent(graph, nodes);
+            return sinkNodeCount == 1 && sourceNodeCount == 1 && GraphProperties<T>.InSameConnectedComponent(directedGraph, nodes);
         }
 
-        private static bool IsUndirectedEulerian(Graph<T> graph)
+        public static bool IsUndirectedEulerian(DirectedGraph<T> directedGraph)
         {
             var oddDegreeNodeCount = 0;
             var nodeList = new List<GraphNode<T>>();
-            foreach (var node in graph.Nodes)
+            foreach (var node in directedGraph.Nodes)
             {
                 if(node.Degree==0) continue;
                 nodeList.Add(node);
                 if (node.Degree % 2 != 0) oddDegreeNodeCount++;
             }
 
-            return !(oddDegreeNodeCount == 2 || oddDegreeNodeCount == 0) && GraphProperties<T>.InSameConnectedComponent(graph, nodeList);
+            return !(oddDegreeNodeCount == 2 || oddDegreeNodeCount == 0) && GraphProperties<T>.InSameConnectedComponent(directedGraph, nodeList);
         }
     }
 }

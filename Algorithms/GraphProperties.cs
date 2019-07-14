@@ -6,21 +6,19 @@ namespace Algorithms
 {
     public static class GraphProperties<T> where T : IEquatable<T>, IComparable<T>
     {
-        public static bool IsDirectedAcyclic(Graph<T> graph)
+        public static bool IsDirectedAcyclic(DirectedGraph<T> directedGraph)
         {
-            if (graph.Edges.Count > 0 && !graph.IsDirected) return false;
-
-            foreach (var node in graph.Nodes)
+            foreach (var node in directedGraph.Nodes)
             {
                 //if a node is colored, it has been assigned to a component and checked
                 if (node.Color != Color.Uncolored) continue;
 
-                if (DfsReachesAncestor(graph, node)) return false;
+                if (DfsReachesAncestor(directedGraph, node)) return false;
             }
             return true;
         }
 
-        private static bool DfsReachesAncestor(Graph<T> graph, GraphNode<T> startNode)
+        private static bool DfsReachesAncestor(DirectedGraph<T> directedGraph, GraphNode<T> startNode)
         {
             // if node is uncolored, color it white and visit its neighbors.
             // if node is also white, we have found a cycle
@@ -31,35 +29,35 @@ namespace Algorithms
             if (startNode.Color == Color.White) return true;
 
             startNode.Color = Color.White;
-            if (!graph.Neighbors.ContainsKey(startNode))
+            if (!directedGraph.Neighbors.ContainsKey(startNode))
             {
                 startNode.Color = Color.Black;
                 return false;
             }
 
-            foreach (var neighbor in graph.Neighbors[startNode])
+            foreach (var neighbor in directedGraph.Neighbors[startNode])
             {
-                if (DfsReachesAncestor(graph, neighbor)) return true;
+                if (DfsReachesAncestor(directedGraph, neighbor)) return true;
             }
 
             startNode.Color = Color.Black;
             return false;
         }
 
-        public static bool IsBipartite(Graph<T> graph)
+        public static bool IsBipartite(DirectedGraph<T> directedGraph)
         {
-            foreach (var node in graph.Nodes)
+            foreach (var node in directedGraph.Nodes)
             {
                 //if a node is colored, it has been assigned to a component and checked
                 if (node.Color != Color.Uncolored) continue;
 
-                if (!IsComponentBipartite(graph, node)) return false;
+                if (!IsComponentBipartite(directedGraph, node)) return false;
             }
-            graph.ClearNodeColors();
+            directedGraph.ClearNodeColors();
             return true;
         }
 
-        private static bool IsComponentBipartite(Graph<T> graph, GraphNode<T> startNode)
+        private static bool IsComponentBipartite(DirectedGraph<T> directedGraph, GraphNode<T> startNode)
         {
             var nodeStack = new Stack<GraphNode<T>>();
             startNode.Color = Color.Black;
@@ -67,7 +65,7 @@ namespace Algorithms
             while (nodeStack.Count > 0)
             {
                 var node = nodeStack.Pop();
-                foreach (var neighbor in graph.Neighbors[node])
+                foreach (var neighbor in directedGraph.Neighbors[node])
                 {
                     if (neighbor.Color == Color.Uncolored)
                     {
@@ -83,10 +81,10 @@ namespace Algorithms
             return true;
         }
 
-        public static bool InSameConnectedComponent(Graph<T> graph, List<GraphNode<T>> nodeList) 
+        public static bool InSameConnectedComponent(DirectedGraph<T> directedGraph, List<GraphNode<T>> nodeList) 
         {
-            var componentAlgorithm = new GraphComponents<T>(graph);
-            var componentLabels = componentAlgorithm.GetConnectedComponents();
+            var componentAlgorithm = new GraphComponents<T>();
+            var componentLabels = componentAlgorithm.KosarajuScc(directedGraph);
 
             var label = componentLabels[nodeList[0]];
             for (int i = 1; i < nodeList.Count; i++)

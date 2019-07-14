@@ -6,24 +6,24 @@ namespace Algorithms
 {
     public class TopologicalOrdering<T> where T:IEquatable<T>,IComparable<T>
     {
-        private Graph<T> _graph;
+        private DirectedGraph<T> _directedGraph;
         private List<T> _ordering;
 
-        public TopologicalOrdering(Graph<T> graph)
+        public TopologicalOrdering(DirectedGraph<T> directedGraph)
         {
-            _graph = graph;
-            _ordering = new List<T>(_graph.Nodes.Count);
+            _directedGraph = directedGraph;
+            _ordering = new List<T>(_directedGraph.Nodes.Count);
         }
 
         public List<T> GetTopologicalOrdering()
         {
             _ordering.Clear();
-            foreach (var node in _graph.Nodes)
+            foreach (var node in _directedGraph.Nodes)
             {
                 if (node.Color == Color.Uncolored) Visit(node);
             }
 
-            if (_ordering.Count != _graph.Nodes.Count) _ordering.Clear();
+            if (_ordering.Count != _directedGraph.Nodes.Count) _ordering.Clear();
 
             return _ordering;
         }
@@ -33,7 +33,7 @@ namespace Algorithms
             if (node.Color == Color.Black) return;
             if (node.Color == Color.White) return;// cycle detected
 
-            if (!_graph.Neighbors.ContainsKey(node))
+            if (!_directedGraph.Neighbors.ContainsKey(node))
             {
                 //node has no successor
                 node.Color = Color.Black;
@@ -42,7 +42,7 @@ namespace Algorithms
             }
 
             node.Color = Color.White;
-            foreach (var neighbor in _graph.Neighbors[node])
+            foreach (var neighbor in _directedGraph.Neighbors[node])
             {
                 Visit(neighbor);
                 if(neighbor.Color != Color.Black) return;

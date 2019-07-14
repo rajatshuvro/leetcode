@@ -12,7 +12,7 @@ namespace Problems
         public IList<string> FindItinerary(IList<IList<string>> tickets)
         {
             var nodes = new HashSet<GraphNode<string>>(tickets.Count+1);
-            var edges = new List<Edge<string>>(tickets.Count);
+            var edges = new List<DirectedEdge<string>>(tickets.Count);
 
             foreach (var ticket in tickets)
             {
@@ -26,9 +26,9 @@ namespace Problems
                     nodes.Add(destination);
                 else destination = destNode;
 
-                edges.Add(new Edge<string>(source, destination, true ));
+                edges.Add(new DirectedEdge<string>(source, destination ));
             }
-            var graph = new Graph<string>(nodes, edges);
+            var graph = new DirectedGraph<string>(nodes, edges);
             var eular = new EularianPath<string>(graph);
 
             return eular.GetEularianPath(StartAirport);

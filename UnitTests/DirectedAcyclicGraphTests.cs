@@ -10,21 +10,21 @@ namespace UnitTests
         [Fact]
         public void TestCase_0()
         {
-            var edges = new List<Edge<int>>();
+            var edges = new List<DirectedEdge<int>>();
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
         }
         [Fact]
         public void TestCase_1()
         {
-            var edges = new List<Edge<int>>()
+            var edges = new List<DirectedEdge<int>>()
             {
-                new Edge<int>(new GraphNode<int>(1), new GraphNode<int>(2), true)
+                new DirectedEdge<int>(new GraphNode<int>(1), new GraphNode<int>(2))
             };
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
         }
@@ -35,13 +35,13 @@ namespace UnitTests
             var node1 = new GraphNode<int>(1);
             var node2 = new GraphNode<int>(2);
 
-            var edges = new List<Edge<int>>()
+            var edges = new List<DirectedEdge<int>>()
             {
-                new Edge<int>(node1, node2, true),
-                new Edge<int>(node2, node1, true)
+                new DirectedEdge<int>(node1, node2),
+                new DirectedEdge<int>(node2, node1)
             };
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.False(GraphProperties<int>.IsDirectedAcyclic(graph));
         }
@@ -54,14 +54,14 @@ namespace UnitTests
             var node3 = new GraphNode<int>(3);
             var node4 = new GraphNode<int>(4);
 
-            var edges = new List<Edge<int>>()
+            var edges = new List<DirectedEdge<int>>()
             {
-                new Edge<int>(node1, node2, true),
-                new Edge<int>(node2, node3, true),
-                new Edge<int>(node3, node4, true)
+                new DirectedEdge<int>(node1, node2),
+                new DirectedEdge<int>(node2, node3),
+                new DirectedEdge<int>(node3, node4)
             };
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
         }
@@ -74,15 +74,15 @@ namespace UnitTests
             var node3 = new GraphNode<int>(3);
             var node4 = new GraphNode<int>(4);
 
-            var edges = new List<Edge<int>>()
+            var edges = new List<DirectedEdge<int>>()
             {
-                new Edge<int>(node1, node2, true),
-                new Edge<int>(node2, node3, true),
-                new Edge<int>(node3, node4, true),
-                new Edge<int>(node4, node2, true)
+                new DirectedEdge<int>(node1, node2),
+                new DirectedEdge<int>(node2, node3),
+                new DirectedEdge<int>(node3, node4),
+                new DirectedEdge<int>(node4, node2)
             };
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.False(GraphProperties<int>.IsDirectedAcyclic(graph));
         }
@@ -94,14 +94,14 @@ namespace UnitTests
             var node2 = new GraphNode<int>(2);
             var node3 = new GraphNode<int>(3);
             
-            var edges = new List<Edge<int>>()
+            var edges = new List<DirectedEdge<int>>()
             {
-                new Edge<int>(node1, node2, true),
-                new Edge<int>(node3, node2, true),
+                new DirectedEdge<int>(node1, node2),
+                new DirectedEdge<int>(node3, node2),
                 
             };
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
         }
@@ -112,14 +112,14 @@ namespace UnitTests
             var node1 = new GraphNode<int>(1);
             var node2 = new GraphNode<int>(2);
             var node3 = new GraphNode<int>(3);
-            var edges = new List<Edge<int>>()
+            var edges = new List<DirectedEdge<int>>()
             {
-                new Edge<int>(node1, node2, true),
-                new Edge<int>(node1, node3, true),
-                new Edge<int>(node2, node3, true),
+                new DirectedEdge<int>(node1, node2),
+                new DirectedEdge<int>(node1, node3),
+                new DirectedEdge<int>(node2, node3),
             };
 
-            var graph = new Graph<int>(edges);
+            var graph = new DirectedGraph<int>(edges);
 
             Assert.True(GraphProperties<int>.IsDirectedAcyclic(graph));
         }

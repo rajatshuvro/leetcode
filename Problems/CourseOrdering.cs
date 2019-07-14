@@ -15,13 +15,13 @@ namespace Problems
                 nodes.Add(new GraphNode<int>(i));
             }
 
-            var edges = new List<Edge<int>>(prerequisites.GetLength(0));
+            var edges = new List<DirectedEdge<int>>(prerequisites.GetLength(0));
             for (var i = 0; i < prerequisites.GetLength(0); i++)
             {
-                edges.Add(new Edge<int>(nodes[prerequisites[i][0]], nodes[prerequisites[i][1]], true));
+                edges.Add(new DirectedEdge<int>(nodes[prerequisites[i][0]], nodes[prerequisites[i][1]]));
             }
 
-            var diGraph = new Graph<int>(nodes, edges);
+            var diGraph = new DirectedGraph<int>(nodes, edges);
 
             var topSorter = new TopologicalOrdering<int>(diGraph);
 
