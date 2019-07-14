@@ -55,9 +55,9 @@ namespace DataStructures
             var index = Edges.BinarySearch(searchEdge);
             if (index < 0) yield break;
             //the index does not necessarily point to the first occurence of the item searched
-            while (index > 0 && Edges[index - 1].Equals(searchEdge)) index--;
+            while (index > 0 && Edges[index - 1].CompareTo(searchEdge) == 0) index--;
 
-            while (index < Edges.Count && Edges[index].Equals(searchEdge))
+            while (index < Edges.Count && Edges[index].CompareTo(searchEdge) == 0)
             {
                 yield return Edges[index];
                 index++;
