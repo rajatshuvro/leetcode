@@ -30,7 +30,6 @@ The directed graph has N nodes with labels 0, 1, ..., N-1, where N is the length
             {
                 if (node.Color == Color.Uncolored)
                 {
-                    UncolorWhiteNodes();
                     Visit(node);
                 }
             }
@@ -41,14 +40,6 @@ The directed graph has N nodes with labels 0, 1, ..., N-1, where N is the length
             }
             safeList.Sort();
             return safeList;
-        }
-
-        private void UncolorWhiteNodes()
-        {
-            foreach (var node in _graph.Nodes)
-            {
-                if (node.Color == Color.White) node.Color = Color.Uncolored;
-            }
         }
 
         private void Visit(GraphNode<int> node)

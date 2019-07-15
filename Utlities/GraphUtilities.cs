@@ -8,7 +8,7 @@ namespace Utilities
     {
         public static DirectedGraph<int> GetDiGraphFromAdjacencyMatrix(int[][] adjacencyList)
         {
-            var nodes = new HashSet<GraphNode<int>>();
+            var nodes = new List<GraphNode<int>>();
             for (var i = 0; i < adjacencyList.GetLength(0); i++)
             {
                 nodes.Add(new GraphNode<int>(i));
@@ -19,14 +19,8 @@ namespace Utilities
             {
                 for (int j = 0; j < adjacencyList[i].Length; j++)
                 {
-                    var source = new GraphNode<int>(i);
-                    source = nodes.TryGetValue(source, out var node) ? node : source;
-                    nodes.Add(source);
-
-                    var destination = new GraphNode<int>(adjacencyList[i][j]);
-                    destination = nodes.TryGetValue(destination, out node) ? node : destination;
-                    nodes.Add(destination);
-
+                    var source = nodes[i];
+                    var destination = nodes[adjacencyList[i][j]];
                     edges.Add(new DirectedEdge<int>(source, destination));
                 }
             }
@@ -35,7 +29,7 @@ namespace Utilities
 
         public static UndirectedGraph<int> GetUnDiGraphFromAdjacencyMatrix(int[][] adjacencyList)
         {
-            var nodes = new HashSet<GraphNode<int>>();
+            var nodes = new List<GraphNode<int>>();
             for (var i = 0; i < adjacencyList.GetLength(0); i++)
             {
                 nodes.Add(new GraphNode<int>(i));
@@ -46,14 +40,8 @@ namespace Utilities
             {
                 for (int j = 0; j < adjacencyList[i].Length; j++)
                 {
-                    var source = new GraphNode<int>(i);
-                    source = nodes.TryGetValue(source, out var node) ? node : source;
-                    nodes.Add(source);
-
-                    var destination = new GraphNode<int>(adjacencyList[i][j]);
-                    destination = nodes.TryGetValue(destination, out node) ? node : destination;
-                    nodes.Add(destination);
-
+                    var source = nodes[i];
+                    var destination = nodes[adjacencyList[i][j]];
                     edges.Add(new UndirectedEdge<int>(source, destination));
                 }
             }
