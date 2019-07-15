@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Algorithms;
 using DataStructures;
+using Utilities;
 
 namespace Problems
 {
@@ -16,44 +18,63 @@ Which nodes are eventually safe?  Return them as an array in sorted order.
 
 The directed graph has N nodes with labels 0, 1, ..., N-1, where N is the length of graph.  The graph is given in the following form: graph[i] is a list of labels j such that (i, j) is a directed edge of the graph.
          */
-
+        private DirectedGraph<int> _graph;
         public IList<int> EventualSafeNodes(int[][] adjacencyMatrix)
         {
             // all nodes in a strongly connected component is unsafe
             // because they can get in a loop
-            var nodes = new HashSet<GraphNode<int>>();
-            for(var i =0; i < adjacencyMatrix.GetLength(0); i++)
+            _graph = GraphUtilities.GetDiGraphFromAdjacencyMatrix(adjacencyMatrix);
+            // for each node, we try to see if it can reach a cycle
+            // a cycle is reached when during a DFS, a back edge is discovered
+            foreach (var node in _graph.Nodes)
             {
-                nodes.Add(new GraphNode<int>(i));
-            }
-
-            var edges = new List<DirectedEdge<int>>();
-            for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < adjacencyMatrix[i].Length; j++)
+                if (node.Color == Color.Uncolored)
                 {
-                    var node_i = new GraphNode<int>(i);
-                    node_i = nodes.TryGetValue(node_i, out var node) ? node : node_i;
-                    nodes.Add(node_i);
-
-                    var node_j = new GraphNode<int>(adjacencyMatrix[i][j]);
-                    node_j = nodes.TryGetValue(node_j, out node) ? node : node_j;
-                    nodes.Add(node_j);
-
-                    edges.Add(new DirectedEdge<int>(node_i, node_j));
+                    UncolorWhiteNodes();
+                    Visit(node);
                 }
             }
-            var graph = new DirectedGraph<int>(nodes, edges);
-            var components = new GraphComponents<int>();
-            var scc = components.GetStronglyConnectedComponents(graph);
-
             var safeList = new List<int>();
-            foreach (var component in scc)
+            foreach (var node in _graph.Nodes)
             {
-                if(component.Count == 1) safeList.Add(component[0]);
+                if(node.Color != Color.Black) safeList.Add(node.Label);
             }
             safeList.Sort();
             return safeList;
+        }
+
+        private void UncolorWhiteNodes()
+        {
+            foreach (var node in _graph.Nodes)
+            {
+                if (node.Color == Color.White) node.Color = Color.Uncolored;
+            }
+        }
+
+        private void Visit(GraphNode<int> node)
+        {
+            if (node.Color == Color.Black) return;
+            if (node.Color == Color.White)
+            {
+                // back edge found
+                node.Color = Color.Black;
+                return;
+            }
+            if (node.Color == Color.Uncolored) node.Color = Color.White;
+
+            if (!_graph.Neighbors.ContainsKey(node))
+            {
+                // no out going edges , so certainly safe
+                node.Color = Color.Green;
+                return;
+            }
+            foreach (var neighbor in _graph.Neighbors[node])
+            {
+                Visit(neighbor);
+                if (neighbor.Color == Color.Black) node.Color = Color.Black;
+            }
+
+            if (node.Color != Color.Black) node.Color = Color.Green;// this node is in the clear.
         }
     }
 }
