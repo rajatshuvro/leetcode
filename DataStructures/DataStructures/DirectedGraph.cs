@@ -18,6 +18,18 @@ namespace DataStructures
             Initialize(nodes, edges);
         }
 
+        public bool TryGetNode(T label, out GraphNode<T> retNode)
+        {
+            retNode = null;
+            foreach (var node in Nodes)
+            {
+                if (!label.Equals(node.Label)) continue;
+                retNode = node;
+                return true;
+            }
+
+            return false;
+        }
         
         public DirectedGraph(IList<DirectedEdge<T>> edges)
         {

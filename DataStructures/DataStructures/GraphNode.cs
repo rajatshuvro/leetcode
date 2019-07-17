@@ -29,7 +29,7 @@ namespace DataStructures
         {
             return Label.GetHashCode();
         }
-
+        // in dijkstra's algorithms nodes need to be compared by weight
         public int CompareTo(GraphNode<T> other)
         {
             return Weight.CompareTo(other.Weight);

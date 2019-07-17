@@ -41,28 +41,6 @@ namespace UnitTests
             Assert.Equal(9, graph.NumEdges);
         }
 
-        [Fact]
-        public void GetShortestDistances()
-        {
-            var graph = GetGraph();
-            
-            var distances = Dijkstras<int>.GetShortestDistancesFrom(graph, 1);
-
-            Assert.Equal(0, distances[1]);
-            Assert.Equal(7, distances[2]);
-            Assert.Equal(9, distances[3]);
-            Assert.Equal(20, distances[4]);
-            Assert.Equal(20, distances[5]);
-            Assert.Equal(11, distances[6]);
-        }
-
-        [Fact]
-        public void GetShortestPath()
-        {
-            var graph = GetGraph();
-            var shortestPath = Dijkstras<int>.GetShortestPath(graph, 1,6);
-
-            Assert.Equal(new [] {1,3,6}, shortestPath);
-        }
+        
     }
 }

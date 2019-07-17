@@ -8,7 +8,7 @@ namespace UnitTests
     public class GraphConnectednessTests
     {
         [Fact]
-        public void UndirectedGraphConnectedness()
+        public void DirectedGraph_oneComponent()
         {
             var nodeList = new List<GraphNode<int>>()
             {
@@ -19,7 +19,9 @@ namespace UnitTests
             
             var edges = new List<DirectedEdge<int>>()
             {
-                new DirectedEdge<int>(nodeList[1], nodeList[2])
+                new DirectedEdge<int>(nodeList[0], nodeList[1]),
+                new DirectedEdge<int>(nodeList[1], nodeList[2]),
+                new DirectedEdge<int>(nodeList[2], nodeList[0])
             };
 
             var graph = new DirectedGraph<int>(nodeList, edges);
@@ -66,7 +68,7 @@ namespace UnitTests
 
             var graph = new DirectedGraph<int>(nodes, edges);
 
-            Assert.True(GraphProperties<int>.InSameConnectedComponent(graph, new List<GraphNode<int>>() { nodes[0], nodes[1], nodes[2] }));
+            Assert.False(GraphProperties<int>.InSameConnectedComponent(graph, new List<GraphNode<int>>() { nodes[0], nodes[1], nodes[2] }));
         }
     }
 }
