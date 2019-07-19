@@ -69,9 +69,9 @@ namespace Problems
             num = num * 10 + (_encryptedString[i + 1] - '0');
 
             if (num < 10) return 0;// invalid string
-            if (num == 10) return 1;
+            if (num == 10 || num == 20) return 1;
             if (num <= 26) return 2;
-            return 1;
+            return _encryptedString[i+1]=='0'? 0:1;
         }
     }
 }
