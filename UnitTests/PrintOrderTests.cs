@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Problems;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace UnitTests
 {

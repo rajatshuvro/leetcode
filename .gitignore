@@ -78,3 +78,5 @@
 /Utlities/bin/Debug/netcoreapp2.1
 /Utlities/obj/Debug/netcoreapp2.1
 /Utlities/obj
+/ConcurrencyTester/bin/Debug/netcoreapp2.1
+/ConcurrencyTester/obj
