@@ -10,19 +10,17 @@ namespace ConcurrencyTester
         {
             Console.WriteLine("Concurrency tester!");
 
-            var printer = new PrintZeroEvenOdd(4);
-            var thread1 = new Thread(() => printer.Zero());
-            var thread2 = new Thread(() => printer.Odd());
-            var thread3 = new Thread(() => printer.Even());
+            var printer = new AlternatePrinting(4, "...", "|||");
+            var thread1 = new Thread(() => printer.PrintX());
+            var thread2 = new Thread(() => printer.PrintY());
 
-            thread3.Start();
             thread2.Start();
             thread1.Start();
 
             thread1.Join();
             thread2.Join();
-            thread3.Join();
 
+            Console.WriteLine();
             Console.WriteLine(printer.GetOutput());
 
         }
