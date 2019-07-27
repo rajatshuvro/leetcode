@@ -50,5 +50,38 @@ namespace UnitTests
             Assert.Equal(0.03, percentiler.GetPercentilePrice(0.25));
             Assert.Equal(0.05, percentiler.GetPercentilePrice(0.5));
         }
+
+        [Fact]
+        public void GetPercentile_threePrices()
+        {
+            var percentiler = new PricePercentile(0.01, 1);
+
+            percentiler.Add(0.25);
+            percentiler.Add(0.5);
+            percentiler.Add(0.75);
+            Assert.Equal(0, percentiler.GetPercentilePrice(0));
+            Assert.Equal(0.25, percentiler.GetPercentilePrice(0.25));
+            Assert.Equal(0.5, percentiler.GetPercentilePrice(0.5));
+            Assert.Equal(0.75, percentiler.GetPercentilePrice(0.75));
+            Assert.Equal(0.75, percentiler.GetPercentilePrice(0.9));
+            Assert.Equal(0.75, percentiler.GetPercentilePrice(1));
+        }
+
+        [Fact]
+        public void GetPercentile_repeatElements()
+        {
+            var percentiler = new PricePercentile(0.01, 1);
+
+            percentiler.Add(0.25);
+            percentiler.Add(0.5);
+            percentiler.Add(0.5);
+            percentiler.Add(0.5);
+            percentiler.Add(0.75);
+
+            Assert.Equal(0.5, percentiler.GetPercentilePrice(0.25));
+            Assert.Equal(0.5, percentiler.GetPercentilePrice(0.5));
+            Assert.Equal(0.5, percentiler.GetPercentilePrice(0.75));
+            
+        }
     }
 }
