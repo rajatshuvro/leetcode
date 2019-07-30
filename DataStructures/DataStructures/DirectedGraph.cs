@@ -9,6 +9,7 @@ namespace DataStructures
         public HashSet<GraphNode<T>> Nodes;
         public List<DirectedEdge<T>> Edges;
         public Dictionary<GraphNode<T>, HashSet<GraphNode<T>>> Neighbors;
+        private List<GraphNode<T>> _emptyNodes = new List<GraphNode<T>>();
 
         public int NumNodes => Nodes.Count;
         public int NumEdges => Edges.Count;
@@ -61,6 +62,11 @@ namespace DataStructures
             Edges.Sort();
         }
 
+        public IEnumerable<GraphNode<T>> GetNeighbors(GraphNode<T> node)
+        {
+            if (Neighbors.ContainsKey(node)) return Neighbors[node];
+            return _emptyNodes;
+        }
         public IEnumerable<DirectedEdge<T>> GetEdges(GraphNode<T> source, GraphNode<T> destination)
         {
             var searchEdge = new DirectedEdge<T>(source, destination);
