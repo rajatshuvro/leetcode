@@ -6,8 +6,7 @@ namespace UnitTests
 {
     public class BinTreeCodecTests
     {
-        [Fact]
-        public void SerializationTest_1()
+        private TreeNode GetTree_1()
         {
             var node1 = new TreeNode(1);
             var node2_1 = new TreeNode(2);
@@ -26,11 +25,27 @@ namespace UnitTests
             node3.right = node4_3;
         
             node2_2.left = node4_2;
-            
+
+            return node1;
+        }
+
+        [Fact]
+        public void SerializationTest_1()
+        {
             var codec = new BinTreeCodec();
-            var s = codec.serialize(node1);
+            var s = codec.serialize(GetTree_1());
             
             Assert.Equal("1,2,4,null,null,null,3,2,4,null,null,null,4,null,null", s);
+        }
+
+        [Fact]
+        public void DeserializeTest_1()
+        {
+            var codec = new BinTreeCodec();
+            var serializedTree = "1,2,4,null,null,null,3,2,4,null,null,null,4,null,null";
+            var root = codec.deserialize(serializedTree);
+            
+            Assert.Equal(serializedTree, codec.serialize(root));
         }
     }
 }
