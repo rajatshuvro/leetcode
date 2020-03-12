@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace Problems
 {
@@ -25,7 +24,7 @@ namespace Problems
             var foundWords = new List<string>();
             foreach (var word in words)
             {
-                if(BoardContains( word)) foundWords.Add(word);
+                if(BoardContains(word)) foundWords.Add(word);
                 ClearUsedMatrix();
             }
 
@@ -47,13 +46,17 @@ namespace Problems
 
         private bool CheckMatchAt(int x, int y, string word, int i)
         {
-            if (i>= word.Length || _board[x][y] != word[i]) return false;
-            
-            if (WithinGrid(x - 1, y - 1) && CheckMatchAt(x - 1, y - 1, word, i + 1)) return true;
-            if (WithinGrid(x + 1, y - 1) && CheckMatchAt(x + 1, y - 1, word, i + 1)) return true;
-            if (WithinGrid(x - 1, y + 1) && CheckMatchAt(x - 1, y + 1, word, i + 1)) return true;
-            if (WithinGrid(x + 1, y + 1) && CheckMatchAt(x + 1, y + 1, word, i + 1)) return true;
+            //if (i >= word.Length) return true;
+            if (_board[x][y] != word[i] || _isUsed[x][y]) return false;
 
+            if (i == word.Length - 1) return true;
+            _isUsed[x][y] = true;
+            if (WithinGrid(x, y + 1) && CheckMatchAt(x, y + 1, word, i + 1)) return true;
+            if (WithinGrid(x - 1, y) && CheckMatchAt(x - 1, y, word, i + 1)) return true;
+            if (WithinGrid(x, y - 1) && CheckMatchAt(x, y - 1, word, i + 1)) return true;
+            if (WithinGrid(x + 1, y) && CheckMatchAt(x + 1, y, word, i + 1)) return true;
+
+            _isUsed[x][y] = false;
             return false;
         }
 
