@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Problems
 {
@@ -42,6 +43,23 @@ namespace Problems
             }
 
             return false;
+        }
+
+        private bool CheckMatchAt(int x, int y, string word, int i)
+        {
+            if (i>= word.Length || _board[x][y] != word[i]) return false;
+            
+            if (WithinGrid(x - 1, y - 1) && CheckMatchAt(x - 1, y - 1, word, i + 1)) return true;
+            if (WithinGrid(x + 1, y - 1) && CheckMatchAt(x + 1, y - 1, word, i + 1)) return true;
+            if (WithinGrid(x - 1, y + 1) && CheckMatchAt(x - 1, y + 1, word, i + 1)) return true;
+            if (WithinGrid(x + 1, y + 1) && CheckMatchAt(x + 1, y + 1, word, i + 1)) return true;
+
+            return false;
+        }
+
+        private bool WithinGrid(int x, int y)
+        {
+            return x > -1 && x < _n && y > -1 && y < _m;
         }
 
         private bool[][] GetUsedMatrix()
