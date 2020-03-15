@@ -32,5 +32,14 @@ namespace UnitTests
             var trader = new AlternateDayStockTrader();
             Assert.Equal(maxProfit, trader.MaxProfit(prices));
         }
+        
+        [Theory]
+        [InlineData(new[]{1, 3, 2, 8, 4, 9}, 2, 8)]
+        [InlineData(new[]{1,3,7,5,10,3}, 3, 6)]
+        public void TraderWithFeesTests(int[] prices, int fee, int maxProfit)
+        {
+            var trader = new TraderWithFee();
+            Assert.Equal(maxProfit, trader.MaxProfit(prices, fee));
+        }
     }
 }
