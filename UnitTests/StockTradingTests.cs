@@ -10,8 +10,8 @@ namespace UnitTests
         [InlineData(new []{7,6,4,3,1}, 0)]
         public void MaxProfitOneTransaction(int[] prices, int maxProfit)
         {
-            var oneTimeTrader = new OneTimeTrader();
-            Assert.Equal(maxProfit, oneTimeTrader.MaxProfit(prices));
+            var trader = new OneTimeTrader();
+            Assert.Equal(maxProfit, trader.MaxProfit(prices));
         }
 
         [Theory]
@@ -21,8 +21,16 @@ namespace UnitTests
         [InlineData(new[]{7,6,4,3,1}, 0)]
         public void DailyStockTraderTests(int[] prices, int maxProfit)
         {
-            var dailyTrader = new DailyStockTrader();
-            Assert.Equal(maxProfit, dailyTrader.MaxProfit(prices));
+            var trader = new DailyStockTrader();
+            Assert.Equal(maxProfit, trader.MaxProfit(prices));
+        }
+        
+        [Theory]
+        [InlineData(new[]{1,2,3,0,2}, 3)]
+        public void AlternateDayTraderTests(int[] prices, int maxProfit)
+        {
+            var trader = new AlternateDayStockTrader();
+            Assert.Equal(maxProfit, trader.MaxProfit(prices));
         }
     }
 }
