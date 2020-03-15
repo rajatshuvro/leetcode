@@ -36,6 +36,8 @@ namespace UnitTests
         [Theory]
         [InlineData(new[]{1, 3, 2, 8, 4, 9}, 2, 8)]
         [InlineData(new[]{1,3,7,5,10,3}, 3, 6)]
+        [InlineData(new[]{2,1,4,4,2,3,2,5,1,2}, 1, 4)]
+        [InlineData(new[]{2,2,1,1,5,5,3,1,5,4}, 2, 4)]
         public void TraderWithFeesTests(int[] prices, int fee, int maxProfit)
         {
             var trader = new TraderWithFee();
