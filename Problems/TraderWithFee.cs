@@ -4,7 +4,7 @@ namespace Problems
 {
     public class TraderWithFee
     {
-        
+ /*       
         public int MaxProfit(int[] prices, int fee) {
             //if there are less than 2 trading days available, there is no point trading.
             if(prices ==null || prices.Length <= 1) return 0;
@@ -23,11 +23,23 @@ namespace Problems
 
             return sellProfits[prices.Length - 1] < 0? 0: sellProfits[prices.Length-1];
         }
+*/
+        public int MaxProfit(int[] prices, int fee) {
+            //if there are less than 2 trading days available, there is no point trading.
+            if(prices ==null || prices.Length <= 1) return 0;
 
-        private static int GetProfit(int profit, int gain, int fee)
-        {
-            if (profit == int.MinValue) return int.MinValue;
-            return profit + gain - fee;
+            var prevBuyProfit = -prices[0];
+            var prevSellProfit = 0;
+            for (var i = 1; i < prices.Length; i++)
+            {
+                int sellProfit = Math.Max(prevBuyProfit + prices[i] - fee, prevSellProfit);
+                int buyProfit = Math.Max(prevSellProfit - prices[i], prevBuyProfit);
+                
+                prevBuyProfit = buyProfit;
+                prevSellProfit = sellProfit;
+            }
+
+            return prevSellProfit;
         }
     }
 }
