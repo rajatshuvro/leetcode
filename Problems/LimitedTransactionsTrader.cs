@@ -35,7 +35,9 @@ namespace Problems
                 if (maxProfitOne + maxProfitTwo > maxProfit) maxProfit = maxProfitOne + maxProfitTwo;
             }
 
-            return maxProfit > 0 ? maxProfit:0;
+            if (maxProfit < 0) maxProfit = 0;
+            _maxProfits.TryAdd((i, j, k), maxProfit);
+            return maxProfit;
         }
 
         private void ComputeOneTransactionProfits(int[] prices)
