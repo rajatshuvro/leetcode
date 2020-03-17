@@ -13,6 +13,22 @@ namespace UnitTests
             var trader = new OneTimeTrader();
             Assert.Equal(maxProfit, trader.MaxProfit(prices));
         }
+        
+        [Theory]
+        [InlineData(1, new []{7,1,5,3,6,4}, 5)]
+        [InlineData(1, new []{7,6,4,3,1}, 0)]
+        [InlineData(2, new[]{7,1,5,3,6,4,0}, 7)]
+        [InlineData(2, new[]{1,2,3,4,5}, 4)]
+        [InlineData(3, new[]{7,5,3,1,3,5,4,3,4,6,5,4}, 7)]
+        [InlineData(2, new[]{3,2,6,5,0,3}, 7)]
+        [InlineData(1, new[]{1,2,3,4,5}, 4)]
+        [InlineData(4, new[]{1,2,4,2,5,7,2,4,9,0}, 15)]
+        public void LimitedTransactions(int k, int[] prices, int maxProfit)
+        {
+            var trader = new LimitedTransactionsTrader();
+            Assert.Equal(maxProfit, trader.MaxProfit(k, prices));
+        }
+
 
         [Theory]
         [InlineData(new[]{7,1,5,3,6,4}, 7)]
