@@ -1,4 +1,6 @@
-﻿namespace Algorithms
+﻿using System.Collections.Generic;
+
+namespace Algorithms
 {
     public static class ArrayUtils
     {
@@ -73,13 +75,13 @@
             return min;
         }
 
-        public static void Swap(int[] array, int i, int j)
+        public static void Swap<T>(IList<T> list, int i, int j)
         {
             if (j == i) return;
 
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+            var temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
         }
     }
 }
