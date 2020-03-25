@@ -3,8 +3,9 @@ using DataStructures;
 
 namespace Problems
 {
-    public class TreeBuilder
+    public class BinTreeFromPreAndInOrder
     {
+        //https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
         Dictionary<int, int> _inOrderIndex;
         private int[] _preOrder;
         private int _rootIndex;
