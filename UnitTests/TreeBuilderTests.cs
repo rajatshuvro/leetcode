@@ -6,12 +6,12 @@ namespace UnitTests
 {
     public class TreeBuilderTests
     {
-        [Fact]
-        public void Basic()
+        [Theory]
+        [InlineData(new[] {3, 9, 20, 15, 7}, new[] {9, 3, 15, 20, 7})]
+        [InlineData(new[] { 1,2 },new[] { 1,2 })]
+        [InlineData(new[] { 1, 2, 3, 4 }, new[] { 3, 1, 2,4 })]
+        public void BuildFromInOrderAndPreOrder(int[] inOrder, int[] preOrder)
         {
-            var preOrder = new int[] { 3, 9, 20, 15, 7 };
-            var inOrder = new int[] {9, 3, 15, 20, 7};
-
             var tb = new BinTreeFromPreAndInOrder();
 
             var root = tb.BuildTree(preOrder, inOrder);
@@ -20,35 +20,19 @@ namespace UnitTests
             Assert.Equal(preOrder, treeTraverser.PreOrderTraversal(root));
             Assert.Equal(inOrder, treeTraverser.InOrderTraversal(root));
         }
-
-        [Fact]
-        public void Case_22()
+        
+        [Theory]
+        [InlineData(new [] {9,3,15,20,7}, new [] {9,15,7,20,3})]
+        [InlineData(new[] { 1,2 },new[] { 2,1 })]
+        public void BuildFromInOrderAndPostOrder(int[] inOrder, int[] postOrder)
         {
-            var preOrder = new int[] { 1,2 };
-            var inOrder = new int[] { 1,2 };
+            var tb = new BinTreeFromPostAndInOrder();
 
-            var tb = new BinTreeFromPreAndInOrder();
-
-            var root = tb.BuildTree(preOrder, inOrder);
-            var treeTraverser = new BinaryTreeTraversal<int>();
-
-            Assert.Equal(preOrder, treeTraverser.PreOrderTraversal(root));
+            var root = tb.BuildTree(inOrder, postOrder);
+            var treeTraverser= new BinaryTreeTraversal<int>();
+            
             Assert.Equal(inOrder, treeTraverser.InOrderTraversal(root));
-        }
-
-        [Fact]
-        public void Case_121()
-        {
-            var preOrder = new int[] { 3, 1, 2,4 };
-            var inOrder = new int[] { 1,2,3,4};
-
-            var tb = new BinTreeFromPreAndInOrder();
-
-            var root = tb.BuildTree(preOrder, inOrder);
-            var treeTraverser = new BinaryTreeTraversal<int>();
-
-            Assert.Equal(preOrder, treeTraverser.PreOrderTraversal(root));
-            Assert.Equal(inOrder, treeTraverser.InOrderTraversal(root));
+            
         }
 
     }
