@@ -38,11 +38,18 @@ namespace Problems
             if (i >= j) return root;
             
             var inOrderRootIndex = _inOrderIndices[root.val];
-            _rootIndex--;
-            root.right = BuildTree(inOrderRootIndex + 1, j);
-            _rootIndex--;
-            root.left = BuildTree( i, inOrderRootIndex - 1);
-            
+            if (inOrderRootIndex < j)
+            {
+                _rootIndex--;
+                root.right = BuildTree(inOrderRootIndex + 1, j);
+            }
+
+            if (i < inOrderRootIndex)
+            {
+                _rootIndex--;
+                root.left = BuildTree( i, inOrderRootIndex - 1);
+
+            }
             return root;
         }
     }

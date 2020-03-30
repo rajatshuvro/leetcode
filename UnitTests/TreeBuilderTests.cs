@@ -23,7 +23,8 @@ namespace UnitTests
         
         [Theory]
         [InlineData(new [] {9,3,15,20,7}, new [] {9,15,7,20,3})]
-        [InlineData(new[] { 1,2 },new[] { 2,1 })]
+        [InlineData(new[] {1,2},new[] {2,1 })]
+        [InlineData(new[] {2,1},new[] {2,1 })]
         public void BuildFromInOrderAndPostOrder(int[] inOrder, int[] postOrder)
         {
             var tb = new BinTreeFromPostAndInOrder();
