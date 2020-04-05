@@ -6,7 +6,7 @@ namespace Problems.MultiMethod
     public class State
     {
         public readonly char C;
-        public bool HasSelfLoop = false;
+        public bool HasSelfLoop;
         public State Next;
 
         public State(char c)
@@ -23,12 +23,18 @@ namespace Problems.MultiMethod
 
         public StateMachine(string pattern)
         {
+            //create the most parsimonious state machine. e.g. a*a => a*
             var prevState = _startState;
             
             foreach(var c in pattern){
                 if(c==RepeatChar)
                 {
                     prevState.HasSelfLoop = true;
+                    continue;
+                }
+                //compressing multiple chars into one state if subsequent chars are the same
+                // but not '.'
+                if( prevState.C != AnyChar && c == prevState.C && prevState.HasSelfLoop){
                     continue;
                 }
                 var state = new State(c);
@@ -94,6 +100,8 @@ namespace Problems.MultiMethod
         //https://leetcode.com/problems/regular-expression-matching/
         public bool IsMatch(string s, string p)
         {
+            //special stupid case handling
+            if (p == ".*") return true;
             var sm = new StateMachine(p);
             return sm.IsMatch(s);
         }
