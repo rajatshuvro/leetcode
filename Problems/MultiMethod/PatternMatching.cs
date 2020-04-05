@@ -7,17 +7,11 @@ namespace Problems.MultiMethod
     {
         public readonly char C;
         public bool HasSelfLoop = false;
-        public readonly Dictionary<char, State> NextStates;
+        public State Next;
 
         public State(char c)
         {
             C = c;
-            NextStates = new Dictionary<char, State>();
-        }
-
-        public void AddNextState(State s)
-        {
-            NextStates.Add(s.C, s);
         }
     }
 
@@ -38,7 +32,7 @@ namespace Problems.MultiMethod
                     continue;
                 }
                 var state = new State(c);
-                prevState.AddNextState(state);
+                prevState.Next =state;
                 prevState = state;
             }
         }
@@ -48,65 +42,50 @@ namespace Problems.MultiMethod
             if (string.IsNullOrEmpty(s)) return AreAllStatesRepeats();
             
             var state = _startState;
-            char lastChar = ' ';
+            char prevChar = ' ';
             //use a stack to enable backtracking
             var charStack = new Stack<char>(s.Reverse());
             
             while(charStack.Count != 0)
             {
                 var c = charStack.Pop();
-                if (lastChar == c) //something is being repeated > 0 times
+                if (prevChar == c && state.HasSelfLoop) //something is being repeated > 0 times
                 {
-                    if (!state.HasSelfLoop
-                     && !state.NextStates.ContainsKey(AnyChar)) return false;
-                    continue;
-                }
-                lastChar = c;
-                if (state.NextStates.ContainsKey(c))
-                {
-                    state = state.NextStates[c];
                     continue;
                 }
 
-                if (state.NextStates.ContainsKey('.'))
+                state = state.Next;
+                if (state == null) return false;
+                
+                prevChar = c;
+                if (state.C ==c || state.C == AnyChar)
                 {
-                    state = state.NextStates['.'];
                     continue;
                 }
+
                 //skip over state/char that repeats 0 times
-                foreach (var (_,nextState) in state.NextStates)
-                {
-                    if (!nextState.HasSelfLoop) continue;
-                    state = nextState;
-                    break;
-                }
-                //skipping over a state that repeats 0 times
                 if (state.HasSelfLoop)
                 {
                     charStack.Push(c);//c hasn't been consumed
-                    lastChar = ' ';
+                    prevChar = ' ';
                     continue;
                 }
                 
                 return false;
             }
             //make sure the last state has been reached
-            return IsFinalState(state);
+            return state.Next==null && charStack.Count==0;
         }
 
         private bool AreAllStatesRepeats()
         {
-            var queue = new Queue<State>();
-            queue.Enqueue(_startState);
-            return false;
-        }
+            var state = _startState.Next;
+            while (state.Next!=null)
+            {
+                if (!state.HasSelfLoop) return false;
+            }
 
-        private bool IsFinalState(State state)
-        {
-            //the final state either has a self loop (due to *) or no next states
-            if(state.NextStates.Count > 1) return false;
-            if(state.NextStates.Count == 0) return true;
-            return state.C == state.NextStates.First().Key;
+            return true;
         }
     }
 
