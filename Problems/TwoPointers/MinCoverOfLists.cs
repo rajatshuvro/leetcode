@@ -25,14 +25,18 @@ namespace Problems.TwoPointers
             
             foreach (var x in jointList)
             {
+                var outOfRange = false;
                 for(var i=0; i < lists.Count; i++)
                 {
-                    indices[i] = lists[i].BinarySearch(x);
-                    if (indices[i] < 0) indices[i] = ~indices[i];
-                    if (indices[i] == lists[i].Count) indices[i] = -1;
+                    indices[i] = FindClosestNumIndex(lists[i], x, indices[i]);
+                    if (indices[i] == lists[i].Count)
+                    {
+                        outOfRange = true;
+                        break;
+                    }
                 }
                 //if any of the indices are negative we cannot find a range that covers all
-                if(indices.Any(y =>y < 0)) continue;
+                if(outOfRange) continue;
                 //compute the min and max from the list of numbers indicated by indices
                 for (int i = 0; i < lists.Count; i++)
                 {
@@ -48,6 +52,17 @@ namespace Problems.TwoPointers
                 }
             }
             return range;
+        }
+
+        private static int FindClosestNumIndex(IList<int> nums, int x, int i)
+        {
+            if (i == nums.Count) return i;
+            while (i < nums.Count && x > nums[i])
+            {
+                i++;
+            }
+
+            return i;
         }
     }
 }

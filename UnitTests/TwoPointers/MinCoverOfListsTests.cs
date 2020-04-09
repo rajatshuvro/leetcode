@@ -19,6 +19,9 @@ namespace UnitTests.TwoPointers
             
             var minCover = new MinCoverOfLists();
             Assert.Equal(new[]{20,24}, minCover.SmallestRange(lists));
+            
+            var rangeCover = new SmallestCoveringRange();
+            Assert.Equal(new[]{20,24}, rangeCover.SmallestRange(lists));
         }
         
         [Fact]
@@ -38,6 +41,9 @@ namespace UnitTests.TwoPointers
             
             var minCover = new MinCoverOfLists();
             Assert.Equal(new[]{1,7}, minCover.SmallestRange(lists));
+            
+            var rangeCover = new SmallestCoveringRange();
+            Assert.Equal(new[]{1, 7}, rangeCover.SmallestRange(lists));
         }
     }
 }
