@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class BitMap
+    public class BitMap:IEquatable<BitMap>
     {
         //can be a used or keeping track of item existance of <= 64 items 
         public ulong Map { get; private set; }
@@ -50,6 +51,13 @@ namespace DataStructures
             for(var i=0; i < 64; i++)
                 if (IsSet(i))
                     yield return i;
+        }
+
+        public bool Equals(BitMap other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Map == other.Map;
         }
     }
 }
