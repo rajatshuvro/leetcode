@@ -49,7 +49,7 @@ namespace Problems.ArrayProblems
                 start--;
             }
             //look to the right
-            var end = index;
+            var end = index +1;
             while (end < intervalList.Count && insertedInterval.Overlaps(intervalList[end]))
             {
                 end++;
