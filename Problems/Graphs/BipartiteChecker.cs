@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Algorithms;
 using DataStructures;
 
-namespace Problems
+namespace Problems.Graphs
 {
     public class BipartiteChecker
     {

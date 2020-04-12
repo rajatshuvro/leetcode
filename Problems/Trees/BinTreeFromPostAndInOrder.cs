@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using DataStructures;
 
-namespace Problems
+namespace Problems.Trees
 {
     public class BinTreeFromPostAndInOrder
     {

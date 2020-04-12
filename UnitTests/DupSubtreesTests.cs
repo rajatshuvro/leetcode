@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DataStructures;
 using Problems;
+using Problems.Trees;
 using Xunit;
 
 namespace UnitTests

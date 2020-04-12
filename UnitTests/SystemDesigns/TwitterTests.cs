@@ -1,4 +1,4 @@
-using Problems.SystemDesign;
+using Problems.SystemDesigns;
 using Xunit;
 
 namespace UnitTests.SystemDesigns

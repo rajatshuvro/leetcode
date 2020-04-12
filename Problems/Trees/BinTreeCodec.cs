@@ -1,6 +1,6 @@
 using DataStructures;
 
-namespace Problems
+namespace Problems.Trees
 {
     //https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
     public class BinTreeCodec

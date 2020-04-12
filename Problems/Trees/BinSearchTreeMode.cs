@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DataStructures;
 
-namespace Problems
+namespace Problems.Trees
 {
     public class BinSearchTreeMode
     {

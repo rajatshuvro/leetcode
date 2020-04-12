@@ -1,5 +1,6 @@
 ﻿using DataStructures;
 using Problems;
+using Problems.Trees;
 using Xunit;
 
 namespace UnitTests

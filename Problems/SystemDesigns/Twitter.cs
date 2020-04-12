@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Problems.SystemDesign
+namespace Problems.SystemDesigns
 {
     /**
  * Your Twitter object will be instantiated and called as such:
