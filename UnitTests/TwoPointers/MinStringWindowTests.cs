@@ -8,7 +8,7 @@ namespace UnitTests.TwoPointers
         [Theory]
         [InlineData("ADOBECODEBANC", "ABC", "BANC")]
         [InlineData("ADOBECODEBANC", "ABCZ", "")]
-        [InlineData("a", "aa", "a")]
+        [InlineData("a", "aa", "")]
         public void MinWindow(string s, string t, string window)
         {
             var minWindowFinder = new MinStringWindow();
