@@ -64,6 +64,59 @@ namespace UnitTests.ArrayProblems
             }
             
         }
-        
+      
+        [Fact]
+        public void Case3()
+        {
+            var intervals = new int[][]
+            {
+                new []{1, 5}
+            };
+            
+            var intervalInserter = new InsertingInterval();
+            var observedIntervals = intervalInserter.Insert(intervals, new[] {6,8});
+            var expectedIntervals = new int[][]
+            {
+                new []{1, 5},
+                new []{6, 8}
+            };
+
+            Assert.Equal(expectedIntervals.Length, observedIntervals.Length);
+            
+            for (int i = 0; i < expectedIntervals.Length; i++)
+            {
+                var expected = expectedIntervals[i];
+                var observed = observedIntervals[i];
+                Assert.Equal(expected, observed);
+            }
+            
+        }
+
+        [Fact]
+        public void Case4()
+        {
+            var intervals = new int[][]
+            {
+                new []{6, 8}
+            };
+            
+            var intervalInserter = new InsertingInterval();
+            var observedIntervals = intervalInserter.Insert(intervals, new[] {1,5});
+            var expectedIntervals = new int[][]
+            {
+                new []{1, 5},
+                new []{6, 8}
+            };
+
+            Assert.Equal(expectedIntervals.Length, observedIntervals.Length);
+            
+            for (int i = 0; i < expectedIntervals.Length; i++)
+            {
+                var expected = expectedIntervals[i];
+                var observed = observedIntervals[i];
+                Assert.Equal(expected, observed);
+            }
+            
+        }
     }
 }

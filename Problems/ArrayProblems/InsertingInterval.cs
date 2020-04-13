@@ -9,6 +9,8 @@ namespace Problems.ArrayProblems
         //https://leetcode.com/problems/insert-interval/
         public int[][] Insert(int[][] intervals, int[] newInterval)
         {
+            if (intervals == null || intervals.Length == 0)
+                return new[] {newInterval};
             var intervalList = new List<Interval>();
             foreach (var interval in intervals)
             {
@@ -18,13 +20,22 @@ namespace Problems.ArrayProblems
             var insertedInterval = new Interval(newInterval[0], newInterval[1]);
             
             var (start,end) = GetOverlappingRange(intervalList, insertedInterval);
-            
-            var overlappingInterval = new Interval(
+            Interval overlappingInterval;
+            if(start <= end)
+            {
+                overlappingInterval = new Interval(
                 Math.Min(intervalList[start].start, insertedInterval.start), 
                 Math.Max(intervalList[end].end, insertedInterval.end));
-            
-            //remove items indexed from start ... end and inserted the overlapping interval
-            intervalList.RemoveRange(start, end - start+1);
+                //remove items indexed from start ... end and inserted the overlapping interval
+                intervalList.RemoveRange(start, end - start+1);
+
+            }
+            else
+            {
+                // the interval has to be inserted either after all intervals or before all intervals
+                overlappingInterval = insertedInterval;
+            }
+
             intervalList.Insert(start, overlappingInterval);
 
             var retIntervals = new int[intervalList.Count][];
@@ -48,8 +59,9 @@ namespace Problems.ArrayProblems
             {
                 start--;
             }
+            //if index was past the last element, end 
             //look to the right
-            var end = index +1;
+            var end = index;
             while (end < intervalList.Count && insertedInterval.Overlaps(intervalList[end]))
             {
                 end++;

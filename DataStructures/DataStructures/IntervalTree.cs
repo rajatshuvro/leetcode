@@ -18,7 +18,7 @@ namespace DataStructures
 
         public bool Overlaps(Interval other)
         {
-            return start < other.end && other.start < end;
+            return start <= other.end && other.start <= end;
         }
 
         public int CompareTo(Interval other)
