@@ -6,33 +6,49 @@ namespace Problems.StringProblems
     {
         //https://leetcode.com/problems/last-substring-in-lexicographical-order/
         public string LastSubstring(string s) {
-            var lastSubstringByChar = new Dictionary<char, string>();
+            var indexByChar = new Dictionary<char, int>();
             for (int i = 0; i < s.Length; i++)
             {
                 var c = s[i];
-                if (!lastSubstringByChar.ContainsKey(c))
+                if (!indexByChar.ContainsKey(c))
                 {
-                    lastSubstringByChar[c] = s.Substring(i);
+                    indexByChar[c] = i;
                     continue;
                 }
 
-                var subString = s.Substring(i);
-                if(lastSubstringByChar[c].CompareTo(subString) > 0) continue;
-                lastSubstringByChar[c] = subString;
+                if(CompareSuffixAt(s, indexByChar[c], i) > 0) continue;
+                indexByChar[c] = i;
             }
 
             var maxChar = ' ';
-            var lastSubString = string.Empty;
-            foreach (var (c, subString) in lastSubstringByChar)
+            var lastIndex = -1;
+            foreach (var (c, i) in indexByChar)
             {
                 if (maxChar < c)
                 {
                     maxChar = c;
-                    lastSubString = subString;
+                    lastIndex = i;
                 }
             }
 
-            return lastSubString;
+            return s.Substring(lastIndex);
+        }
+
+        private int CompareSuffixAt(string s, int i, int j)
+        {
+            while (i < s.Length && j < s.Length)
+            {
+                if (s[i] == s[j])
+                {
+                    i++;
+                    j++;
+                    continue;
+                }
+
+                return s[i].CompareTo(s[j]);
+            }
+
+            return 1;
         }
     }
 }
