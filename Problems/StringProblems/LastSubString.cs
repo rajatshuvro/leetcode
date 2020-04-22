@@ -15,7 +15,8 @@ namespace Problems.StringProblems
                     indexByChar[c] = i;
                     continue;
                 }
-
+                if(i>0 && s[i-1]==s[i]) continue;
+                
                 if(CompareSuffixAt(s, indexByChar[c], i) > 0) continue;
                 indexByChar[c] = i;
             }
