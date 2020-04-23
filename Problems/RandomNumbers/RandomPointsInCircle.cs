@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Problems
+namespace Problems.RandomNumbers
 {
     public class RandomPointsInCircle
     {
