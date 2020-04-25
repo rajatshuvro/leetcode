@@ -9,51 +9,62 @@ namespace Problems.Trees
         public TreeNode RecoverFromPreorder(string preOrder)
         {
             if (string.IsNullOrEmpty(preOrder)) return null;
-            //"1-2--3--4-5--6--7"
-            var (val, depth) = GetNextNode(preOrder);
+            var i = 0;
+            var (val, depth) = GetNextNode(preOrder, ref i);
             var root = new TreeNode(val);
-            var (leftSubTree, rightSubTree) = GetSubTreeStrings(preOrder, depth);
+            var (leftSubTree, rightIndex) = GetSubTreeString(preOrder.Substring(i), depth);
+            if (leftSubTree == null) return root;
+            var rightSubTree = preOrder.Substring(i+rightIndex);
             root.left = RecoverFromPreorder(leftSubTree);
             root.right = RecoverFromPreorder(rightSubTree);
 
             return root;
         }
 
-        private (string leftSubTree, string rightSubTree) GetSubTreeStrings(string preOrder, int parentDepth)
+        private (string, int) GetSubTreeString(string preOrder, int parentDepth)
         {
+            if(string.IsNullOrEmpty(preOrder)) return (null, -1);
             var depth = parentDepth + 1;
-            var depthChars = new char[depth];
-            Array.Fill(depthChars, '-');
-            var depthString = new string(depthChars);
-
-            var leftStartIndex = preOrder.IndexOf(depthString);
-            var rightStartIndex = preOrder.IndexOf(depthString, leftStartIndex + depth);
-            while ((rightStartIndex < preOrder.Length && preOrder[rightStartIndex-1] == '-' )
-                   || (rightStartIndex+ depth < preOrder.Length && preOrder[rightStartIndex+depth] == '-'))
+            var i = 0;
+            var (nextDepth, nextIndex) = GetNextHeightAndIndex(preOrder, i);
+            if (nextDepth != depth) return (null, -1);
+            i = nextIndex;
+            do
             {
-                rightStartIndex = preOrder.IndexOf(depthString, rightStartIndex + depth);
-            }
+                (nextDepth, nextIndex) = GetNextHeightAndIndex(preOrder, i);
+                if (nextDepth <= depth) break;
+                i = nextIndex;
 
-            if (rightStartIndex >= 0)
-            {
-                var leftSubTreeString = preOrder.Substring(leftStartIndex, rightStartIndex - leftStartIndex);
-                var rightSubTreeString = preOrder.Substring(rightStartIndex);
+            } while (i < preOrder.Length);
 
-                return (leftSubTreeString, rightSubTreeString);
-            }
-
-            return (preOrder.Substring(leftStartIndex), null);
+            while (i < preOrder.Length && char.IsDigit(preOrder[i])) i++;
+            
+            return i==preOrder.Length? (preOrder, preOrder.Length):(preOrder.Substring(0, i), i);
 
         }
 
-        private (int val, int depth) GetNextNode(string preOrder)
+        private (int depth, int i) GetNextHeightAndIndex(string preOrder, int i)
         {
-            var val = 0;
             var depth = 0;
-            var i = 0;
+            while (i < preOrder.Length && char.IsDigit(preOrder[i])) i++;//skip numbers
             while (i < preOrder.Length && preOrder[i]=='-')
             {
                 depth++;
+                i++;
+            }
+
+            return (depth, i);
+        }
+
+        private (int val, int depth) GetNextNode(string preOrder, ref int i)
+        {
+            var val = 0;
+            var depth = 0;
+            
+            while (i < preOrder.Length && preOrder[i]=='-')
+            {
+                depth++;
+                i++;
             }
             while (i < preOrder.Length && char.IsDigit(preOrder[i]))
             {
