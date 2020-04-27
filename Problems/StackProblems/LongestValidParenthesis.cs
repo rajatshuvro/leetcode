@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Problems.DynamicProgramming
+namespace Problems.StackProblems
 {
     public class LongestValidParenthesis
     {

@@ -1,7 +1,7 @@
-using Problems.DynamicProgramming;
+using Problems.StackProblems;
 using Xunit;
 
-namespace UnitTests.DynamicProgramming
+namespace UnitTests.StackProblems
 {
     public class LongestValidParenTests
     {
