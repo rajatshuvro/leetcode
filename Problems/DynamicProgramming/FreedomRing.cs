@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Problems.DynamicProgramming
 {
@@ -29,21 +28,20 @@ namespace Problems.DynamicProgramming
         {
             if (keyIndex >= _key.Length) return 0;
             if (_subProblems.TryGetValue((ringIndex, keyIndex), out var result)) return result;
-            var originalRingIndex = ringIndex;
             
             var keyChar = _key[keyIndex];
             var minSteps = int.MaxValue;
             foreach (var distance in ComputeDistances(ringIndex, keyChar))
             {
-                ringIndex += distance;
-                if (ringIndex < 0) ringIndex += _ring.Length;
-                if (ringIndex >= _ring.Length) ringIndex -= _ring.Length;
+                var nextRingIndex = ringIndex + distance;
+                if (nextRingIndex < 0) nextRingIndex += _ring.Length;
+                if (nextRingIndex >= _ring.Length) nextRingIndex -= _ring.Length;
 
-                var steps = Math.Abs(distance) + 1 + DynamicStepsCount(ringIndex, keyIndex + 1);
+                var steps = Math.Abs(distance) + 1 + DynamicStepsCount(nextRingIndex, keyIndex + 1);
                 if (steps < minSteps)
                     minSteps = steps;
             }
-            _subProblems.Add((originalRingIndex, keyIndex), minSteps);
+            _subProblems.Add((ringIndex, keyIndex), minSteps);
             return minSteps;
         }
         private List<int> ComputeDistances(int ringIndex, char c )
