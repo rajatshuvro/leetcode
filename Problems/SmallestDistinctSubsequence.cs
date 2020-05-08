@@ -10,7 +10,7 @@ namespace Problems
         //Return the lexicographically smallest subsequence of text that contains all the distinct characters of text exactly once
         private readonly Dictionary<(int, int), string> _memoizationTable = new Dictionary<(int, int), string>();
         private string _text;
-        private readonly BitMap _map = new BitMap();
+        private readonly BitMap _map = new BitMap(64);
 
 
         public string SmallestSubsequence(string text)
@@ -56,7 +56,7 @@ namespace Problems
             // assume char i will be in the optimal subsequence
             if (_map.IsSet(_text[i] - 'a'))
             {
-                _map.Clear(_text[i] - 'a');
+                _map.Reset(_text[i] - 'a');
                 var ss = SmallestSubsequence(i + 1);
                 _memoizationTable[(i + 1, _map.GetHashCode())] = ss;
                 s1 = _text[i] + ss;
@@ -73,7 +73,7 @@ namespace Problems
 
         private bool IsMissingRequiredChars(int i)
         {
-            var map = new BitMap();
+            var map = new BitMap(64);
             for (int j = i; j < _text.Length; j++)
                 map.Set(_text[j] - 'a');
 

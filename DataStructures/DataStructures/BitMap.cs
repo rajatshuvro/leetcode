@@ -1,54 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DataStructures
 {
     public class BitMap:IEquatable<BitMap>
     {
-        //can be a used or keeping track of item existance of <= 64 items 
-        public ulong Map { get; private set; }
         public int Count { get; private set; }
-        public BitMap()
+        private readonly byte[] _buffer;
+        public int Capacity { get; private set; }
+        private int BufferSize => Capacity >> 3;
+        private int BufferCapacity => _buffer.Length * 8;
+        
+        public BitMap(int capacity)
         {
-            Map = 0;
+            SetCapacity(capacity);
+
+            _buffer = new byte[BufferSize];
         }
 
-        public override int GetHashCode()
+        private void SetCapacity(int capacity)
         {
-            return Map.GetHashCode();
+            if ((capacity & 7) != 0)
+                //not a multiple of 8. So we want to make it one.
+                Capacity  = ((capacity >> 3) + 1) << 3;
+            else Capacity = capacity;
         }
 
-        public bool Set(int index)
+        public void Resize(int capacity)
         {
-            if (index < 0 || index > 64) return false;
+            if(capacity > BufferCapacity)
+                throw new InvalidOperationException($"BitMap capacity cannot be inceased beyond initial capacity ({_buffer.Length*8}). Please create a new BitMap.");
 
-            var flag = (ulong) 1 << index;
-            if ((Map & flag) == 0) Count++;
+            Clear();
+            SetCapacity(capacity);
+
+        }
+
+        public void Read(BinaryReader reader)
+        {
+            Clear();
+            var count = reader.ReadInt32();
+            Resize(count<<3);
             
-            Map |= flag;
-            return true;
+            reader.Read(_buffer, 0, count);
         }
 
-        public void Clear(int index)
+        public void Set(int index)
         {
-            if (index < 0 || index >= 64) return;
+            (int i, uint flag) = GetBufferIndexAndFlag(index);
 
-            var flag = (ulong)1 << index;
-            if ((Map & flag) != 0) Count--;
-            flag = ~flag;
-            Map &= flag;
+            if ((_buffer[i] & flag) == 0) Count++;
+            
+            _buffer[i] |= (byte)flag;
+        }
+
+        private (int bufferIndex, uint flag) GetBufferIndexAndFlag(int index)
+        {
+            if (index < 0 || index >= Capacity)
+            {
+                throw new IndexOutOfRangeException($"Index has to be between [0,{Capacity-1}]. Observed: {index}");
+            }
+            
+            var bufferIndex = index >> 3; // divide by 8
+            var bitIndex    = index & 7; // modulo 8
+            var flag        = (uint) 1 << bitIndex;
+            return (bufferIndex, flag);
+        }
+
+        public void Reset(int index)
+        {
+            (int i, uint flag) = GetBufferIndexAndFlag(index);
+
+            if ((_buffer[i] & flag) != 0) Count--;
+            flag =  ~flag;
+            _buffer[i] &= (byte)flag;
         }
 
         public bool IsSet(int index)
         {
-            if (index < 0 || index >= 64) return false;
-            var flag = (ulong)1 << index;
-            return (Map & flag) !=0;
+            (int i, uint flag) = GetBufferIndexAndFlag(index);
+
+            return (_buffer[i] & flag) != 0;
+
+        }
+
+        public void Clear()
+        {
+            Array.Fill(_buffer, (byte)0);
+            Count = 0;
+        }
+
+        public void Write(BinaryWriter writer)
+        {
+            writer.Write(BufferSize);
+            writer.Write(_buffer, 0, BufferSize);
+            
         }
 
         public IEnumerable<int> GetAllSetPositions()
         {
-            for(var i=0; i < 64; i++)
+            for(var i=0; i < Capacity; i++)
                 if (IsSet(i))
                     yield return i;
         }
@@ -57,7 +109,13 @@ namespace DataStructures
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Map == other.Map;
+            if (Capacity != other.Capacity) return false;
+            for (int i = 0; i < BufferSize; i++)
+            {
+                if (_buffer[i] != other._buffer[i]) return false;
+            }
+
+            return true;
         }
     }
 }

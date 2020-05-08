@@ -1,4 +1,5 @@
-﻿using DataStructures;
+﻿using System;
+using DataStructures;
 using Xunit;
 
 namespace UnitTests
@@ -8,37 +9,39 @@ namespace UnitTests
         [Fact]
         public void AddItems()
         {
-            var bitMap = new BitMap();
+            var bitMap = new BitMap(64);
 
-            Assert.True(bitMap.Set(0));
-            Assert.True(bitMap.Set(4));
-            Assert.False(bitMap.Set(65));
+            bitMap.Set(0);
+            bitMap.Set(4);
+            Assert.Throws<IndexOutOfRangeException>(()=> bitMap.Set(65));
+            
 
             Assert.True(bitMap.IsSet(0));
             Assert.True(bitMap.IsSet(4));
             Assert.False(bitMap.IsSet(3));
 
-            bitMap.Clear(4);
+            bitMap.Reset(4);
             Assert.False(bitMap.IsSet(4));
         }
 
         [Fact]
         public void CountTest()
         {
-            var bitMap = new BitMap();
+            var bitMap = new BitMap(64);
 
-            Assert.True(bitMap.Set(0));
-            Assert.True(bitMap.Set(0));
+            bitMap.Set(0);
+            bitMap.Set(0);
             Assert.Equal(1, bitMap.Count);
-            Assert.True(bitMap.Set(4));
-            Assert.False(bitMap.Set(65));
+            bitMap.Set(4);
+            Assert.Throws<IndexOutOfRangeException>(()=> bitMap.Set(65));
+
             Assert.Equal(2, bitMap.Count);
 
-            bitMap.Clear(4);
+            bitMap.Reset(4);
             Assert.False(bitMap.IsSet(4));
-            bitMap.Clear(4);
+            bitMap.Reset(4);
             Assert.Equal(1, bitMap.Count);
-            bitMap.Clear(0);
+            bitMap.Reset(0);
             Assert.Equal(0, bitMap.Count);
         }
     }
