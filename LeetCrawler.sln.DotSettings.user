@@ -11,5 +11,6 @@
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case1&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case2&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case3&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.MakeTreeTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
