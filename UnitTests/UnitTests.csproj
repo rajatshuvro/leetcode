@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Problems\Problems.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities" />
+  </ItemGroup>
+
 </Project>

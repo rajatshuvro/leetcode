@@ -1,26 +1,11 @@
 using DataStructures;
 using Problems.Trees;
-using UnitTests.Utilities;
 using Xunit;
 
 namespace UnitTests.TreeProblems
 {
     public class BinTreeDiameterTests
     {
-        [Theory]
-        [InlineData("[1,2,3,4,5]", 3)]
-        [InlineData("[1,2,4,3,null,5,6,null,null,null,null,7]", 5)]
-        [InlineData("[]", 0)]
-        //[0,0,0,0,null,null,0,null,null,null,0]
-        [InlineData("[0,0,0,0,null,null,0,null,null,null,0]", 5)]
-        public void DiameterTests(string s, int diameter)
-        {
-            var root = TreeBuilder.Build(s);
-
-            var bTreeDiameter = new DiameterOfBTree();
-            Assert.Equal(diameter, bTreeDiameter.DiameterOfBinaryTree(root));
-        }
-
         [Fact]
         public void Case2()
         {
