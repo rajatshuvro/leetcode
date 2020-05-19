@@ -15,14 +15,14 @@ namespace UnitTests.Utilities
             return Build(nodeVals, 0);
         }
 
-        private static TreeNode Build(string[] nodeVals, int i)
+        private static TreeNode Build(string[] s, int i)
         {
-            if (i >= nodeVals.Length) return null;
-            if (i < nodeVals.Length && nodeVals[i] == "null") return null;
+            if (i >= s.Length) return null;
+            if (i < s.Length && s[i].Trim() == "null") return null;
             
-            var node = new TreeNode(int.Parse(nodeVals[i]));
-            node.left = Build(nodeVals, 2 * i + 1);
-            node.right = Build(nodeVals, 2 * i + 2);
+            var node = new TreeNode(int.Parse(s[i]));
+            node.left = Build(s, 2 * i + 1);
+            node.right = Build(s, 2 * i + 2);
 
             return node;
         }
