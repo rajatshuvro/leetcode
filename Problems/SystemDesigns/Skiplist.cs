@@ -4,125 +4,6 @@ using System.Net.Sockets;
 
 namespace Problems.SystemDesigns
 {
-    public class GridNode<T> : IComparable<GridNode<T>> where T:IComparable<T>
-    {
-        public readonly T Value;
-        public GridNode<T> Left;
-        public GridNode<T> Right;
-        public GridNode<T> Up;
-        public GridNode<T> Down;
-
-        public GridNode(T value)
-        {
-            Value = value;
-        }
-
-        public int CompareTo(GridNode<T> other)
-        {
-            if (ReferenceEquals(this, other)) return 0;
-            if (ReferenceEquals(null, other)) return -1;//all nodes are smaller than null
-            return Value.CompareTo(other.Value);
-        }
-    }
-
-    public class GridList<T> where T:IComparable<T>
-    {
-        public GridNode<T> Head;
-        public GridNode<T> Tail;
-        public int Count { get; private set; }
-        public GridNode<T> Add(T value, GridNode<T> startNode = null, GridNode<T> downNode=null)
-        {
-            var node = new GridNode<T>(value);
-            node.Down = downNode;
-
-            Count++;
-            if (Tail == null)
-            {
-                Tail = node;
-                Head = Tail;
-                return node;
-            }
-            //insert into the right place
-            if (Head.CompareTo(node) >= 0)
-            {
-                node.Right = Head;
-                Head = node;
-                return node;
-            }
-
-            if (Tail.CompareTo(node) <= 0)
-            {
-                Tail.Right = node;
-                Tail = node;
-                return node;
-            }
-
-            var current = startNode ?? Head;
-            while (current!=null)
-            {
-                var right = current.Right;
-                if (node.CompareTo(right) <= 0)
-                {
-                    current.Right = node;
-                    node.Right = right;
-                    return node;
-                }
-
-                current = current.Right;
-            }
-            
-            throw new IndexOutOfRangeException("Add should never reach this point");
-        }
-
-        public bool Erase(T value, GridNode<T> startNode = null)
-        {
-            var current = startNode ?? Head;
-            GridNode<T> previous=null;
-            while (current != null)
-            {
-                if (current.Value.CompareTo(value) == 0)
-                {
-                    if (previous == null) Head = Head.Right;//deleting head
-                    else previous.Right = current.Right;
-
-                    if (current == Tail) Tail = previous; //deleting tail
-                    Count--;
-                    return true;
-                }
-
-                if (current.Value.CompareTo(value) > 0) return false;
-                previous = current;
-                current = current.Right;
-            }
-
-            return false;
-        }
-
-        public bool TrySearch(T value, out GridNode<T> previous, GridNode<T> startNode = null)
-        {
-            var current = startNode ?? Head;
-            previous = null;
-            while (current != null)
-            {
-                if (current.Value.CompareTo(value) == 0)
-                {
-                    previous = current;
-                    return true;
-                }
-
-                if (current.Value.CompareTo(value) > 0)
-                {
-                    return false;
-                }
-
-                previous = current;
-                current = current.Right;
-            }
-            
-            return false;
-        }
-    }
-
     public class Skiplist
     {
         //https://leetcode.com/problems/design-skiplist/
@@ -138,27 +19,6 @@ namespace Problems.SystemDesigns
             _random = new Random();
             _insertionProbabilities = new List<double>(){1.0};
             
-            //creating a hard coded set of lists to work with finding.
-            _lists[1].Add(10);
-            _lists[1].Add(20);
-            _lists[1].Add(30);
-            _lists[1].Add(40);
-            _lists[1].Add(50);
-            _lists[1].Add(60);
-            _lists[1].Add(70);
-            _lists[1].Add(80);
-
-            GridNode<int> node;
-            _lists[1].TrySearch(10, out node);
-            _lists[0].Add(10, null, node);
-            
-            _lists[1].TrySearch(40, out node);
-            _lists[0].Add(40, null, node);
-            
-            _lists[1].TrySearch(70, out node);
-            _lists[0].Add(70, null, node);
-
-
         }
     
         public bool Search(int target)
@@ -176,8 +36,20 @@ namespace Problems.SystemDesigns
     
         public void Add(int num)
         {
-            if (Search(num)) return;// item already exists
             AddAt(0, num);
+            if (_lists[0].Count > ListSizeRatio)
+            {
+                var head = _lists[0].Head;
+                var list = new GridList<int>();
+                list.Add(head.Value, null, head);
+            
+                // get the middle node from the next list too
+                var midNode = _lists[0].Get(ListSizeRatio / 2);
+                list.Add(midNode.Value, null, midNode);
+                
+                _lists.Insert(0, list);
+                
+            }
 
         }
 
@@ -185,7 +57,7 @@ namespace Problems.SystemDesigns
         {
             if (i == _lists.Count - 1)
             {
-                var node = _lists[i].Add(num);
+                var node = _lists[i].Add(num, startNode);
                 return node;
             }
 

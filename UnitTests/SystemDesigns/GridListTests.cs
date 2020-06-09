@@ -40,7 +40,25 @@ namespace UnitTests.SystemDesigns
             Assert.True(list.TrySearch(7, out node, node5));
             Assert.Equal(7, node.Value);
         }
-        
+
+        [Fact]
+        public void Get_test()
+        {
+            var list = new GridList<int>();
+            list.Add(1);
+            list.Add(5);
+            list.Add(10);
+            list.Add(12);
+            list.Add(15);
+            list.Add(19);
+            list.Add(20);
+
+            Assert.NotNull(list.Get(0));
+            Assert.Equal(5, list.Get(1).Value);
+            Assert.Equal(20, list.Get(6).Value);
+            Assert.Null(list.Get(7));
+        }
+
         [Fact]
         public void GridList_remove()
         {
