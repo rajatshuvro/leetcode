@@ -33,6 +33,15 @@ namespace UnitTests.SystemDesigns
             Assert.True(list.Search(1));
             Assert.True(list.Search(7));
             Assert.True(list.Search(12));
+            
+            //add random order
+            list.Add(9);
+            list.Add(4);
+            list.Add(19);
+            list.Add(17);
+            
+            Assert.True(list.Search(17));
+            Assert.True(list.Search(4));
         }
     }
 }

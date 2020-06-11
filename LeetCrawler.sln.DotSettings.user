@@ -23,5 +23,6 @@
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.GridListTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.SkipListTests.OneLevel&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.SkipListTests.TwoLevels&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.NumRollsToTargetTests.CountNumWays&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -72,7 +72,7 @@ namespace Problems.SystemDesigns
             throw new IndexOutOfRangeException("Add should never reach this point");
         }
 
-        public bool Erase(T value, GridNode<T> startNode = null)
+        public GridNode<T> Erase(T value, GridNode<T> startNode = null)
         {
             var current = startNode ?? Head;
             GridNode<T> previous=null;
@@ -85,15 +85,15 @@ namespace Problems.SystemDesigns
 
                     if (current == Tail) Tail = previous; //deleting tail
                     Count--;
-                    return true;
+                    break;
                 }
 
-                if (current.Value.CompareTo(value) > 0) return false;
+                if (current.Value.CompareTo(value) > 0) break;
                 previous = current;
                 current = current.Right;
             }
 
-            return false;
+            return previous;
         }
 
         public GridNode<T> Get(int i, GridNode<T> startNode = null)

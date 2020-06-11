@@ -72,20 +72,28 @@ namespace UnitTests.SystemDesigns
             list.Add(20);
 
             Assert.Equal(7, list.Count);
-            Assert.True(list.Erase(12));
+            var previous = list.Erase(12); 
+            Assert.NotNull(previous);
+            Assert.Equal(10, previous.Value);
+            
             GridNode<int> node;
             Assert.False(list.TrySearch(12, out node));
             Assert.Equal(10, node.Value);
             
             list.TrySearch(5, out var node5);
-            Assert.False(list.Erase(12, node5));
+            previous = list.Erase(12, node5); 
+            Assert.NotNull(previous);
+            Assert.Equal(10, previous.Value);
             
             list.Add(7, node5);
             Assert.True(list.TrySearch(7, out node));
-            Assert.True(list.Erase(7, node5));
-            
+            previous = list.Erase(12, node); 
+            Assert.NotNull(previous);
+            Assert.Equal(10, previous.Value);
+
             //remove head
-            Assert.True(list.Erase(1));
+            previous = list.Erase(1); 
+            Assert.Null(previous);
             Assert.False(list.TrySearch(1, out node));
             Assert.Null(node);//previous is null for first node
             Assert.True (list.TrySearch(5, out node));
@@ -94,17 +102,19 @@ namespace UnitTests.SystemDesigns
             Assert.Null(node);// previous is null if query is before first node
             
             //remove tail
-            Assert.True(list.Erase(20));
+            previous = list.Erase(20, node); 
+            Assert.NotNull(previous);
+            Assert.Equal(19, previous.Value);
             Assert.False(list.TrySearch(20, out node));
             Assert.True(list.TrySearch(19, out node));
             
-            Assert.Equal(4, list.Count);
+            Assert.Equal(5, list.Count);
             //perform some add after deletion
             list.Add(3);
             Assert.True(list.TrySearch(3, out node));
             list.Add(21);
             Assert.True(list.TrySearch(21, out node));
-            Assert.Equal(6, list.Count);
+            Assert.Equal(7, list.Count);
         }
     }
 }
