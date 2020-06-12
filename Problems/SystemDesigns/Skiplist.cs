@@ -36,7 +36,7 @@ namespace Problems.SystemDesigns
     
         public void Add(int num)
         {
-            AddAt(0, num);
+            TryAddTo(0, num);
             if (_lists[0].Count > ListSizeRatio)
             {
                 var head = _lists[0].Head;
@@ -53,7 +53,7 @@ namespace Problems.SystemDesigns
 
         }
 
-        private GridNode<int> AddAt(int i, int num, GridNode<int> startNode=null)
+        private bool TryAddTo(int i, int num, out GridNode<int> downNode, GridNode<int> startNode=null)
         {
             if (i == _lists.Count - 1)
             {
@@ -62,10 +62,9 @@ namespace Problems.SystemDesigns
             }
 
             //if num exists, return null
-            if (_lists[i].TrySearch(num, out var previous, startNode)) return null;
+            if (_lists[i].TrySearch(num, out var previous, startNode)) return false;
             
-            var downNode = AddAt(i + 1, num, previous.Down);
-            if (downNode == null) return null; // the num was not inserted in the next level 
+            if (TryAddTo(i + 1, num, previous.Down)) return null; // the num was not inserted in the next level 
             
             var probability = GetInsertionProbability(i);
             var rand = _random.NextDouble();

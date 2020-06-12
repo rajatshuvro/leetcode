@@ -22,7 +22,8 @@ namespace Problems.DynamicProgramming
             for (int i = 1; i <= f; i++)
             {
                 ways += NumRollsToTarget(d - 1, f, target - i);
-                if (ways >= _modulo) ways -= _modulo;
+                if (ways >= _modulo) 
+                    ways -= _modulo;
             }
             
             _sumWays.Add((d,f), ways);
