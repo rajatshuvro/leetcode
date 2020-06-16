@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Problems.SystemDesigns
 {
@@ -28,6 +29,17 @@ namespace Problems.SystemDesigns
         public GridNode<T> Head;
         public GridNode<T> Tail;
         public int Count { get; private set; }
+
+        public IEnumerable<GridNode<T>> GetAllNodes(GridNode<T> startNode = null)
+        {
+            var current = startNode ?? Head;
+            while (current != null)
+            {
+                yield return current;
+                current = current.Right;
+            }
+        }
+
         public GridNode<T> Add(T value, GridNode<T> startNode = null, GridNode<T> downNode=null)
         {
             var node = new GridNode<T>(value);
