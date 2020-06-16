@@ -6,9 +6,7 @@ namespace Problems.SystemDesigns
     public class GridNode<T> : IComparable<GridNode<T>> where T:IComparable<T>
     {
         public readonly T Value;
-        public GridNode<T> Left;
-        public GridNode<T> Right;
-        public GridNode<T> Up;
+        public GridNode<T> Next;
         public GridNode<T> Down;
 
         public GridNode(T value)
@@ -36,7 +34,7 @@ namespace Problems.SystemDesigns
             while (current != null)
             {
                 yield return current;
-                current = current.Right;
+                current = current.Next;
             }
         }
 
@@ -55,14 +53,14 @@ namespace Problems.SystemDesigns
             //insert into the right place
             if (Head.CompareTo(node) >= 0)
             {
-                node.Right = Head;
+                node.Next = Head;
                 Head = node;
                 return node;
             }
 
             if (Tail.CompareTo(node) <= 0)
             {
-                Tail.Right = node;
+                Tail.Next = node;
                 Tail = node;
                 return node;
             }
@@ -70,15 +68,15 @@ namespace Problems.SystemDesigns
             var current = startNode ?? Head;
             while (current!=null)
             {
-                var right = current.Right;
+                var right = current.Next;
                 if (node.CompareTo(right) <= 0)
                 {
-                    current.Right = node;
-                    node.Right = right;
+                    current.Next = node;
+                    node.Next = right;
                     return node;
                 }
 
-                current = current.Right;
+                current = current.Next;
             }
             
             throw new IndexOutOfRangeException("Add should never reach this point");
@@ -92,8 +90,8 @@ namespace Problems.SystemDesigns
             {
                 if (current.Value.CompareTo(value) == 0)
                 {
-                    if (previous == null) Head = Head.Right;//deleting head
-                    else previous.Right = current.Right;
+                    if (previous == null) Head = Head.Next;//deleting head
+                    else previous.Next = current.Next;
 
                     if (current == Tail) Tail = previous; //deleting tail
                     Count--;
@@ -102,7 +100,7 @@ namespace Problems.SystemDesigns
 
                 if (current.Value.CompareTo(value) > 0) return false;
                 previous = current;
-                current = current.Right;
+                current = current.Next;
             }
 
             return false;
@@ -113,7 +111,7 @@ namespace Problems.SystemDesigns
             var current = startNode ?? Head;
             while (current != null && i>0)
             {
-                current = current.Right;
+                current = current.Next;
                 i--;
             }
 
@@ -138,7 +136,7 @@ namespace Problems.SystemDesigns
                 }
 
                 previous = current;
-                current = current.Right;
+                current = current.Next;
             }
             
             return false;
