@@ -89,9 +89,10 @@ namespace Problems.SystemDesigns
             if (folder._documents.ContainsKey(fileName))
             {
                 list.Add(fileName);
+                return list;
             }
             
-            //if path is a directory
+            //if path is a directory we need to go one step deeper
             if (folder._children.ContainsKey(fileName))
             {
                 folder = folder._children[fileName];
