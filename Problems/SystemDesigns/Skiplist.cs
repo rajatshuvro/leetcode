@@ -9,7 +9,6 @@ namespace Problems.SystemDesigns
         //https://leetcode.com/problems/design-skiplist/
         private List<GridList<int>> _lists;
         private const int ListSizeRatio = 4;
-        private List<double> _insertionProbabilities;
         private Random _random;
         public Skiplist() {
             _lists = new List<GridList<int>>()
@@ -17,7 +16,7 @@ namespace Problems.SystemDesigns
                 new GridList<int>()
             };
             _random = new Random();
-            _insertionProbabilities = new List<double>(){1.0};
+            new List<double>(){1.0};
             
         }
     
@@ -75,20 +74,6 @@ namespace Problems.SystemDesigns
         public void Add(int num)
         {
             TryAddTo(0, num, out var _);
-            /*
-            if (_lists[0].Count > ListSizeRatio)
-            {
-                var head = _lists[0].Head;
-                var list = new GridList<int>();
-                list.Add(head.Value, null, head);
-            
-                // get the middle node from the next list too
-                var midNode = _lists[0].Get(ListSizeRatio / 2);
-                list.Add(midNode.Value, null, midNode);
-                
-                _lists.Insert(0, list);
-                
-            }*/
 
         }
 
@@ -121,18 +106,8 @@ namespace Problems.SystemDesigns
                 downNode = _lists[i].Add(num, startNode, down);
                 return true;
             }
-
-
             return false;// not added to level i, should not be added to any level 0...(i-1)
         }
 
-        private double GetInsertionProbability(int i)
-        {
-            var n = _lists.Count - i -1;
-            if (n == 0) return 1.0;
-            return 1.0/Math.Pow(ListSizeRatio, n);
-        }
-
-        
     }
 }
