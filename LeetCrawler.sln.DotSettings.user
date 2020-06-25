@@ -7,6 +7,10 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5415cab1_002Dba07_002D4ed5_002Db523_002Df47c87d199cf/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Case0 #2" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.InMemoryFileSystemTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests.Reading&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests.Cumulative_reads_case0&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests.Cumulative_reads_case1&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7529432a_002Dfd9d_002D42b9_002Dab1e_002Dab19de2c2f73/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Case0" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
