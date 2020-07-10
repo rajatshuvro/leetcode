@@ -21,6 +21,10 @@ namespace DataStructures
             return start <= other.end && other.start <= end;
         }
 
+        public bool Overlaps(int s, int e)
+        {
+            return start <= e && s <= end;
+        }
         public int CompareTo(Interval other)
         {
             return start!=other.start? start.CompareTo(other.start): end.CompareTo(other.end);

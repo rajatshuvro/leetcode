@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Algorithms;
 using DataStructures;
 
 namespace Problems.DynamicProgramming
@@ -12,9 +14,43 @@ namespace Problems.DynamicProgramming
     
     public class IntervalCover
     {
-        public IList<Interval> GetMinCostIntervalSet(IList<int> nums, IList<Interval> intervals, IList<int> costs)
+        private IntervalArray<int> _intervalArray;
+        private List<int> _nums;
+        public IList<Interval> GetOptimalCover(IList<int> nums, IList<int> starts , IList<int> ends, IList<int> costs)
         {
-            return null;
+            _nums = nums.ToList();
+            var intervals = new List<Interval<int>>(starts.Count);
+            for (int i = 0; i < starts.Count; i++)
+            {
+                intervals.Add(new Interval<int>(starts[i], ends[i], costs[i]));
+            }
+            _intervalArray = new IntervalArray<int>(intervals);
+            
+            return GetOptimalCover(0);
+        }
+
+        private IList<Interval> GetOptimalCover(int i)
+        {
+            if (i >= _nums.Count) return null;
+            
+            var x = _nums[i];
+            var overlappers = _intervalArray.GetOverlappingIntervals(x);
+            if (overlappers==null) return null;
+
+            var minCost = int.MaxValue;
+            foreach (var interval in overlappers)
+            {
+                //find the first num not covered by interval
+                var index = _nums.BinarySearch(interval.End + 1);
+                if (index < 0) index = ~index;
+                var remainingCover = GetOptimalCover(index);
+                var cost = interval.Value + GetCoverCost(remainingCover);
+            }
+        }
+
+        private int GetCoverCost(IList<Interval> remainingCover)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
