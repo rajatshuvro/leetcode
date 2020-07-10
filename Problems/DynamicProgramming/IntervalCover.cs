@@ -16,41 +16,45 @@ namespace Problems.DynamicProgramming
     {
         private IntervalArray<int> _intervalArray;
         private List<int> _nums;
-        public IList<Interval> GetOptimalCover(IList<int> nums, IList<int> starts , IList<int> ends, IList<int> costs)
+        private Dictionary<int, (IList<Interval<int>> cover, int cost)> _subSolutions;
+        public IList<Interval<int>> GetOptimalCover(IList<int> nums, List<Interval<int>> intervals)
         {
             _nums = nums.ToList();
-            var intervals = new List<Interval<int>>(starts.Count);
-            for (int i = 0; i < starts.Count; i++)
-            {
-                intervals.Add(new Interval<int>(starts[i], ends[i], costs[i]));
-            }
             _intervalArray = new IntervalArray<int>(intervals);
+            _subSolutions = new Dictionary<int, (IList<Interval<int>> cover, int cost)>();
             
-            return GetOptimalCover(0);
+            return GetOptimalCover(0).cover;
         }
-
-        private IList<Interval> GetOptimalCover(int i)
+        
+        private (IList<Interval<int>> cover, int cost) GetOptimalCover(int i)
         {
-            if (i >= _nums.Count) return null;
+            if (_subSolutions.ContainsKey(i)) return _subSolutions[i];
+            
+            if (i >= _nums.Count) return (null,0);
             
             var x = _nums[i];
             var overlappers = _intervalArray.GetOverlappingIntervals(x);
-            if (overlappers==null) return null;
+            if (overlappers==null) return (null, 0);
 
             var minCost = int.MaxValue;
+            var minCover = new List<Interval<int>>();
             foreach (var interval in overlappers)
             {
                 //find the first num not covered by interval
                 var index = _nums.BinarySearch(interval.End + 1);
                 if (index < 0) index = ~index;
-                var remainingCover = GetOptimalCover(index);
-                var cost = interval.Value + GetCoverCost(remainingCover);
+                var ( remainingCover, remainingCost) = GetOptimalCover(index);
+                var cost = interval.Value + remainingCost;
+                if (cost < minCost)
+                {
+                    minCover.Clear();
+                    minCost = cost;
+                    minCover.Add(interval);
+                    if (remainingCover !=null) minCover.AddRange(remainingCover);
+                }
             }
-        }
-
-        private int GetCoverCost(IList<Interval> remainingCover)
-        {
-            throw new System.NotImplementedException();
+            _subSolutions.Add(i, (minCover, minCost));
+            return (minCover, minCost);
         }
     }
 }
