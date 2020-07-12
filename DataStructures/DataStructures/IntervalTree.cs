@@ -3,34 +3,7 @@ using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class Interval:IComparable<Interval>
-    {
-        public int start;
-        public int end;
-
-        public Interval() { start = 0; end = 0; }
-
-        public Interval(int s, int e)
-        {
-            start = s;
-            end = e;
-        }
-
-        public bool Overlaps(Interval other)
-        {
-            return start <= other.end && other.start <= end;
-        }
-
-        public bool Overlaps(int s, int e)
-        {
-            return start <= e && s <= end;
-        }
-        public int CompareTo(Interval other)
-        {
-            return start!=other.start? start.CompareTo(other.start): end.CompareTo(other.end);
-        }
-    }
-
+    
     public class IntervalTreeNode:IComparable<IntervalTreeNode>
     {
         public readonly Interval Value;
@@ -41,7 +14,7 @@ namespace DataStructures
         public IntervalTreeNode (Interval value)
         {
             Value = value;
-            Range = new Interval(value.start, value.end);
+            Range = new Interval(value.Begin, value.End);
         }
 
         public int CompareTo(IntervalTreeNode other)
@@ -54,6 +27,35 @@ namespace DataStructures
     {
         private IntervalTreeNode _root;
 
+        /// <summary>
+        /// Provided a sorted list of intervals, builds a tree with all those intervals.
+        /// </summary>
+        /// <param name="intervals">Sorted list of intervals</param>
+        /// <returns></returns>
+        public static IntervalTree Build(IList<Interval> intervals)
+        {
+            var tree = new IntervalTree();
+            
+            tree._root = Build(intervals, 0, intervals.Count - 1);
+
+            return tree;
+        }
+
+        private static IntervalTreeNode Build(IList<Interval> intervals, int i, int j)
+        {
+            if (i > j) return null;
+
+            var mid = (i + j) / 2;
+            var root = new IntervalTreeNode(intervals[mid]);
+            root.Left = Build(intervals, i, mid - 1);
+            root.Right = Build(intervals, mid + 1, j);
+            
+            var rangeBegin = root.Left?.Range.Begin ?? root.Value.Begin;
+            var rangeEnd = root.Right?.Range.End ?? root.Value.End;
+            root.Range = new Interval(rangeBegin, rangeEnd);
+            return root;
+        }
+
         private void Add(ref IntervalTreeNode root, IntervalTreeNode node)
         {
             if (root == null)
@@ -62,8 +64,8 @@ namespace DataStructures
                 return;
             }
 
-            if (root.Range.start > node.Range.start) root.Range.start = node.Range.start;
-            if (root.Range.end < node.Range.end) root.Range.end = node.Range.end;
+            if (root.Range.Begin > node.Range.Begin) root.Range.Begin = node.Range.Begin;
+            if (root.Range.End < node.Range.End) root.Range.End = node.Range.End;
 
             if (node.CompareTo(root) < 0) Add(ref root.Left, node);
             if (node.CompareTo(root) > 0) Add(ref root.Right, node);
@@ -97,6 +99,14 @@ namespace DataStructures
         public IEnumerable<Interval> GetOverlappingIntervals(Interval interval)
         {
             return GetOverlappingIntervals(_root, interval);
+        }
+        
+        private Interval query = new Interval();
+        public IEnumerable<Interval> GetOverlappingIntervals(int begin, int end)
+        {
+            query.Begin = begin;
+            query.End = end;
+            return GetOverlappingIntervals(query);
         }
     }
 }

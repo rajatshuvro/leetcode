@@ -24,8 +24,8 @@ namespace Problems.ArrayProblems
             if(start <= end)
             {
                 overlappingInterval = new Interval(
-                Math.Min(intervalList[start].start, insertedInterval.start), 
-                Math.Max(intervalList[end].end, insertedInterval.end));
+                Math.Min(intervalList[start].Begin, insertedInterval.Begin), 
+                Math.Max(intervalList[end].End, insertedInterval.End));
                 //remove items indexed from start ... end and inserted the overlapping interval
                 intervalList.RemoveRange(start, end - start+1);
 
@@ -42,7 +42,7 @@ namespace Problems.ArrayProblems
             for (int i = 0; i < intervalList.Count; i++)
             {
                 var interval = intervalList[i];
-                retIntervals[i] = new[] {interval.start, interval.end};
+                retIntervals[i] = new[] {interval.Begin, interval.End};
             }
 
             return retIntervals;

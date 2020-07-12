@@ -9,10 +9,10 @@ namespace Problems
         // Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
         public int MinMeetingRooms(Interval[] intervals)
         {
-            intervals = intervals.OrderBy(x => x.start).ToArray();
-            var starts = intervals.Select(x => x.start).ToList();
+            intervals = intervals.OrderBy(x => x.Begin).ToArray();
+            var starts = intervals.Select(x => x.Begin).ToList();
             
-            var ends = intervals.Select(x => x.end).ToList();
+            var ends = intervals.Select(x => x.End).ToList();
             ends.Sort();
 
             foreach (Interval meeting in intervals)

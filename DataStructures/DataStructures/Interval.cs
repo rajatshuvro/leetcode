@@ -3,36 +3,41 @@ using System.Threading;
 
 namespace DataStructures
 {
-    public class Interval<T>:IComparable<Interval<T>>
+    public class Interval:IComparable<Interval>
     {
-        public readonly int Start;
-        public readonly int End;
+        public int Begin;
+        public int End;
+
+        public Interval() { Begin = 0; End = 0; }
+
+        public Interval(int begin, int end)
+        {
+            Begin = begin;
+            End = end;
+        }
+
+        public bool Overlaps(Interval other)
+        {
+            return Begin <= other.End && other.Begin <= End;
+        }
+
+        public bool Overlaps(int s, int e)
+        {
+            return Begin <= e && s <= End;
+        }
+        public int CompareTo(Interval other)
+        {
+            return Begin!=other.Begin? Begin.CompareTo(other.Begin): End.CompareTo(other.End);
+        }
+    }
+
+    public class Interval<T>:Interval
+    {
         public readonly T Value;
 
-        public Interval(int s, int e, T v)
+        public Interval(int begin, int end, T v):base(begin,end)
         {
-            Start = s;
-            End = e;
             Value = v;
-        }
-
-        /// <summary>
-        /// Compares by the End co-ordinate first. Then my start.
-        /// this makes the interval overlap search easy for Interval array.
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public int CompareTo(Interval<T> other)
-        {
-            if (ReferenceEquals(this, other)) return 0;
-            if (ReferenceEquals(null, other)) return 1;
-
-            return End != other.End ? End.CompareTo(other.End) : Start.CompareTo(other.Start);
-        }
-        
-        public bool Overlaps(int start, int end)
-        {
-            return Start <= end && start <= End;
         }
 
     }
