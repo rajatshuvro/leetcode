@@ -101,12 +101,12 @@ namespace DataStructures
             return GetOverlappingIntervals(_root, interval);
         }
         
-        private Interval query = new Interval();
+        private readonly Interval _query = new Interval();
         public IEnumerable<Interval> GetOverlappingIntervals(int begin, int end)
         {
-            query.Begin = begin;
-            query.End = end;
-            return GetOverlappingIntervals(query);
+            _query.Begin = begin;
+            _query.End = end;
+            return GetOverlappingIntervals(_query);
         }
     }
 }
