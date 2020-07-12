@@ -34,28 +34,111 @@ namespace UnitTests.DynamicProgramming
         [Fact]
         public void Case_1()
         {
-            var nums_1 = Enumerable.Range(1,300).ToList();
+            var nums = Enumerable.Range(1,300).ToList();
             var intervals = new List<Interval>()
             {
                 new Interval(1,100),
                 new Interval(201,300),
                 new Interval(101,200),
-                new Interval(10,3),
+                new Interval(10,30),
                 new Interval(81,120),
                 new Interval(150,250),
                 new Interval(181,220),
             };
             var costs = new[] { 100, 100, 100, 20, 40, 100, 40};
-            var expected1 = new[]
+            var expected = new[]
             {
                 new Interval(1,100),
                 new Interval(101,200),
                 new Interval(201,300),
             };
             var intervalCover = new IntervalCover();
-            var observed = intervalCover.GetOptimalCover(nums_1, intervals, costs);
+            var observed = intervalCover.GetOptimalCover(nums, intervals, costs);
             
-            Assert.Equal(expected1, observed);
+            Assert.Equal(expected, observed);
+            
+        }
+        
+        [Fact]
+        public void Case_2()
+        {
+            var nums = Enumerable.Range(15,10).ToList();
+            var intervals = new List<Interval>()
+            {
+                new Interval(1,100),
+                new Interval(201,300),
+                new Interval(101,200),
+                new Interval(10,30),
+                new Interval(81,120),
+                new Interval(150,250),
+                new Interval(181,220),
+            };
+            var costs = new[] { 100, 100, 100, 20, 40, 100, 40};
+            var expected = new[]
+            {
+                new Interval(10,30),
+            };
+            var intervalCover = new IntervalCover();
+            var observed = intervalCover.GetOptimalCover(nums, intervals, costs);
+            
+            Assert.Equal(expected, observed);
+            
+        }
+        
+        [Fact]
+        public void Case_3()
+        {
+            var nums = Enumerable.Range(85,100).ToList();
+            var intervals = new List<Interval>()
+            {
+                new Interval(1,100),
+                new Interval(201,300),
+                new Interval(101,200),
+                new Interval(10,30),
+                new Interval(81,120),
+                new Interval(150,250),
+                new Interval(181,220),
+            };
+            var costs = new[] { 100, 100, 100, 20, 40, 100, 40};
+            var expected = new[]
+            {
+                new Interval(81,120),
+                new Interval(101,200),
+            };
+            var intervalCover = new IntervalCover();
+            var observed = intervalCover.GetOptimalCover(nums, intervals, costs);
+            
+            Assert.Equal(expected, observed);
+            
+        }
+        
+        [Fact]
+        public void Case_4()
+        {
+            var nums = Enumerable.Range(85, 20).ToList();
+            nums.AddRange(Enumerable.Range(155, 90));
+            
+            var intervals = new List<Interval>()
+            {
+                new Interval(1,100),
+                new Interval(201,300),
+                new Interval(101,200),
+                new Interval(10,30),
+                new Interval(81,120),
+                new Interval(150,250),
+                new Interval(181,220),
+            };
+            var costs = new[] { 100, 100, 100, 20, 40, 100, 40};
+            var expected = new[]
+            {
+                new Interval(81,120),
+                new Interval(150,250),
+            };
+            var intervalCover = new IntervalCover();
+            var observed = intervalCover.GetOptimalCover(nums, intervals, costs);
+            
+            Assert.Equal(expected, observed);
+            
         }
     }
 }

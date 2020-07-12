@@ -43,7 +43,7 @@ namespace Problems.DynamicProgramming
             
             var x = _nums[i];
             var overlappers = _intervalTree.GetOverlappingIntervals(x,x).ToList();
-            if (overlappers == null)
+            if (overlappers == null || overlappers.Count==0)
             {
                 //given that each number falls in at least one interval, this should never happen
                 throw new InvalidDataException($"{x} is not included in any interval!! Interval cover is empty");
