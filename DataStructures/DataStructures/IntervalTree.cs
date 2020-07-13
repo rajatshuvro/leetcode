@@ -108,5 +108,26 @@ namespace DataStructures
             _query.End = end;
             return GetOverlappingIntervals(_query);
         }
+
+        public bool OverlapsAny(Interval interval)
+        {
+            return OverlapsAny(_root, interval);
+        }
+
+        private bool OverlapsAny(IntervalTreeNode root, Interval interval)
+        {
+            if (root == null || ! root.Range.Overlaps(interval)) return false;
+            if (root.Value.Overlaps(interval)) return true;
+
+            return OverlapsAny(root.Left, interval)|| OverlapsAny(root.Right, interval);
+            
+        }
+
+        public bool OverlapsAny(int begin, int end)
+        {
+            _query.Begin = begin;
+            _query.End = end;
+            return OverlapsAny(_query);
+        }
     }
 }

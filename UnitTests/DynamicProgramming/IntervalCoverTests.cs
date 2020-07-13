@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataStructures;
@@ -139,6 +140,82 @@ namespace UnitTests.DynamicProgramming
             
             Assert.Equal(expected, observed);
             
+        }
+
+        [Theory]
+        [InlineData(1, int.MaxValue, 3_000_000, 8*1024*1024, 1024*1024)]
+        public void RuntimeTests_uniform_distribution(int min, int max, int count, int largeIntervalSize, int smallIntervalSize)
+        {
+            var nums = GetRandomNums(count, min, max);
+            var largeIntervals = GetIntervals(min, max, largeIntervalSize);
+            var smallIntervals = GetIntervals(min, max, smallIntervalSize);
+            
+            var intervals = new List<Interval>(largeIntervals);
+            intervals.AddRange(smallIntervals);
+            intervals.Sort();
+            var costs = GetIntervalCosts(intervals);
+            
+            var intervalCover = new IntervalCover();
+            var cover = intervalCover.GetOptimalCover(nums, intervals, costs);
+            
+            Assert.True(IsValidCover(nums, cover));
+
+        }
+
+        private bool IsValidCover(IList<int> nums, IList<Interval> cover)
+        {
+            var intervals = new List<Interval>(cover);
+            intervals.Sort();
+
+            var iTree = IntervalTree.Build(intervals);
+
+            foreach (var x in nums)
+            {
+                if (!iTree.OverlapsAny(x, x)) return false;
+            }
+
+            return true;
+        }
+
+        private IList<int> GetIntervalCosts(List<Interval> intervals)
+        {
+            var costs = new int[intervals.Count];
+            for (int i = 0; i < intervals.Count; i++)
+            {
+                var size = intervals[i].End - intervals[i].Begin;
+                costs[i] = (int)Math.Log(size / 1024, 1.2);//using a sub-inear cost function see: plot log(1.2,x) from x=1000 to 8000 (https://www.wolframalpha.com/)
+            }
+
+            return costs;
+        }
+
+        private List<Interval> GetIntervals(int min, int max, int largeIntervalSize)
+        {
+            var intervals = new List<Interval>();
+            var rand = new Random();
+            var begin = min;
+            
+            while (begin < max)
+            {
+                var end = begin + rand.Next((int)(largeIntervalSize * 0.8), (int)(largeIntervalSize * 1.2));
+                if (end > max) end = max;
+                intervals.Add(new Interval(begin, end));
+                begin = end + 1;
+            }
+
+            return intervals;
+        }
+
+        private IList<int> GetRandomNums(int count, int min, int max)
+        {
+            var nums = new int[count];
+            var rand = new Random();
+            for (int i = 0; i < count; i++)
+            {
+                nums[i] = rand.Next(min, max);
+            }
+            Array.Sort(nums);
+            return nums;
         }
     }
 }
