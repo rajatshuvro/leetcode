@@ -80,3 +80,5 @@
 /Utlities/obj
 /ConcurrencyTester/bin/Debug/netcoreapp2.1
 /ConcurrencyTester/obj
+/LargeTests/obj
+/LargeTests/bin

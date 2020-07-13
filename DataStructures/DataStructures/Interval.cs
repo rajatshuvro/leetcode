@@ -36,7 +36,7 @@ namespace DataStructures
         T[] GetAllOverlappingValues(int begin, int end);
     }
 
-    public struct Interval<T>
+    public struct Interval<T>:IComparable<Interval<T>>
     {
         public readonly int Begin;
         public readonly int End;
@@ -66,6 +66,13 @@ namespace DataStructures
         public bool Overlaps(int intervalBegin, int intervalEnd)
         {
             return End >= intervalBegin && Begin <= intervalEnd;
+        }
+
+        public int CompareTo(Interval<T> other)
+        {
+            var beginComparison = Begin.CompareTo(other.Begin);
+            if (beginComparison != 0) return beginComparison;
+            return End.CompareTo(other.End);
         }
     }
 }

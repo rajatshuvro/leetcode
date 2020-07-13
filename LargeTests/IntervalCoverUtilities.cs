@@ -50,18 +50,18 @@ namespace LargeTests
             return nums;
         }
         
-        public static bool IsValidCover(int[] nums, IList<Interval> cover)
+        public static bool IsValidCover(int[] nums, IList<Interval<int>> cover)
         {
-            var intervals = new List<Interval>(cover);
+            var intervals = new List<Interval<int>>(cover);
             intervals.Sort();
 
-            var iTree = IntervalTree.Build(intervals);
+            var iArray = new IntervalArray<int>(intervals.ToArray());
 
             int i = 0;
             while (i < nums.Length)
             {
                 var x = nums[i];
-                var overlappers = iTree.GetOverlappingIntervals(x, x).ToList();
+                var overlappers = iArray.GetAllOverlappingIntervals(x, x).ToList();
                 if (overlappers.Count == 0) return false;
                 var rangeEnd = GetRangeEnd(overlappers);
                 // get the first number that is past the range of overlappers
@@ -72,7 +72,7 @@ namespace LargeTests
             return true;
         }
 
-        private static int GetRangeEnd(IEnumerable<Interval> overlappers)
+        private static int GetRangeEnd(IEnumerable<Interval<int>> overlappers)
         {
             var end = 0;
             foreach (var interval in overlappers)
@@ -91,13 +91,13 @@ namespace LargeTests
             
             var intervals = new List<Interval>(largeIntervals);
             intervals.AddRange(smallIntervals);
-            intervals.Sort();
-            var costs = GetIntervalCosts(intervals);
+
+            var intervalsWithCosts = GetIntervalsWithCosts(intervals);
             
             var intervalCover = new IntervalCover();
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var cover = intervalCover.GetOptimalCover(nums, intervals, costs);
+            var cover = intervalCover.GetOptimalCover(nums, intervalsWithCosts);
             stopWatch.Stop();
             
             if (IsValidCover(nums, cover)) 
@@ -105,6 +105,17 @@ namespace LargeTests
             else Console.WriteLine("Cover is invalid!!");
         }
 
+        private static Interval<int>[] GetIntervalsWithCosts(List<Interval> intervals)
+        {
+            var intervalsWithCosts = new Interval<int>[intervals.Count];
+            for (int i = 0; i < intervals.Count; i++)
+            {
+                var size = intervals[i].End - intervals[i].Begin;
+                var cost = (int)Math.Log(size / 1024, 1.2);
+                intervalsWithCosts[i]= new Interval<int>(intervals[i].Begin, intervals[i].End, cost);
+            }
 
+            return intervalsWithCosts;
+        }
     }
 }
