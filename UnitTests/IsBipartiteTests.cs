@@ -1,5 +1,4 @@
-﻿using Problems;
-using Problems.Graphs;
+﻿using Problems.Graphs;
 using Xunit;
 
 namespace UnitTests

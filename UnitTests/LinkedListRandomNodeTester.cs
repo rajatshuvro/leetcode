@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using DataStructures;
 using Problems;
-using Xunit;
 
 namespace UnitTests
 {

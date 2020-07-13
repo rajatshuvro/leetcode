@@ -1,5 +1,4 @@
 ﻿using Algorithms;
-using Problems;
 using Problems.Trees;
 using Xunit;
 

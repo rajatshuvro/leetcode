@@ -1,5 +1,4 @@
-﻿using Problems;
-using Problems.RandomNumbers;
+﻿using Problems.RandomNumbers;
 using Xunit;
 
 namespace UnitTests

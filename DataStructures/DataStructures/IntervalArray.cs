@@ -3,66 +3,119 @@ using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class IntervalArray<T> where T:IComparable<T>
+    public sealed class IntervalArray<T> : IIntervalSearch<T>
     {
-        private readonly List<Interval<T>> _intervals;
-        
-        public IntervalArray(List<Interval<T>> intervals)
-        {
-            intervals.Sort();
-            _intervals = intervals;
-        }
+		public readonly Interval<T>[] Array;
 
-        public bool OverlapsAny(int start, int end)
-        {
-            var i = BinarySearch(start);
-            if (i < 0) i = ~i;
-            if (i >= _intervals.Count) return false;
+		public IntervalArray(Interval<T>[] array)
+		{
+			Array = array;
+			SetMaxIntervals();
+		}
 
-            return _intervals[i].Overlaps(start, end);
-        }
+		/// <summary>
+		/// returns true if there are any overlapping intervals in the specified region
+		/// </summary>
+		public bool OverlapsAny(int begin, int end) => GetFirstIndexAny(begin, end) >= 0;
 
-        // get all overlapping intervals in O(lg n + k) 
-        public List<Interval<T>> GetOverlappingIntervals(int start, int end)
+		/// <summary>
+		/// returns values for all intervals that overlap the specified interval
+		/// </summary>
+		public T[] GetAllOverlappingValues(int begin, int end)
+		{
+			int firstIndex = GetFirstIndex(begin, end);
+			return firstIndex == -1 ? null : AddOverlappingValues(firstIndex, begin, end);
+		}
+
+        public Interval<T>[] GetAllOverlappingIntervals(int begin, int end)
         {
-            var i = BinarySearch(start);
-            if (i < 0) i = ~i;
-            if (i >= _intervals.Count) return null;
-            
             var intervals = new List<Interval<T>>();
-
-            for (int j = i; j < _intervals.Count; j++)
+            int firstIndex = GetFirstIndex(begin, end);
+            if (firstIndex == -1) return null;
+            for (int index = firstIndex; index < Array.Length; index++)
             {
-                if (!_intervals[j].Overlaps(start, end)) break;
-                intervals.Add(_intervals[j]);
-            }
-            
-            return intervals.Count>0?intervals: null;
-        }
-        
-        public List<Interval<T>> GetOverlappingIntervals(int x)
-        {
-            return GetOverlappingIntervals(x,x);
-        }
-        
-        public int BinarySearch(int x)
-        {
-            var begin = 0;
-            int end   = _intervals.Count - 1;
-
-            while (begin <= end)
-            {
-                int index = begin + (end - begin >> 1);
-
-                //We search on the end of intervals
-                int ret = _intervals[index].End.CompareTo(x);
-                if (ret == 0) return index;
-                if (ret < 0) begin = index + 1;
-                else end           = index - 1;
+                Interval<T> interval = Array[index];
+                if (interval.Begin > end) break;
+                if (interval.Overlaps(begin, end)) intervals.Add(interval);
             }
 
-            return ~begin;
+            return intervals.ToArray();
         }
+
+        /// <summary>
+		/// adds the overlapping values for all intervals overlapping the specified interval
+		/// </summary>
+		private T[] AddOverlappingValues(int firstIndex, int begin, int end)
+		{
+			var values = new List<T>();
+			for (int index = firstIndex; index < Array.Length; index++)
+			{
+				var interval = Array[index];
+				if (interval.Begin > end) break;
+				if (interval.Overlaps(begin, end)) values.Add(interval.Value);
+			}
+			return values.ToArray();
+		}
+
+		/// <summary>
+		/// finds the first index that overlaps on the interval [begin, max)
+		/// </summary>
+		private int GetFirstIndex(int intervalBegin, int intervalEnd)
+		{
+			var begin = 0;
+			int end = Array.Length - 1;
+
+			var lastOverlapIndex = -1;
+
+			while (begin <= end)
+			{
+				int index = begin + (end - begin >> 1);
+
+				if (Array[index].Overlaps(intervalBegin, intervalEnd)) lastOverlapIndex = index;
+				int ret = Array[index].CompareMax(intervalBegin);
+
+				if (ret <= 0) end = index - 1;
+				else begin = index + 1;
+			}
+
+			return lastOverlapIndex;
+		}
+
+		/// <summary>
+		/// finds the first index that overlaps on the interval [begin, max)
+		/// </summary>
+		private int GetFirstIndexAny(int intervalBegin, int intervalEnd)
+		{
+			var begin = 0;
+			int end = Array.Length - 1;
+
+			while (begin <= end)
+			{
+				int index = begin + (end - begin >> 1);
+
+				if (Array[index].Overlaps(intervalBegin, intervalEnd)) return index;
+				int ret = Array[index].CompareMax(intervalBegin);
+
+				if (ret <= 0) end = index - 1;
+				else begin = index + 1;
+			}
+
+			return ~begin;
+		}
+
+		/// <summary>
+		/// sets the max endpoint for each interval element
+		/// </summary>
+		private void SetMaxIntervals()
+		{
+			var currentMax = int.MinValue;
+
+			for (var i = 0; i < Array.Length; i++)
+			{
+				if (Array[i].End > currentMax) currentMax = Array[i].End;
+				Array[i].Max = currentMax;
+			}
+		}
     }
 
 }
