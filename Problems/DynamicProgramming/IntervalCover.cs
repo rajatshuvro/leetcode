@@ -20,7 +20,7 @@ namespace Problems.DynamicProgramming
         private IntervalArray<int> _intervalArray;
         private List<int> _nums;
         private Dictionary<int, (IList<Interval<int>> cover, int cost)> _subSolutions;
-        public IList<Interval<int>> GetOptimalCover(IList<int> nums, Interval<int>[] intervals)
+        public (IList<Interval<int>> set, int cost) GetOptimalCover(IList<int> nums, Interval<int>[] intervals)
         {
             _nums = nums.ToList();
             
@@ -28,10 +28,10 @@ namespace Problems.DynamicProgramming
             _intervalArray = new IntervalArray<int>(intervals);
             _subSolutions = new Dictionary<int, (IList<Interval<int>> cover, int cost)>();
             
-            return GetOptimalCover(0).cover;
+            return GetOptimalCover(0);
         }
         
-        private (IList<Interval<int>> cover, int cost) GetOptimalCover(int i)
+        private (IList<Interval<int>> set, int cost) GetOptimalCover(int i)
         {
             if (i >= _nums.Count) return (null,0);
 

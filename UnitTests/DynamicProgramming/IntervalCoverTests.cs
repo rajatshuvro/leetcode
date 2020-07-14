@@ -25,7 +25,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
         }
         
         [Fact]
@@ -48,7 +48,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
         }
         
         [Fact]
@@ -98,7 +98,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
             
         }
         
@@ -123,7 +123,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
             
         }
         
@@ -150,7 +150,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
             
         }
         
@@ -179,7 +179,7 @@ namespace UnitTests.DynamicProgramming
             var intervalCover = new IntervalCover();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
-            Assert.Equal(expected, observed);
+            Assert.Equal(expected, observed.set);
             
         }
 

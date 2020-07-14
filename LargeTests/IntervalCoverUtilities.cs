@@ -9,21 +9,9 @@ namespace LargeTests
 {
     public static class IntervalCoverUtilities
     {
-        public static IList<int> GetIntervalCosts(List<Interval> intervals)
+        public static  List<Interval<int>> GetIntervals(int min, int max, int largeIntervalSize)
         {
-            var costs = new int[intervals.Count];
-            for (int i = 0; i < intervals.Count; i++)
-            {
-                var size = intervals[i].End - intervals[i].Begin;
-                costs[i] = (int)Math.Log(size / 1024, 1.2);//using a sub-inear cost function see: plot log(1.2,x) from x=1000 to 8000 (https://www.wolframalpha.com/)
-            }
-
-            return costs;
-        }
-
-        public static  List<Interval> GetIntervals(int min, int max, int largeIntervalSize)
-        {
-            var intervals = new List<Interval>();
+            var intervals = new List<Interval<int>>();
             var rand = new Random();
             long begin = min;
             
@@ -31,14 +19,15 @@ namespace LargeTests
             {
                 var end = begin + rand.Next((int)(largeIntervalSize * 0.8), (int)(largeIntervalSize * 1.2));
                 if (end > max) end = max;
-                intervals.Add(new Interval((int)begin, (int)end));
+                var cost = (int)Math.Log((end-begin) / 1024, 1.2);//using a sub-inear cost function see: plot log(1.2,x) from x=1000 to 8000 (https://www.wolframalpha.com/)
+                intervals.Add(new Interval<int>((int)begin, (int)end, cost));
                 begin = end + 1;
             }
 
             return intervals;
         }
 
-        public static int[] GetRandomNums(int count, int min, int max)
+        public static int[] GetUniformRandomNums(int count, int min, int max)
         {
             var nums = new int[count];
             var rand = new Random();
@@ -49,7 +38,29 @@ namespace LargeTests
             Array.Sort(nums);
             return nums;
         }
-        
+        public static int[] GetGroupedNums(int count, int groupSize, int gapSize, int min, int max)
+        {
+            var nums = new List<int>(count);
+            var rand = new Random();
+
+            var groupMin = min;
+            var groupMax = groupMin + groupSize;
+            
+            for (int i = 0; i < count && groupMax <= max; i++)
+            {
+                if (i % groupSize == 0)
+                {
+                    groupMin = groupMax + gapSize;
+                    groupMax = groupMin + groupSize;
+
+                    if (groupMax > max) break;
+                }
+                nums.Add(rand.Next(groupMin, groupMax));
+
+            }
+            nums.Sort();
+            return nums.ToArray();
+        }
         public static bool IsValidCover(int[] nums, IList<Interval<int>> cover)
         {
             var intervals = new List<Interval<int>>(cover);
@@ -83,39 +94,22 @@ namespace LargeTests
             return end;
         }
         
-        public static void Uniform_distribution(int min, int max, int count, int largeIntervalSize, int smallIntervalSize)
+        public static void BenchmarkIntervalCover(int[] nums, List<Interval<int>> intervalSetOne, List<Interval<int>> intervalSetTwo=null)
         {
-            var nums = GetRandomNums(count, min, max);
-            var largeIntervals = GetIntervals(min, max, largeIntervalSize);
-            var smallIntervals = GetIntervals(min, max, smallIntervalSize);
-            
-            var intervals = new List<Interval>(largeIntervals);
-            intervals.AddRange(smallIntervals);
-
-            var intervalsWithCosts = GetIntervalsWithCosts(intervals);
+            var intervals = new List<Interval<int>>(intervalSetOne);
+            if(intervalSetTwo != null) intervals.AddRange(intervalSetTwo);
             
             var intervalCover = new IntervalCover();
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var cover = intervalCover.GetOptimalCover(nums, intervalsWithCosts);
+            var cover = intervalCover.GetOptimalCover(nums, intervals.ToArray());
             stopWatch.Stop();
             
-            if (IsValidCover(nums, cover)) 
-                Console.WriteLine($"Optimal cover time:{stopWatch.ElapsedMilliseconds} msec");
+            if (IsValidCover(nums, cover.set)) 
+                Console.WriteLine($"Optimal cover time:{stopWatch.ElapsedMilliseconds} msec. Optimal cost: {cover.cost}");
             else Console.WriteLine("Cover is invalid!!");
         }
 
-        private static Interval<int>[] GetIntervalsWithCosts(List<Interval> intervals)
-        {
-            var intervalsWithCosts = new Interval<int>[intervals.Count];
-            for (int i = 0; i < intervals.Count; i++)
-            {
-                var size = intervals[i].End - intervals[i].Begin;
-                var cost = (int)Math.Log(size / 1024, 1.2);
-                intervalsWithCosts[i]= new Interval<int>(intervals[i].Begin, intervals[i].End, cost);
-            }
-
-            return intervalsWithCosts;
-        }
+        
     }
 }
