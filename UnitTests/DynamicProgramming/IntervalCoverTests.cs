@@ -32,7 +32,7 @@ namespace UnitTests.DynamicProgramming
         public void UseSmallIntervals()
         {
             var nums = new[] {5,7, 19,20};
-            var intervals = new Interval<int>[]
+            var intervals = new[]
             {
                 new Interval<int>(1,8, 8),
                 new Interval<int>(5,20, 15),
@@ -49,6 +49,58 @@ namespace UnitTests.DynamicProgramming
             var observed = intervalCover.GetOptimalCover(nums, intervals);
             
             Assert.Equal(expected, observed.set);
+        }
+        
+        [Fact]
+        public void StackedIntervals()
+        {
+            var intervals = new[]
+            {
+                new Interval<int>(1,2, 3),
+                new Interval<int>(1,3, 3),
+                new Interval<int>(1,6, 6),
+                new Interval<int>(1,7, 6),
+                new Interval<int>(1,10, 10)
+            };
+            var intervalCover = new IntervalCover();
+            
+            var observed = intervalCover.GetOptimalCover(new []{2}, intervals);
+            Assert.Equal(new[] {intervals[0]}, observed.set);
+            
+            observed = intervalCover.GetOptimalCover(new []{2,5}, intervals);
+            Assert.Equal(new[] {intervals[2]}, observed.set);
+
+            observed = intervalCover.GetOptimalCover(new []{2,7}, intervals);
+            Assert.Equal(new[] {intervals[3]}, observed.set);
+
+            observed = intervalCover.GetOptimalCover(new []{2,5,9}, intervals);
+            Assert.Equal(new[] {intervals[4]}, observed.set);
+        }
+        
+        [Fact]
+        public void StackedSmallAndLarge()
+        {
+            var intervals = new[]
+            {
+                new Interval<int>(1,2, 2),
+                new Interval<int>(4,5, 2),
+                new Interval<int>(1,6, 6),
+                new Interval<int>(6,7, 2),
+                new Interval<int>(9,10, 2),
+                new Interval<int>(1,10, 10)
+            };
+            var intervalCover = new IntervalCover();
+            
+            var expected = new[]
+            {
+                new Interval<int>(1,2, 2),
+                new Interval<int>(4,5, 2),
+                new Interval<int>(9,10, 2),
+            };
+
+            var observed = intervalCover.GetOptimalCover(new []{2,5,9}, intervals);
+            Assert.Equal(expected, observed.set);
+            
         }
 
         [Fact]
