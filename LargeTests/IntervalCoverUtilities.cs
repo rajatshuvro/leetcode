@@ -99,7 +99,7 @@ namespace LargeTests
             var intervals = new List<Interval<int>>(intervalSetOne);
             if(intervalSetTwo != null) intervals.AddRange(intervalSetTwo);
             
-            var intervalCover = new IntervalCover();
+            var intervalCover = new IntervalCover<int>();
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var cover = intervalCover.GetOptimalCover(nums, intervals.ToArray());

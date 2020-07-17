@@ -40,13 +40,15 @@ namespace DataStructures
     {
         public readonly int Begin;
         public readonly int End;
+        public readonly int Cost;
         public readonly T Value;
         public int Max;
 
-        public Interval(int begin, int end, T value)
+        public Interval(int begin, int end, T value, int cost=0)
         {
             Begin = begin;
             End   = end;
+            Cost = cost;
             Value = value;
             Max   = -1;
         }
