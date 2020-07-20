@@ -24,8 +24,12 @@ namespace UnitTests.DynamicProgramming
             
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
-            
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             Assert.Equal(expected, observed.set);
+
         }
         
         [Fact]
@@ -40,7 +44,9 @@ namespace UnitTests.DynamicProgramming
             
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
-            
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
             Assert.Null( observed.set);
         }
         
@@ -61,7 +67,10 @@ namespace UnitTests.DynamicProgramming
             
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
-            
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             Assert.Equal(expected, observed.set);
         }
         
@@ -83,7 +92,10 @@ namespace UnitTests.DynamicProgramming
             
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
-            
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             Assert.Equal(expected, observed.set);
         }
         [Fact]
@@ -105,7 +117,10 @@ namespace UnitTests.DynamicProgramming
             
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
-            
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             Assert.Equal(expected, observed.set);
         }
         
@@ -114,24 +129,40 @@ namespace UnitTests.DynamicProgramming
         {
             var intervals = new[]
             {
-                new Interval<int>(1,2, 3, 3),
+                new Interval<int>(1,2, 3, 2),
                 new Interval<int>(1,3, 3, 3),
                 new Interval<int>(1,6, 6, 6),
-                new Interval<int>(1,7, 6, 6),
+                new Interval<int>(1,7, 6, 7),
                 new Interval<int>(1,10, 10, 10)
             };
             var intervalCover = new IntervalCover<int>();
-            
-            var observed = intervalCover.GetOptimalCover(new []{2}, intervals);
+
+            var nums = new[] {2};
+            var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
             Assert.Equal(new[] {intervals[0]}, observed.set);
             
-            observed = intervalCover.GetOptimalCover(new []{2,5}, intervals);
+            nums = new[] {2, 5};
+            observed = intervalCover.GetOptimalCover(nums, intervals);
+            reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
             Assert.Equal(new[] {intervals[2]}, observed.set);
 
-            observed = intervalCover.GetOptimalCover(new []{2,7}, intervals);
+            nums = new[] {2, 7};
+            observed = intervalCover.GetOptimalCover(nums, intervals);
+            reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
             Assert.Equal(new[] {intervals[3]}, observed.set);
 
+            nums = new[] {2, 5, 9};
             observed = intervalCover.GetOptimalCover(new []{2,5,9}, intervals);
+            reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
             Assert.Equal(new[] {intervals[4]}, observed.set);
         }
         
@@ -156,7 +187,12 @@ namespace UnitTests.DynamicProgramming
                 new Interval<int>(9,10, 2),
             };
 
-            var observed = intervalCover.GetOptimalCover(new []{2,5,9, 21, 22, 23}, intervals);
+            var nums = new[] {2, 5, 9, 21, 22, 23};
+            var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             Assert.Equal(expected, observed.set);
             
         }
@@ -180,6 +216,9 @@ namespace UnitTests.DynamicProgramming
             };
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
             
             Assert.Equal(expected, observed.set);
         }
@@ -207,6 +246,10 @@ namespace UnitTests.DynamicProgramming
             };
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             
             Assert.Equal(expected, observed.set);
             
@@ -233,6 +276,10 @@ namespace UnitTests.DynamicProgramming
             };
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             
             Assert.Equal(expected, observed.set);
             
@@ -260,6 +307,10 @@ namespace UnitTests.DynamicProgramming
             };
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             
             Assert.Equal(expected, observed.set);
             
@@ -289,6 +340,10 @@ namespace UnitTests.DynamicProgramming
             };
             var intervalCover = new IntervalCover<int>();
             var observed = intervalCover.GetOptimalCover(nums, intervals);
+            var reverse = intervalCover.GetReverseCover(nums, intervals);
+            Assert.Equal(observed.set, reverse.set);
+            Assert.Equal(observed.set, reverse.set);
+
             
             Assert.Equal(expected, observed.set);
             

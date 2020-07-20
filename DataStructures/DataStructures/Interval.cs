@@ -76,5 +76,10 @@ namespace DataStructures
             if (beginComparison != 0) return beginComparison;
             return End.CompareTo(other.End);
         }
+
+        public override string ToString()
+        {
+            return $"({Begin}, {End}, {Cost})";
+        }
     }
 }

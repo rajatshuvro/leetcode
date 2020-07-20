@@ -104,10 +104,24 @@ namespace LargeTests
             stopWatch.Start();
             var cover = intervalCover.GetOptimalCover(nums, intervals.ToArray());
             stopWatch.Stop();
-            
+
+            var optimalCost = cover.cost;
             if (IsValidCover(nums, cover.set)) 
                 Console.WriteLine($"Optimal cover time:{stopWatch.ElapsedMilliseconds} msec. Optimal cost: {cover.cost}");
             else Console.WriteLine("Cover is invalid!!");
+            
+            stopWatch.Reset();
+            stopWatch.Start();
+            cover = intervalCover.GetReverseCover(nums, intervals.ToArray());
+            stopWatch.Stop();
+
+            var reverseCost = cover.cost;
+            if (IsValidCover(nums, cover.set)) 
+                Console.WriteLine($"Reverse cover time:{stopWatch.ElapsedMilliseconds} msec. Reverse cost: {cover.cost}");
+            else Console.WriteLine("Reverse Cover is invalid!!");
+            
+            if(optimalCost != reverseCost)
+                Console.WriteLine($"Optimal cost is {optimalCost} but reverse cover cost is {reverseCost}!!");
         }
 
         

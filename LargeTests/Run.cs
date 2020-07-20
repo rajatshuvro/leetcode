@@ -37,11 +37,11 @@ namespace LargeTests
 
             Console.WriteLine($"Using {largeIntervals.Count} large and {smallIntervals.Count} small intervals.");
             Console.WriteLine($"Testing grouped numbers. count {nums.Length}");
-            Console.Write("Using both large and small intervals ");
+            Console.WriteLine("Using both large and small intervals ");
             IntervalCoverUtilities.BenchmarkIntervalCover(nums, largeIntervals, smallIntervals );
-            Console.Write("Using large intervals ");
+            Console.WriteLine("Using large intervals ");
             IntervalCoverUtilities.BenchmarkIntervalCover(nums, largeIntervals);
-            Console.Write("Using small intervals ");
+            Console.WriteLine("Using small intervals ");
             IntervalCoverUtilities.BenchmarkIntervalCover(nums, smallIntervals);
 
             var groupSize =  10_000;
@@ -49,11 +49,11 @@ namespace LargeTests
             var groupedNums = IntervalCoverUtilities.GetGroupedNums(count, groupSize, gapSize, min, max);
             Console.WriteLine($"Testing grouped numbers. count {groupedNums.Length}");
 
-            Console.Write("Using both large and small intervals ");
+            Console.WriteLine("Using both large and small intervals ");
             IntervalCoverUtilities.BenchmarkIntervalCover(groupedNums, largeIntervals, smallIntervals );
-            Console.Write("Using large intervals ");
+            Console.WriteLine("Using large intervals ");
             IntervalCoverUtilities.BenchmarkIntervalCover(groupedNums, largeIntervals);
-            Console.Write("Using small intervals ");
+            Console.WriteLine("Using small intervals ");
             IntervalCoverUtilities.BenchmarkIntervalCover(groupedNums, smallIntervals);
         }
     }
