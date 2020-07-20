@@ -26,7 +26,7 @@ namespace LargeTests
             Console.WriteLine("Testing interval cover");
             var min = 1;
             var max = 250_000_000;
-            var count = 300_000;
+            var count = 3_000_000;
             var largeIntervalSize = 20 * 16 * 1024;
             var smallIntervalSize = 20 * 2 * 1024;
             

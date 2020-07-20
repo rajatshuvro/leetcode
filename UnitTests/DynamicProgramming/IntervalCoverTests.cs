@@ -12,7 +12,7 @@ namespace UnitTests.DynamicProgramming
         public void TwoIntervals()
         {
             var nums = new[] { 9,10};
-            var intervals = new Interval<int>[]
+            var intervals = new[]
             {
                 new Interval<int>(1,10, 10, 10),
                 new Interval<int>(9,16,7, 7)
@@ -32,7 +32,7 @@ namespace UnitTests.DynamicProgramming
         public void EmptyCover()
         {
             var nums = new[] { 9};
-            var intervals = new Interval<int>[]
+            var intervals = new[]
             {
                 new Interval<int>(1,8, 10, 8),
                 new Interval<int>(11,16,7, 5)
@@ -165,7 +165,7 @@ namespace UnitTests.DynamicProgramming
         public void Case_0()
         {
             var nums = new[] { 1,2,3,4,5,6,7,8,9,10, 11, 12, 15};
-            var intervals = new Interval<int>[]
+            var intervals = new[]
             {
                 new Interval<int>(1,4,6,6),
                 new Interval<int>(3,6,2,2),

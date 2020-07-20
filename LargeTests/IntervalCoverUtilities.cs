@@ -20,7 +20,7 @@ namespace LargeTests
                 var end = begin + rand.Next((int)(largeIntervalSize * 0.8), (int)(largeIntervalSize * 1.2));
                 if (end > max) end = max;
                 var cost = (int)Math.Log((end-begin) / 1024, 1.2);//using a sub-inear cost function see: plot log(1.2,x) from x=1000 to 8000 (https://www.wolframalpha.com/)
-                intervals.Add(new Interval<int>((int)begin, (int)end, cost));
+                intervals.Add(new Interval<int>((int)begin, (int)end, cost, cost));
                 begin = end + 1;
             }
 

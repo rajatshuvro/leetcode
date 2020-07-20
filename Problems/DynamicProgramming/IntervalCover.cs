@@ -31,6 +31,7 @@ namespace Problems.DynamicProgramming
             _subSolutions = new Dictionary<int, (IList<Interval<T>> cover, int cost)>();
             
             return GetOptimalCover(0);
+            //return GetReverseCover();
         }
 
         private int GetIntervalArrayEnd(IntervalArray<T> intervalArray)
@@ -38,6 +39,17 @@ namespace Problems.DynamicProgramming
             var lastInterval = intervalArray.Array[intervalArray.Array.Length - 1];
             var overlappers = intervalArray.GetAllOverlappingIntervals(lastInterval.End, lastInterval.End);
             return overlappers.Select(x => x.End).Max();
+        }
+
+        //Attempt to get optimal cover starting from the end of the array
+        private (IList<Interval<T>> set, int cost) GetReverseCover()
+        {
+            for (int i = _nums.Count-1; i >= 0; i--)
+            {
+                var cover = GetOptimalCover(i);
+            }
+
+            return _subSolutions.ContainsKey(0)?_subSolutions[0]: (null, 0);
         }
 
         private (IList<Interval<T>> set, int cost) GetOptimalCover(int i)
