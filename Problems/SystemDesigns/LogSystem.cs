@@ -31,20 +31,9 @@ namespace Problems.SystemDesigns
         }
     }
 
-    public class LogSystem
+    public static class LogSystemUtilities
     {
-        private ElasticArray<Log> _logs;
-        private StringBuilder _sb;
-        public LogSystem() {
-            _logs = new ElasticArray<Log>(512);
-            _sb = new StringBuilder();
-        }
-    
-        public void Put(int id, string timestamp) {
-            _logs.Add(new Log(id, timestamp));
-        }
-
-        private int GetIndex(string timeComponent)
+        public static int GetIndex(string timeComponent)
         {
             //Year:Month:Day:Hour:Minute:Second
             switch (timeComponent)
@@ -67,7 +56,7 @@ namespace Problems.SystemDesigns
             }
         }
 
-        private string GetMax(int i)
+        public static string GetComponentMax(int i)
         {
             //Year:Month:Day:Hour:Minute:Second
             switch (i)
@@ -90,52 +79,71 @@ namespace Problems.SystemDesigns
             }
         }
 
-        private string GetStartTime(string s, string gra)
+        public static string GetRoundDownTime(string s, string gra)
         {
+            if (gra == "Second") return s;
+
             var i = GetIndex(gra);
             var splits = s.Split(':');
 
-            _sb.Clear();
+            var sb = new StringBuilder();
             for (int j = 0; j <= i; j++)
             {
-                _sb.Append(splits[i] + ':');
+                sb.Append(splits[j] + ':');
             }
 
             for (int j = i+1; j < splits.Length-1; j++)
             {
-                _sb.Append("00:");
+                sb.Append("00:");
             }
 
-            _sb.Append("00");
-            return _sb.ToString();
+            sb.Append("00");
+            return sb.ToString();
         }
         
         
-        private string GetEndTime(string s, string gra)
+        public static string GetRoundUpTime(string s, string gra)
         {
+            if (gra == "Second") return s;
             var i = GetIndex(gra);
             var splits = s.Split(':');
 
-            _sb.Clear();
+            var sb = new StringBuilder();
             for (int j = 0; j <= i; j++)
             {
-                _sb.Append(splits[i] + ':');
+                sb.Append(splits[j] + ':');
             }
 
             for (int j = i+1; j < splits.Length-1; j++)
             {
-                var max = GetMax(j);
-                _sb.Append("max"+':');
+                var max = GetComponentMax(j);
+                sb.Append(max+':');
             }
 
-            _sb.Append(GetMax(splits.Length-1));
-            return _sb.ToString();
+            sb.Append(GetComponentMax(splits.Length-1));
+            return sb.ToString();
         }
 
+    }
+
+    public class LogSystem
+    {
+        private ElasticArray<Log> _logs;
+        private StringBuilder _sb;
+        public LogSystem() {
+            _logs = new ElasticArray<Log>(512);
+            _sb = new StringBuilder();
+        }
+    
+        public void Put(int id, string timestamp) {
+            _logs.Add(new Log(id, timestamp));
+        }
+
+        
         public IList<int> Retrieve(string s, string e, string gra)
         {
-            var startTime = GetStartTime(s, gra);
-            var endTime = GetEndTime(e, gra);
+            var startTime = LogSystemUtilities.GetRoundDownTime(s, gra);
+            var endTime = LogSystemUtilities.GetRoundUpTime(e, gra);
             _logs.Sort();
             
             var logIds = new List<int>();

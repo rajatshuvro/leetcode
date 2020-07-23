@@ -27,10 +27,21 @@ namespace DataStructures
         
         public T this[int i]
         {
-            get => _array[i];
-            set => _array[i]=value;
+            get => Get(i);
+            set => Set(i, value);
         }
 
+        public T Get(int i)
+        {
+            if(i < 0 || i >= Count) throw new IndexOutOfRangeException($"index must be >=0 and <{Count}");
+            return _array[i];
+        }
+
+        public void Set(int i, T x)
+        {
+            if(i < 0 || i >= Count) throw new IndexOutOfRangeException($"index must be >=0 and <{Count}");
+            _array[i] = x;
+        }
         public void Add(T x)
         {
             if (Count == Size) Expand();

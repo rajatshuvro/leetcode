@@ -4,57 +4,17 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/AutoDetectedNamingRules/=TypesAndNamespaces/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/AutoDetectedNamingRules/=PrivateInstanceFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:Int64 x:Key="/Default/CodeStyle/Naming/CSharpAutoNaming/AutoNamingCompletedVersion/@EntryValue">2</s:Int64>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=255486a4_002D520e_002D450e_002D9730_002De6175f4efbbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="IntervalCoverTests" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+	
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=994dcc1b_002D1150_002D46e4_002Dbd58_002D95ca9abc4089/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="RoundUpTimeTests" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.IntervalCoverTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.LogSystemTests.RoundUpTimeTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.LogSystemTests.RoundDownTimeTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DataStructures.ElasticArrayTests.Add_tests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DataStructures.ElasticArrayTests.Sort_search&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DataStructures.ElasticArrayTests.IndexOutOfBound&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5415cab1_002Dba07_002D4ed5_002Db523_002Df47c87d199cf/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Case0 #2" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.InMemoryFileSystemTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests.Reading&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests.Cumulative_reads_case0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests.Cumulative_reads_case1&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.StringProblems.Reader4Tests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Intervals.IntervalArrayTests.OverlapAny_case0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Intervals.IntervalArrayTests.GetAllOverlapping_0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Intervals.IntervalArrayTests.GetAllOverlapping_1&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.IntervalCoverTests.Case_0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.IntervalCoverTests.Case_1&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.IntervalTreeTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.IntervalCoverTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7529432a_002Dfd9d_002D42b9_002Dab1e_002Dab19de2c2f73/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="Case0" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.AllOneTests.Case0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case1&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case2&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.Case3&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.MakeTreeTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.BinTreeDiameterTests.DiameterTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Matrix.RottingOrangesTests.CountingMinutes&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Matrix.ShortestDistanceToGate.Case_0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Matrix.ShortestDistanceToGate.Case_5&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.Matrix.ShortestDistanceToGate&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.FileSystemTests.FileTesting&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.GridListTests.BuildList&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.GridListTests.GridList_remove&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.GridListTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.SkipListTests.OneLevel&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.SkipListTests.TwoLevels&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.NumRollsToTargetTests.CountNumWays&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.SkipListTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.UniqueBst2Tests.TwoNodes&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.TreeProblems.UniqueBst2Tests.ThreeNodes&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.InMemoryFileSystemTests.Case0&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.SystemDesigns.InMemoryFileSystemTests.Case42&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cce4c94e_002Dbdb2_002D44a9_002Dbd56_002D56900e2722a7/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="StackedIntervals" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v2.1::UnitTests.DynamicProgramming.IntervalCoverTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
+	
 	</wpf:ResourceDictionary>
