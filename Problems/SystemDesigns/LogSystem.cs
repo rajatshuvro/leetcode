@@ -128,10 +128,10 @@ namespace Problems.SystemDesigns
 
     public class LogSystem
     {
-        private ElasticArray<Log> _logs;
+        private List<Log> _logs;
         private StringBuilder _sb;
         public LogSystem() {
-            _logs = new ElasticArray<Log>(512);
+            _logs = new List<Log>(512);
             _sb = new StringBuilder();
         }
     

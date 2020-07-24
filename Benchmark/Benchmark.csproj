@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
     <ProjectReference Include="..\DataStructures\DataStructures\DataStructures.csproj" />
+    <ProjectReference Include="..\Problems\Problems.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
   </ItemGroup>
 
 </Project>
