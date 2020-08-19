@@ -4,13 +4,13 @@ namespace Problems.SystemDesigns
     public class HitCounter
     {
         private const int TimeWindow = 300; //seconds
-        private readonly bool[] _circularArray;
+        private readonly int[] _circularArray;
         private int _currentTime=1;
         private int _index;
         private int _count;
         /** Initialize your data structure here. */
         public HitCounter() {
-            _circularArray = new bool[TimeWindow];
+            _circularArray = new int[TimeWindow];
         }
     
         /** Record a hit.
@@ -18,7 +18,7 @@ namespace Problems.SystemDesigns
         public void Hit(int timestamp) {
             AdvanceTo(timestamp);
             //now set the bool for timeStamp.
-            _circularArray[_index] = true;
+            _circularArray[_index]++;
             _count++;
         }
     
@@ -36,8 +36,8 @@ namespace Problems.SystemDesigns
             {
                 _index++;
                 if (_index >= TimeWindow) _index = 0; //reset the circular window
-                if (_circularArray[_index]) _count--;
-                _circularArray[_index] = false;
+                _count -= _circularArray[_index];
+                _circularArray[_index] = 0;
             }
             
         }
