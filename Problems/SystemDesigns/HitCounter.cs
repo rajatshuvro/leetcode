@@ -1,3 +1,5 @@
+using System;
+
 namespace Problems.SystemDesigns
 {
     //https://leetcode.com/problems/design-hit-counter/
@@ -32,6 +34,16 @@ namespace Problems.SystemDesigns
 
         private void AdvanceTo(int timestamp)
         {
+            // we are moving more than TimeWindow time ahead
+            if (timestamp - _currentTime >= TimeWindow)
+            {
+                Array.Fill(_circularArray, 0);
+                _count = 0;
+                _currentTime = timestamp;
+                _index = timestamp % TimeWindow;
+                return;
+            }
+
             for (int i = _currentTime; i < timestamp; i++, _currentTime++)
             {
                 _index++;
