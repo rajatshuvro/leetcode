@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MutableRangeSum", "MutableR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PredictWinner", "PredictWinner\PredictWinner\PredictWinner.csproj", "{F1A663EC-C9A8-46D3-B889-459F03A58040}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RangeSum2D", "RangeSumQuery\RangeSumQuery\RangeSum2D.csproj", "{F7F5EED1-3144-40E9-BA6F-839618F7108E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WiggleSubsequence", "WiggleSubsequence\WiggleSubsequence\WiggleSubsequence.csproj", "{760FFE34-C3AF-4154-914E-459EA8E78F9C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZigZagString", "ZigZagString\ZigZagString\ZigZagString.csproj", "{CD9632BB-1D0B-4496-9CF8-59B33D0D262C}"
@@ -77,10 +75,6 @@ Global
 		{F1A663EC-C9A8-46D3-B889-459F03A58040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1A663EC-C9A8-46D3-B889-459F03A58040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1A663EC-C9A8-46D3-B889-459F03A58040}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7F5EED1-3144-40E9-BA6F-839618F7108E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7F5EED1-3144-40E9-BA6F-839618F7108E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7F5EED1-3144-40E9-BA6F-839618F7108E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7F5EED1-3144-40E9-BA6F-839618F7108E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{760FFE34-C3AF-4154-914E-459EA8E78F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{760FFE34-C3AF-4154-914E-459EA8E78F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{760FFE34-C3AF-4154-914E-459EA8E78F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
