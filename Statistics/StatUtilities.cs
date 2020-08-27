@@ -22,5 +22,7 @@ namespace Statistics
             if (nums.Length % 2 == 1) return nums[nums.Length / 2 + 1];
             return 1.0 * (nums[nums.Length / 2] + nums[nums.Length / 2 + 1]) / 2;
         }
+        
+        
     }
 }
