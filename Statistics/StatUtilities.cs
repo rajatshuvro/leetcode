@@ -1,9 +1,34 @@
 using System;
+using System.Collections.Generic;
 
 namespace Statistics
 {
     public static class StatUtilities
     {
+        public static double GetMean(int[] nums)
+        {
+            var sum = 0;
+            foreach (var t in nums)
+            {
+                sum += t;
+            }
+
+            return 1.0*sum / nums.Length;
+        }
+
+        public static double GetStd(int[] nums)
+        {
+            var mean = GetMean(nums);
+            double sum = 0;
+            foreach (var x in nums)
+            {
+                sum += (x - mean) * (x - mean);
+            }
+
+            var variance = sum / nums.Length;
+            return Math.Sqrt(variance);
+        }
+
         public static double GetWeightedMean(int[] nums, int[] weights) {
             var weightedSum=0;
             var totalWeight=0;
@@ -34,6 +59,22 @@ namespace Statistics
             var q1 = odd ? GetMedian(nums, 0, mid -1): GetMedian(nums, 0, mid);
             var q3 = GetMedian(nums, mid + 1, nums.Length - 1);
             return (q1, q2, q3);
+        }
+
+        public static double GetInterQuartileRange(int[] nums, int[] freq)
+        {
+            var expandedNums = new List<int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                var x = nums[i];
+                for (int j = 0; j < freq[i]; j++)
+                {
+                    expandedNums.Add(x);
+                }
+            }
+
+            var (q1, q2, q3) = GetQuartiles(expandedNums.ToArray());
+            return q3 - q1;
         }
     }
 }
