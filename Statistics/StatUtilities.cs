@@ -29,6 +29,32 @@ namespace Statistics
             return Math.Sqrt(variance);
         }
 
+        public static int GetMode(int[] nums)
+        {
+            var freq = new Dictionary<int, int>();
+            foreach (var x in nums)
+            {
+                if (freq.ContainsKey(x)) freq[x]++;
+                else freq[x] = 1;
+            }
+
+            var mode = nums[0];
+            var maxFreq = freq[mode];
+
+            foreach (var x in nums)
+            {
+                if (maxFreq < freq[x])
+                {
+                    mode = x;
+                    maxFreq = freq[x];
+                }
+
+                if (maxFreq == freq[x] && x < mode) mode = x;
+            }
+
+            return mode;
+        }
+
         public static double GetWeightedMean(int[] nums, int[] weights) {
             var weightedSum=0;
             var totalWeight=0;

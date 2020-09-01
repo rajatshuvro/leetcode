@@ -8,8 +8,10 @@ namespace Statistics
             int n = Convert.ToInt32(Console.ReadLine());
             int[] nums = Array.ConvertAll(Console.ReadLine().Split(' '), qTemp => Convert.ToInt32(qTemp));
             
-            var std = StatUtilities.GetStd(nums);
-            Console.WriteLine(string.Format("{0:0.0}", std));
+            
+            Console.WriteLine($"{StatUtilities.GetMean(nums):0.0}");
+            Console.WriteLine($"{StatUtilities.GetMedian(nums):0.0}");
+            Console.WriteLine($"{StatUtilities.GetMode(nums)}");
         }
     }
 }
