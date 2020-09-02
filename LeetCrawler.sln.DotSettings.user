@@ -22,6 +22,9 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb038ea5_002Df10c_002D4d66_002D88a5_002Dfa6ea2980009/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="MaxNumberTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.ArrayProblems.MaxNumberTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialAtLeastTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialExactTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	

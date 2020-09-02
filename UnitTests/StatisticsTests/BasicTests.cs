@@ -1,3 +1,4 @@
+using Statistics;
 using Xunit;
 
 namespace UnitTests.StatisticsTests
@@ -32,6 +33,22 @@ namespace UnitTests.StatisticsTests
         public void QuartileTests(int[] nums, double q1, double q2, double q3)
         {
             Assert.Equal((q1, q2, q3), Statistics.StatUtilities.GetQuartiles(nums));
+        }
+
+        [Theory]
+        [InlineData(10, 5, 0.5, 0.24609375)]
+        [InlineData(10, 8, 0.5, 0.0439453125)]
+        public void BinomialExactTest(int n, int k, double p, double expected)
+        {
+            Assert.Equal(expected, StatUtilities.BinomialProbability(n, k, p));
+        }
+        
+        [Theory]
+        [InlineData(10, 5, 0.5, 0.623046875)]
+        [InlineData(6, 3, 1.09/2.09, 0.696)]
+        public void BinomialAtLeastTest(int n, int k, double p, double expected)
+        {
+            Assert.Equal(expected, StatUtilities.BinomialAtLeastProbability(n, k, p));
         }
     }
 }

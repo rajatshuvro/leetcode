@@ -102,5 +102,41 @@ namespace Statistics
             var (q1, q2, q3) = GetQuartiles(expandedNums.ToArray());
             return q3 - q1;
         }
+
+        public static long GetBinCoeff(long N, long K)
+        {
+            // This function gets the total number of unique combinations based upon N and K.
+            // N is the total number of items.
+            // K is the size of the group.
+            // Total number of unique combinations = N! / ( K! (N - K)! ).
+            // This function is less efficient, but is more likely to not overflow when N and K are large.
+            // Taken from:  http://blog.plover.com/math/choose.html
+            //
+            long r = 1;
+            long d;
+            if (K > N) return 0;
+            for (d = 1; d <= K; d++)
+            {
+                r *= N--;
+                r /= d;
+            }
+            return r;
+        }
+
+        public static double BinomialProbability(int n, int k, double p)
+        {
+            return GetBinCoeff(n,k) * Math.Pow(p,k)* Math.Pow(1.0-p,n-k); 
+        }
+        
+        public static double BinomialAtLeastProbability(int n, int k, double p)
+        {
+            var prob = 0.0;
+            for (int i = k; i <= n; i++)
+            {
+                prob+=BinomialProbability(n,i,p); 
+            }
+
+            return prob;
+        }
     }
 }

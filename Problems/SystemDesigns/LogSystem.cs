@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DataStructures;
 
 namespace Problems.SystemDesigns
 {
@@ -129,10 +128,9 @@ namespace Problems.SystemDesigns
     public class LogSystem
     {
         private List<Log> _logs;
-        private StringBuilder _sb;
+
         public LogSystem() {
             _logs = new List<Log>(512);
-            _sb = new StringBuilder();
         }
     
         public void Put(int id, string timestamp) {
