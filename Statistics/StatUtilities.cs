@@ -123,20 +123,6 @@ namespace Statistics
             return r;
         }
 
-        public static double BinomialProbability(int n, int k, double p)
-        {
-            return GetBinCoeff(n,k) * Math.Pow(p,k)* Math.Pow(1.0-p,n-k); 
-        }
         
-        public static double BinomialAtLeastProbability(int n, int k, double p)
-        {
-            var prob = 0.0;
-            for (int i = k; i <= n; i++)
-            {
-                prob+=BinomialProbability(n,i,p); 
-            }
-
-            return prob;
-        }
     }
 }

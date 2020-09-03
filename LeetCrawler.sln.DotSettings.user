@@ -25,6 +25,11 @@
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialTest&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialAtLeastTest&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialExactTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.BasicTests.BinomialAtMostTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.Probability&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.FirstSucessWihin&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.FirstSuccessWihin&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.FirstSuccessWithin&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	

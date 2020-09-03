@@ -40,15 +40,23 @@ namespace UnitTests.StatisticsTests
         [InlineData(10, 8, 0.5, 0.0439453125)]
         public void BinomialExactTest(int n, int k, double p, double expected)
         {
-            Assert.Equal(expected, StatUtilities.BinomialProbability(n, k, p));
+            Assert.Equal(expected, BinomialDistribution.Probability(n, k, p));
         }
         
         [Theory]
         [InlineData(10, 5, 0.5, 0.623046875)]
-        [InlineData(6, 3, 1.09/2.09, 0.696)]
+        [InlineData(6, 3, 1.09/2.09, 0.6957033161509107)]
+        [InlineData(10, 2, 0.12, 0.3417249657959586)]
         public void BinomialAtLeastTest(int n, int k, double p, double expected)
         {
-            Assert.Equal(expected, StatUtilities.BinomialAtLeastProbability(n, k, p));
+            Assert.Equal(expected, BinomialDistribution.AtLeastProbability(n, k, p));
+        }
+        
+        [Theory]
+        [InlineData(10, 2, 0.12, 0.8913182062780246)]
+        public void BinomialAtMostTest(int n, int k, double p, double expected)
+        {
+            Assert.Equal(expected, BinomialDistribution.AtMostProbability(n, k, p));
         }
     }
 }
