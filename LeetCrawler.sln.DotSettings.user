@@ -30,6 +30,10 @@
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.FirstSucessWihin&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.FirstSuccessWihin&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.GeometricDistributionTests.FirstSuccessWithin&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.PoissonTests.ProbabilityTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StatisticsTests.PoissonTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.Matrix.NumIslandsTests.Case_1&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.Matrix.NumIslandsTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	

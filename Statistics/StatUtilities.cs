@@ -123,6 +123,15 @@ namespace Statistics
             return r;
         }
 
-        
+        public static long Factorial(int n)
+        {
+            long x = 1;
+            for (int i = 1; i <= n; i++)
+            {
+                x *= i;
+            }
+
+            return x;
+        }
     }
 }
