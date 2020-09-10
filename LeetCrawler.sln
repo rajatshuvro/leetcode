@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LargeTests", "LargeTests\La
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statistics", "Statistics\Statistics.csproj", "{885F106B-DC2E-461D-883B-35F717ECA3A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerRunner", "HackerRunner\HackerRunner.csproj", "{E10C440C-1AEE-46F6-9CFE-08CDC2E7CCF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{885F106B-DC2E-461D-883B-35F717ECA3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{885F106B-DC2E-461D-883B-35F717ECA3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{885F106B-DC2E-461D-883B-35F717ECA3A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E10C440C-1AEE-46F6-9CFE-08CDC2E7CCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E10C440C-1AEE-46F6-9CFE-08CDC2E7CCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E10C440C-1AEE-46F6-9CFE-08CDC2E7CCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E10C440C-1AEE-46F6-9CFE-08CDC2E7CCF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
