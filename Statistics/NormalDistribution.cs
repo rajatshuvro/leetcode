@@ -25,5 +25,10 @@ namespace Statistics
         {
             return Math.Abs(CumulativeProbability(y) - CumulativeProbability(x));
         }
+
+        public double ProbabilityGreaterThan(double x)
+        {
+            return 1 - CumulativeProbability(x);
+        }
     }
 }
