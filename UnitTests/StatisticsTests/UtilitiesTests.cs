@@ -3,7 +3,7 @@ using Xunit;
 
 namespace UnitTests.StatisticsTests
 {
-    public class BasicTests
+    public class UtilitiesTests
     {
         [Theory]
         [InlineData(new [] {1}, 1)]
@@ -11,7 +11,7 @@ namespace UnitTests.StatisticsTests
         [InlineData(new [] {1,2,3,4,5,6,7}, 4)]
         public void MedianTests(int[] nums, double median)
         {
-            Assert.Equal(median, Statistics.StatUtilities.GetMedian(nums));
+            Assert.Equal(median, StatUtilities.GetMedian(nums));
         }
         
         [Theory]
@@ -20,7 +20,7 @@ namespace UnitTests.StatisticsTests
         [InlineData(new [] {1,2,3,4,5,6,7},1,5, 4)]
         public void MedianOfSubArrayTests(int[] nums, int i, int j, double median)
         {
-            Assert.Equal(median, Statistics.StatUtilities.GetMedian(nums,i,j));
+            Assert.Equal(median, StatUtilities.GetMedian(nums,i,j));
         }
 
         [Theory]
@@ -32,7 +32,17 @@ namespace UnitTests.StatisticsTests
         [InlineData(new[] {3,5,7,8,12,13,14,18,21}, 6, 12, 16)]
         public void QuartileTests(int[] nums, double q1, double q2, double q3)
         {
-            Assert.Equal((q1, q2, q3), Statistics.StatUtilities.GetQuartiles(nums));
+            Assert.Equal((q1, q2, q3), StatUtilities.GetQuartiles(nums));
+        }
+
+        [Theory]
+        [InlineData(-1, -0.8427006897475899)]
+        [InlineData(1, 0.8427006897475899)]
+        [InlineData(-2, -0.9953221395812188)]
+        [InlineData(2, 0.9953221395812188)]
+        public void ErrorFunctionTests(double x, double expected)
+        {
+            Assert.Equal(expected, StatUtilities.ErrorFunction(x));
         }
 
         [Theory]

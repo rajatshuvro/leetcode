@@ -133,5 +133,25 @@ namespace Statistics
 
             return x;
         }
+        
+        //approximating using https://en.wikipedia.org/wiki/Error_function#Numerical_approximations
+        public static double ErrorFunction(double x)
+        {
+            var isNegative = x < 0;
+            if (isNegative) x = -x;
+            var p = 0.3275911;
+            var a = new [] { 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429};
+            var t = 1.0/(1 + p*x);
+
+            var z = 0.0;//a[0]*t+ a[1]*t*t+ a[2]*Math.Pow(t,3)+ a[3]*Math.Pow(t,4)+ a[4]*Math.Pow(t,5);
+            double y = t;
+            for (int i = 0; i < a.Length; i++, y*=t)
+            {
+                 z += a[i] * y;
+            }
+            z *= Math.Pow(Math.E, -(x*x));
+            
+            return isNegative? -(1.0 - z): 1.0-z;
+        }
     }
 }
