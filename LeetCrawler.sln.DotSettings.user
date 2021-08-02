@@ -47,6 +47,10 @@
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StringProblems.CoordinateCombinationsTests.Test2&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StringProblems.CoordinateCombinationsTests.Test3&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StringProblems.CoordinateCombinationsTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.TreeProblems.AllBinTreePathTests.Case0&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.TreeProblems.AllBinTreePathTests.Case1&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StringProblems.IsomorphicStringsTests.IsIsomorphicTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D7F2FEA-AD96-4F0A-9469-FBDC0912800B::.NETCoreApp,Version=v3.1::UnitTests.StringProblems.IsomorphicStringsTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	
